@@ -2,7 +2,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
   <title>陈家豪的个人博客</title>
   
-  <subtitle>记录技术&amp;生活</subtitle>
+  <subtitle>记录技术 &amp; 生活</subtitle>
   <link href="/atom.xml" rel="self"/>
   
   <link href="https://github.com/Edison0902/"/>
@@ -10,7 +10,7 @@
   <id>https://github.com/Edison0902/</id>
   
   <author>
-    <name>Jiahao-Chen</name>
+    <name>Jiahao Chen</name>
     
   </author>
   
