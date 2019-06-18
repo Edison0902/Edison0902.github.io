@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="https://github.com/Edison0902/"/>
-  <updated>2019-06-18T11:44:29.025Z</updated>
+  <updated>2019-06-18T11:44:47.769Z</updated>
   <id>https://github.com/Edison0902/</id>
   
   <author>
@@ -15,6 +15,57 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>Python学习</title>
+    <link href="https://github.com/Edison0902/%E8%AF%AD%E8%A8%80%E5%9F%BA%E7%A1%80/Python%E5%AD%A6%E4%B9%A0/"/>
+    <id>https://github.com/Edison0902/语言基础/Python学习/</id>
+    <published>2017-08-18T07:41:18.000Z</published>
+    <updated>2019-06-18T11:44:47.769Z</updated>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;blockquote&gt;
+&lt;p&gt; 本文档仅作为个人和团队学习使用，不带有商业用途，未经许可不得转载。&lt;br&gt; 如有侵权，请联系笔者：&lt;a href=&quot;mailto:JiahaoChen@whu.edu.cn&quot; target=&quot;_blank&quot; rel=&quot;noopener&quot;&gt;Jiah
+      
+    
+    </summary>
+    
+      <category term="语言基础" scheme="https://github.com/Edison0902/categories/%E8%AF%AD%E8%A8%80%E5%9F%BA%E7%A1%80/"/>
+    
+    
+      <category term="标签1" scheme="https://github.com/Edison0902/tags/%E6%A0%87%E7%AD%BE1/"/>
+    
+      <category term="标签2" scheme="https://github.com/Edison0902/tags/%E6%A0%87%E7%AD%BE2/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>Cudnn</title>
+    <link href="https://github.com/Edison0902/%E7%A1%AC%E4%BB%B6%E5%8A%A0%E9%80%9F/cuDNN/"/>
+    <id>https://github.com/Edison0902/硬件加速/cuDNN/</id>
+    <published>2017-08-18T07:41:18.000Z</published>
+    <updated>2019-06-18T11:45:42.780Z</updated>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;p&gt;&lt;a href=&quot;https://docs.nvidia.com/deeplearning/sdk/cudnn-developer-guide/index.html&quot; target=&quot;_blank&quot; rel=&quot;noopener&quot;&gt;cudnn 官方文档&lt;/a&gt;&lt;br&gt;cudn
+      
+    
+    </summary>
+    
+      <category term="硬件加速" scheme="https://github.com/Edison0902/categories/%E7%A1%AC%E4%BB%B6%E5%8A%A0%E9%80%9F/"/>
+    
+    
+      <category term="标签1" scheme="https://github.com/Edison0902/tags/%E6%A0%87%E7%AD%BE1/"/>
+    
+      <category term="标签2" scheme="https://github.com/Edison0902/tags/%E6%A0%87%E7%AD%BE2/"/>
+    
+  </entry>
   
   <entry>
     <title>AlexNet 实现</title>
@@ -44,23 +95,22 @@
   </entry>
   
   <entry>
-    <title>Python学习</title>
-    <link href="https://github.com/Edison0902/%E8%AF%AD%E8%A8%80%E5%9F%BA%E7%A1%80/Python%E5%AD%A6%E4%B9%A0/"/>
-    <id>https://github.com/Edison0902/语言基础/Python学习/</id>
+    <title>Cuda</title>
+    <link href="https://github.com/Edison0902/%E7%A1%AC%E4%BB%B6%E5%8A%A0%E9%80%9F/cuda/"/>
+    <id>https://github.com/Edison0902/硬件加速/cuda/</id>
     <published>2017-08-18T07:41:18.000Z</published>
-    <updated>2019-06-18T11:44:47.769Z</updated>
+    <updated>2019-06-18T11:45:19.828Z</updated>
     
     <summary type="html">
     
       
       
-        &lt;blockquote&gt;
-&lt;p&gt; 本文档仅作为个人和团队学习使用，不带有商业用途，未经许可不得转载。&lt;br&gt; 如有侵权，请联系笔者：&lt;a href=&quot;mailto:JiahaoChen@whu.edu.cn&quot; target=&quot;_blank&quot; rel=&quot;noopener&quot;&gt;Jiah
+        &lt;figure class=&quot;highlight plain&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;2&lt;/span&gt;&lt;br&gt;&lt;span class
       
     
     </summary>
     
-      <category term="语言基础" scheme="https://github.com/Edison0902/categories/%E8%AF%AD%E8%A8%80%E5%9F%BA%E7%A1%80/"/>
+      <category term="硬件加速" scheme="https://github.com/Edison0902/categories/%E7%A1%AC%E4%BB%B6%E5%8A%A0%E9%80%9F/"/>
     
     
       <category term="标签1" scheme="https://github.com/Edison0902/tags/%E6%A0%87%E7%AD%BE1/"/>
@@ -96,31 +146,6 @@
   </entry>
   
   <entry>
-    <title>Cudnn</title>
-    <link href="https://github.com/Edison0902/%E7%A1%AC%E4%BB%B6%E5%8A%A0%E9%80%9F/cuDNN/"/>
-    <id>https://github.com/Edison0902/硬件加速/cuDNN/</id>
-    <published>2017-08-18T07:41:18.000Z</published>
-    <updated>2019-06-18T11:45:42.780Z</updated>
-    
-    <summary type="html">
-    
-      
-      
-        &lt;p&gt;&lt;a href=&quot;https://docs.nvidia.com/deeplearning/sdk/cudnn-developer-guide/index.html&quot; target=&quot;_blank&quot; rel=&quot;noopener&quot;&gt;cudnn 官方文档&lt;/a&gt;&lt;br&gt;cudn
-      
-    
-    </summary>
-    
-      <category term="硬件加速" scheme="https://github.com/Edison0902/categories/%E7%A1%AC%E4%BB%B6%E5%8A%A0%E9%80%9F/"/>
-    
-    
-      <category term="标签1" scheme="https://github.com/Edison0902/tags/%E6%A0%87%E7%AD%BE1/"/>
-    
-      <category term="标签2" scheme="https://github.com/Edison0902/tags/%E6%A0%87%E7%AD%BE2/"/>
-    
-  </entry>
-  
-  <entry>
     <title>深度学习环境配置</title>
     <link href="https://github.com/Edison0902/%E7%8E%AF%E5%A2%83%E9%85%8D%E7%BD%AE/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E7%8E%AF%E5%A2%83%E9%85%8D%E7%BD%AE/"/>
     <id>https://github.com/Edison0902/环境配置/深度学习环境配置/</id>
@@ -138,31 +163,6 @@
     </summary>
     
       <category term="环境配置" scheme="https://github.com/Edison0902/categories/%E7%8E%AF%E5%A2%83%E9%85%8D%E7%BD%AE/"/>
-    
-    
-      <category term="标签1" scheme="https://github.com/Edison0902/tags/%E6%A0%87%E7%AD%BE1/"/>
-    
-      <category term="标签2" scheme="https://github.com/Edison0902/tags/%E6%A0%87%E7%AD%BE2/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>Cuda</title>
-    <link href="https://github.com/Edison0902/%E7%A1%AC%E4%BB%B6%E5%8A%A0%E9%80%9F/cuda/"/>
-    <id>https://github.com/Edison0902/硬件加速/cuda/</id>
-    <published>2017-08-18T07:41:18.000Z</published>
-    <updated>2019-06-18T11:45:19.828Z</updated>
-    
-    <summary type="html">
-    
-      
-      
-        &lt;figure class=&quot;highlight plain&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;2&lt;/span&gt;&lt;br&gt;&lt;span class
-      
-    
-    </summary>
-    
-      <category term="硬件加速" scheme="https://github.com/Edison0902/categories/%E7%A1%AC%E4%BB%B6%E5%8A%A0%E9%80%9F/"/>
     
     
       <category term="标签1" scheme="https://github.com/Edison0902/tags/%E6%A0%87%E7%AD%BE1/"/>
