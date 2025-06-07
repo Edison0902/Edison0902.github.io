@@ -1,0 +1,1238 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next gemini use-motion" lang="zh-Hans">
+<head><meta name="generator" content="Hexo 3.9.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<meta name="theme-color" content="#222">
+
+
+
+  
+  
+    
+    
+  <script src="/lib/pace/pace.min.js?v=1.0.2"></script>
+  <link href="/lib/pace/pace-theme-flash.min.css?v=1.0.2" rel="stylesheet">
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css">
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css">
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="Two Stage,RCNN,">
+
+
+
+
+
+  <link rel="alternate" href="/atom.xml" title="陈家豪的个人博客" type="application/atom+xml">
+
+
+
+
+
+
+<meta name="description" content="maskrcnn 源码解读 maskrcnn-benchmark 训练/测试123python3 tools/train_net.py --config-file &quot;configs/e2e_mask_rcnn_R_101_FPN_1x.yaml&quot; --skip-testpython3 tools/test_net.py --config-file &quot;configs/e2e_mask_rcnn_R_">
+<meta name="keywords" content="Two Stage,RCNN">
+<meta property="og:type" content="article">
+<meta property="og:title" content="MASK RCNN">
+<meta property="og:url" content="https://github.com/Edison0902/目标检测/maskrcnn 源码解读/index.html">
+<meta property="og:site_name" content="陈家豪的个人博客">
+<meta property="og:description" content="maskrcnn 源码解读 maskrcnn-benchmark 训练/测试123python3 tools/train_net.py --config-file &quot;configs/e2e_mask_rcnn_R_101_FPN_1x.yaml&quot; --skip-testpython3 tools/test_net.py --config-file &quot;configs/e2e_mask_rcnn_R_">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2019-07-09T02:23:02.992Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="MASK RCNN">
+<meta name="twitter:description" content="maskrcnn 源码解读 maskrcnn-benchmark 训练/测试123python3 tools/train_net.py --config-file &quot;configs/e2e_mask_rcnn_R_101_FPN_1x.yaml&quot; --skip-testpython3 tools/test_net.py --config-file &quot;configs/e2e_mask_rcnn_R_">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Gemini',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":true,"scrollpercent":true,"onmobile":true},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="https://github.com/Edison0902/目标检测/maskrcnn 源码解读/">
+
+
+
+
+
+  <title>MASK RCNN | 陈家豪的个人博客</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+    
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">陈家豪的个人博客</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">记录技术 & 生活</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br>
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br>
+            
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br>
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br>
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br>
+            
+            归档
+          </a>
+        </li>
+      
+
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br>
+            
+            搜索
+          </a>
+        </li>
+      
+    </ul>
+  
+
+  
+    <div class="site-search">
+      
+  <div class="popup search-popup local-search-popup">
+  <div class="local-search-header clearfix">
+    <span class="search-icon">
+      <i class="fa fa-search"></i>
+    </span>
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+    <div class="local-search-input-wrapper">
+      <input autocomplete="off" placeholder="搜索..." spellcheck="false" type="text" id="local-search-input">
+    </div>
+  </div>
+  <div id="local-search-result"></div>
+</div>
+
+
+
+    </div>
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://github.com/Edison0902/目标检测/maskrcnn 源码解读/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Jiahao Chen">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/cjh_head_yuque.png">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="陈家豪的个人博客">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">MASK RCNN</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-08-18T15:41:18+08:00">
+                2017-08-18
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/目标检测/" itemprop="url" rel="index">
+                    <span itemprop="name">目标检测</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+            <div class="post-wordcount">
+              
+                
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-file-word-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">字数统计&#58;</span>
+                
+                <span title="字数统计">
+                  2.1k
+                </span>
+              
+
+              
+                <span class="post-meta-divider">|</span>
+              
+
+              
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-clock-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">阅读时长 &asymp;</span>
+                
+                <span title="阅读时长">
+                  12
+                </span>
+              
+            </div>
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h1 id="maskrcnn-源码解读"><a href="#maskrcnn-源码解读" class="headerlink" title="maskrcnn 源码解读"></a>maskrcnn 源码解读</h1><p><a name="McPHM"></a></p>
+<h2 id="maskrcnn-benchmark"><a href="#maskrcnn-benchmark" class="headerlink" title="maskrcnn-benchmark"></a>maskrcnn-benchmark</h2><p><a name="Gd1au"></a></p>
+<h3 id="训练-测试"><a href="#训练-测试" class="headerlink" title="训练/测试"></a>训练/测试</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">python3 tools/train_net.py --config-file <span class="string">"configs/e2e_mask_rcnn_R_101_FPN_1x.yaml"</span> --skip-test</span><br><span class="line"></span><br><span class="line">python3 tools/test_net.py --config-file <span class="string">"configs/e2e_mask_rcnn_R_101_FPN_1x.yaml"</span></span><br></pre></td></tr></table></figure>
+<p><a href="https://blog.csdn.net/qq_34795071/article/details/88949195" target="_blank" rel="noopener">使用 tensorboard</a></p>
+<p><a name="3W7qz"></a></p>
+<h2 id="mmdetection"><a href="#mmdetection" class="headerlink" title="mmdetection"></a>mmdetection</h2><p><a name="XbfS4"></a></p>
+<h3 id="训练-测试-1"><a href="#训练-测试-1" class="headerlink" title="训练/测试"></a>训练/测试</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">python3 tools/train.py configs/mask_rcnn_r101_fpn_1x_backup0603.py --work_dir out_63_1702</span><br><span class="line"></span><br><span class="line">python3 tools/test.py configs/mask_rcnn_r101_fpn_1x_backup0603.py out_63_1702/latest.pth --out out_63_1702/result.pkl --eval bbox</span><br><span class="line">python3 tools/test.py configs/mask_rcnn_r101_fpn_1x_backup0603.py OutPutDir/xian_train6_14_epoch100_batchsize2/latest.pth --out OutPutDir/xian_train6_14_epoch100_batchsize2/result.pkl --eval bbox</span><br></pre></td></tr></table></figure>
+<p><a href="https://blog.csdn.net/hajlyx/article/details/85991400" target="_blank" rel="noopener">mmdetection 配置文件详解</a></p>
+<p><a name="XpUjO"></a></p>
+<h3 id="配置-mmdetection"><a href="#配置-mmdetection" class="headerlink" title="配置 mmdetection:"></a>配置 mmdetection:</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">cd ~/tools/github_src/mmdetection/mmdetection</span><br><span class="line">source activate mmdetection</span><br><span class="line"></span><br><span class="line">cd ~/tools/github_src/mmdetection/mmdetection &amp;&amp; source activate mmdetection</span><br><span class="line">./compile.sh</span><br><span class="line">python3 setup.py install</span><br></pre></td></tr></table></figure>
+<p><a name="oufYt"></a></p>
+<h3 id="配置文件"><a href="#配置文件" class="headerlink" title="配置文件"></a>配置文件</h3><p>查看gpu占用<br>watch -n 0.1 nvidia-smi<br><a name="B1lic"></a></p>
+<p>###<br><a name="ts1ZY"></a></p>
+<h3 id="源码阅读"><a href="#源码阅读" class="headerlink" title="源码阅读"></a>源码阅读</h3><p><strong>tools/ train.py</strong><br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">model = build_detector(cfg.model, train_cfg=cfg.train_cfg, test_cfg=cfg.test_cfg)</span><br></pre></td></tr></table></figure></p>
+<p><strong>mmdet/ models/ builder.py</strong><br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">build_detector</span><span class="params">(cfg, train_cfg=None, test_cfg=None)</span>:</span></span><br><span class="line">    <span class="keyword">return</span> build(cfg, DETECTORS, dict(train_cfg=train_cfg, test_cfg=test_cfg))</span><br></pre></td></tr></table></figure></p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">build</span><span class="params">(cfg, registry, default_args=None)</span>:</span></span><br><span class="line">    <span class="keyword">if</span> isinstance(cfg, list):</span><br><span class="line">        modules = [_build_module(cfg_, registry, default_args) <span class="keyword">for</span> cfg_ <span class="keyword">in</span> cfg]</span><br><span class="line">        <span class="keyword">return</span> nn.Sequential(*modules)</span><br><span class="line">    <span class="keyword">else</span>:</span><br><span class="line">        <span class="keyword">return</span> _build_module(cfg, registry, default_args)</span><br></pre></td></tr></table></figure>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">_build_module</span><span class="params">(cfg, registry, default_args)</span>:</span></span><br><span class="line">    <span class="keyword">assert</span> isinstance(cfg, dict) <span class="keyword">and</span> <span class="string">'type'</span> <span class="keyword">in</span> cfg</span><br><span class="line">    <span class="keyword">assert</span> isinstance(default_args, dict) <span class="keyword">or</span> default_args <span class="keyword">is</span> <span class="literal">None</span></span><br><span class="line">    args = cfg.copy()</span><br><span class="line">    obj_type = args.pop(<span class="string">'type'</span>)</span><br><span class="line">    <span class="keyword">if</span> mmcv.is_str(obj_type):</span><br><span class="line">        <span class="keyword">if</span> obj_type <span class="keyword">not</span> <span class="keyword">in</span> registry.module_dict:</span><br><span class="line">            <span class="keyword">raise</span> KeyError(<span class="string">'&#123;&#125; is not in the &#123;&#125; registry'</span>.format(</span><br><span class="line">                obj_type, registry.name))</span><br><span class="line">        obj_type = registry.module_dict[obj_type]</span><br><span class="line">    <span class="keyword">elif</span> <span class="keyword">not</span> isinstance(obj_type, type):</span><br><span class="line">        <span class="keyword">raise</span> TypeError(<span class="string">'type must be a str or valid type, but got &#123;&#125;'</span>.format(</span><br><span class="line">            type(obj_type)))</span><br><span class="line">    <span class="keyword">if</span> default_args <span class="keyword">is</span> <span class="keyword">not</span> <span class="literal">None</span>:</span><br><span class="line">        <span class="keyword">for</span> name, value <span class="keyword">in</span> default_args.items():</span><br><span class="line">            args.setdefault(name, value)</span><br><span class="line">    <span class="keyword">return</span> obj_type(**args)</span><br></pre></td></tr></table></figure>
+<pre><code>arch_settings = {&lt;br /&gt;        18: (BasicBlock, (2, 2, 2, 2)),&lt;br /&gt;        34: (BasicBlock, (3, 4, 6, 3)),&lt;br /&gt;        50: (Bottleneck, (3, 4, 6, 3)),&lt;br /&gt;        101: (Bottleneck, (3, 4, 23, 3)),&lt;br /&gt;        152: (Bottleneck, (3, 8, 36, 3))&lt;br /&gt;    }
+</code></pre><p>densenet.py<br><a href="https://github.com/bamos/densenet.pytorch/blob/master/train.py">https://github.com/bamos/densenet.pytorch/blob/master/train.py</a></p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br><span class="line">136</span><br><span class="line">137</span><br><span class="line">138</span><br><span class="line">139</span><br><span class="line">140</span><br><span class="line">141</span><br><span class="line">142</span><br><span class="line">143</span><br><span class="line">144</span><br><span class="line">145</span><br><span class="line">146</span><br><span class="line">147</span><br><span class="line">148</span><br><span class="line">149</span><br><span class="line">150</span><br><span class="line">151</span><br><span class="line">152</span><br><span class="line">153</span><br><span class="line">154</span><br><span class="line">155</span><br><span class="line">156</span><br><span class="line">157</span><br><span class="line">158</span><br><span class="line">159</span><br><span class="line">160</span><br><span class="line">161</span><br><span class="line">162</span><br><span class="line">163</span><br><span class="line">164</span><br><span class="line">165</span><br><span class="line">166</span><br><span class="line">167</span><br><span class="line">168</span><br><span class="line">169</span><br><span class="line">170</span><br><span class="line">171</span><br><span class="line">172</span><br><span class="line">173</span><br><span class="line">174</span><br><span class="line">175</span><br><span class="line">176</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># ! /usr/bin/env python</span></span><br><span class="line"><span class="comment"># -*- coding:utf-8 -*-</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># @author: Edison Jia-hao-Chen</span></span><br><span class="line"><span class="comment"># time: 2019-6-10</span></span><br><span class="line"><span class="comment"># email: JiahaoChen@whu.edu.cn</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># A implementation of DenseNet (Pytorch)</span></span><br><span class="line"><span class="comment"># https://github.com/bamos/densenet.pytorch</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> logging</span><br><span class="line"><span class="keyword">import</span> torch</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> torch.nn <span class="keyword">as</span> nn</span><br><span class="line"><span class="comment"># import torch.optim as optim</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> torch.nn.functional <span class="keyword">as</span> F</span><br><span class="line"></span><br><span class="line"><span class="comment"># from torch.autograd import Variable</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># import torchvision.datasets as dset</span></span><br><span class="line"><span class="comment"># import torchvision.transforms as transforms</span></span><br><span class="line"><span class="comment"># from torch.utils.data import DataLoader</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># import torchvision.models as models</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># import sys</span></span><br><span class="line"><span class="keyword">import</span> math</span><br><span class="line"><span class="keyword">from</span> ..registry <span class="keyword">import</span> BACKBONES</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> torch.utils.checkpoint <span class="keyword">as</span> cp</span><br><span class="line"><span class="keyword">from</span> mmcv.runner <span class="keyword">import</span> load_checkpoint</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">from</span> torch.nn.modules.batchnorm <span class="keyword">import</span> _BatchNorm</span><br><span class="line"><span class="keyword">from</span> mmcv.cnn <span class="keyword">import</span> constant_init, kaiming_init</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Bottleneck</span><span class="params">(nn.Module)</span>:</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__init__</span><span class="params">(self, nChannels, growthRate)</span>:</span></span><br><span class="line">        super(Bottleneck, self).__init__()</span><br><span class="line">        interChannels = <span class="number">4</span> * growthRate</span><br><span class="line">        self.bn1 = nn.BatchNorm2d(nChannels)</span><br><span class="line">        self.conv1 = nn.Conv2d(nChannels, interChannels, kernel_size=<span class="number">1</span>,</span><br><span class="line">                               bias=<span class="literal">False</span>)</span><br><span class="line">        self.bn2 = nn.BatchNorm2d(interChannels)</span><br><span class="line">        self.conv2 = nn.Conv2d(interChannels, growthRate, kernel_size=<span class="number">3</span>,</span><br><span class="line">                               padding=<span class="number">1</span>, bias=<span class="literal">False</span>)</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">forward</span><span class="params">(self, x)</span>:</span></span><br><span class="line">        out = self.conv1(F.relu(self.bn1(x)))</span><br><span class="line">        out = self.conv2(F.relu(self.bn2(out)))</span><br><span class="line">        out = torch.cat((x, out), <span class="number">1</span>)</span><br><span class="line">        <span class="keyword">return</span> out</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">SingleLayer</span><span class="params">(nn.Module)</span>:</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__init__</span><span class="params">(self, nChannels, growthRate)</span>:</span></span><br><span class="line">        super(SingleLayer, self).__init__()</span><br><span class="line">        self.bn1 = nn.BatchNorm2d(nChannels)</span><br><span class="line">        self.conv1 = nn.Conv2d(nChannels, growthRate, kernel_size=<span class="number">3</span>,</span><br><span class="line">                               padding=<span class="number">1</span>, bias=<span class="literal">False</span>)</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">forward</span><span class="params">(self, x)</span>:</span></span><br><span class="line">        out = self.conv1(F.relu(self.bn1(x)))</span><br><span class="line">        out = torch.cat((x, out), <span class="number">1</span>)</span><br><span class="line">        <span class="keyword">return</span> out</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Transition</span><span class="params">(nn.Module)</span>:</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__init__</span><span class="params">(self, nChannels, nOutChannels)</span>:</span></span><br><span class="line">        super(Transition, self).__init__()</span><br><span class="line">        self.bn1 = nn.BatchNorm2d(nChannels)</span><br><span class="line">        self.conv1 = nn.Conv2d(nChannels, nOutChannels, kernel_size=<span class="number">1</span>,</span><br><span class="line">                               bias=<span class="literal">False</span>)</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">forward</span><span class="params">(self, x)</span>:</span></span><br><span class="line">        out = self.conv1(F.relu(self.bn1(x)))</span><br><span class="line">        out = F.avg_pool2d(out, <span class="number">2</span>)</span><br><span class="line">        <span class="keyword">return</span> out</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="meta">@BACKBONES.register_module</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">DenseNet</span><span class="params">(nn.Module)</span>:</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__init__</span><span class="params">(self, growthRate, depth, reduction, nClasses, bottleneck)</span>:</span></span><br><span class="line">        super(DenseNet, self).__init__()</span><br><span class="line"></span><br><span class="line">        nDenseBlocks = (depth - <span class="number">4</span>) // <span class="number">3</span></span><br><span class="line">        <span class="keyword">if</span> bottleneck:</span><br><span class="line">            nDenseBlocks //= <span class="number">2</span> <span class="comment"># 16</span></span><br><span class="line"></span><br><span class="line">        nChannels = <span class="number">2</span> * growthRate <span class="comment"># 24</span></span><br><span class="line">        self.conv1 = nn.Conv2d(<span class="number">3</span>, nChannels, kernel_size=<span class="number">3</span>, padding=<span class="number">1</span>,</span><br><span class="line">                               bias=<span class="literal">False</span>)</span><br><span class="line">        self.dense1 = self._make_dense(nChannels, growthRate, nDenseBlocks, bottleneck)</span><br><span class="line">        nChannels += nDenseBlocks * growthRate <span class="comment"># 216</span></span><br><span class="line">        nOutChannels = int(math.floor(nChannels * reduction)) <span class="comment"># 108</span></span><br><span class="line">        self.trans1 = Transition(nChannels, nOutChannels)</span><br><span class="line"></span><br><span class="line">        print(<span class="string">'nOutChannels=&#123;&#125;'</span>.format(nOutChannels))</span><br><span class="line"></span><br><span class="line">        nChannels = nOutChannels</span><br><span class="line">        self.dense2 = self._make_dense(nChannels, growthRate, nDenseBlocks, bottleneck)</span><br><span class="line">        nChannels += nDenseBlocks * growthRate <span class="comment"># 300</span></span><br><span class="line">        nOutChannels = int(math.floor(nChannels * reduction)) <span class="comment"># 150</span></span><br><span class="line">        self.trans2 = Transition(nChannels, nOutChannels)</span><br><span class="line"></span><br><span class="line">        nChannels = nOutChannels</span><br><span class="line">        self.dense3 = self._make_dense(nChannels, growthRate, nDenseBlocks, bottleneck)</span><br><span class="line">        nChannels += nDenseBlocks * growthRate <span class="comment"># </span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">        self.bn1 = nn.BatchNorm2d(nChannels)</span><br><span class="line">        self.fc = nn.Linear(nChannels, nClasses)</span><br><span class="line"></span><br><span class="line">        <span class="comment"># raise Exception('fc channels [&#123;&#125;, &#123;&#125;]'.format(nChannels, nClasses))</span></span><br><span class="line"></span><br><span class="line">        <span class="keyword">for</span> m <span class="keyword">in</span> self.modules():</span><br><span class="line">            <span class="keyword">if</span> isinstance(m, nn.Conv2d):</span><br><span class="line">                n = m.kernel_size[<span class="number">0</span>] * m.kernel_size[<span class="number">1</span>] * m.out_channels</span><br><span class="line">                m.weight.data.normal_(<span class="number">0</span>, math.sqrt(<span class="number">2.</span> / n))</span><br><span class="line">            <span class="keyword">elif</span> isinstance(m, nn.BatchNorm2d):</span><br><span class="line">                m.weight.data.fill_(<span class="number">1</span>)</span><br><span class="line">                m.bias.data.zero_()</span><br><span class="line">            <span class="keyword">elif</span> isinstance(m, nn.Linear):</span><br><span class="line">                m.bias.data.zero_()</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">init_weights</span><span class="params">(self, pretrained=None)</span>:</span></span><br><span class="line">        <span class="comment"># if isinstance(pretrained, str):</span></span><br><span class="line">        <span class="comment">#     logger = logging.getLogger()</span></span><br><span class="line">        <span class="comment">#     load_checkpoint(self, pretrained, strict=False, logger=logger)</span></span><br><span class="line">        <span class="comment"># elif pretrained is None:</span></span><br><span class="line">        <span class="comment">#     for m in self.modules():</span></span><br><span class="line">        <span class="comment">#         if isinstance(m, nn.Conv2d):</span></span><br><span class="line">        <span class="comment">#             kaiming_init(m)</span></span><br><span class="line">        <span class="comment">#         elif isinstance(m, (_BatchNorm, nn.GroupNorm)):</span></span><br><span class="line">        <span class="comment">#             constant_init(m, 1)</span></span><br><span class="line"></span><br><span class="line">        <span class="comment">#     if self.dcn is not None:</span></span><br><span class="line">        <span class="comment">#         for m in self.modules():</span></span><br><span class="line">        <span class="comment">#             if isinstance(m, Bottleneck) and hasattr(</span></span><br><span class="line">        <span class="comment">#                     m, 'conv2_offset'):</span></span><br><span class="line">        <span class="comment">#                 constant_init(m.conv2_offset, 0)</span></span><br><span class="line"></span><br><span class="line">        <span class="comment">#     if self.zero_init_residual:</span></span><br><span class="line">        <span class="comment">#         for m in self.modules():</span></span><br><span class="line">        <span class="comment">#             if isinstance(m, Bottleneck):</span></span><br><span class="line">        <span class="comment">#                 constant_init(m.norm3, 0)</span></span><br><span class="line">        <span class="comment">#             elif isinstance(m, BasicBlock):</span></span><br><span class="line">        <span class="comment">#                 constant_init(m.norm2, 0)</span></span><br><span class="line">        <span class="comment"># else:</span></span><br><span class="line">        <span class="comment">#     raise TypeError('pretrained must be a str or None')</span></span><br><span class="line">        print(<span class="string">'|||========== no pretrained... =============|||'</span>)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">_make_dense</span><span class="params">(self, nChannels, growthRate, nDenseBlocks, bottleneck)</span>:</span></span><br><span class="line">        layers = []</span><br><span class="line">        <span class="keyword">for</span> i <span class="keyword">in</span> range(int(nDenseBlocks)):</span><br><span class="line">            <span class="keyword">if</span> bottleneck:</span><br><span class="line">                layers.append(Bottleneck(nChannels, growthRate))</span><br><span class="line">            <span class="keyword">else</span>:</span><br><span class="line">                layers.append(SingleLayer(nChannels, growthRate))</span><br><span class="line">            nChannels += growthRate</span><br><span class="line">        <span class="keyword">return</span> nn.Sequential(*layers)</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">forward</span><span class="params">(self, x)</span>:</span></span><br><span class="line">        outs = []</span><br><span class="line">        out = self.conv1(x)</span><br><span class="line">        out = self.trans1(self.dense1(out))</span><br><span class="line">        out = self.trans2(self.dense2(out))</span><br><span class="line">        out = self.dense3(out)</span><br><span class="line">        out = torch.squeeze(F.avg_pool2d(F.relu(self.bn1(out)), <span class="number">8</span>))</span><br><span class="line">        out = F.log_softmax(self.fc(out))</span><br><span class="line">        outs.append(out)</span><br><span class="line">        <span class="keyword">return</span> tuple(outs)</span><br></pre></td></tr></table></figure>
+<p><a href="https://github.com/pytorch/vision/blob/master/torchvision/models/utils.py">https://github.com/pytorch/vision/blob/master/torchvision/models/utils.py</a></p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br><span class="line">136</span><br><span class="line">137</span><br><span class="line">138</span><br><span class="line">139</span><br><span class="line">140</span><br><span class="line">141</span><br><span class="line">142</span><br><span class="line">143</span><br><span class="line">144</span><br><span class="line">145</span><br><span class="line">146</span><br><span class="line">147</span><br><span class="line">148</span><br><span class="line">149</span><br><span class="line">150</span><br><span class="line">151</span><br><span class="line">152</span><br><span class="line">153</span><br><span class="line">154</span><br><span class="line">155</span><br><span class="line">156</span><br><span class="line">157</span><br><span class="line">158</span><br><span class="line">159</span><br><span class="line">160</span><br><span class="line">161</span><br><span class="line">162</span><br><span class="line">163</span><br><span class="line">164</span><br><span class="line">165</span><br><span class="line">166</span><br><span class="line">167</span><br><span class="line">168</span><br><span class="line">169</span><br><span class="line">170</span><br><span class="line">171</span><br><span class="line">172</span><br><span class="line">173</span><br><span class="line">174</span><br><span class="line">175</span><br><span class="line">176</span><br><span class="line">177</span><br><span class="line">178</span><br><span class="line">179</span><br><span class="line">180</span><br><span class="line">181</span><br><span class="line">182</span><br><span class="line">183</span><br><span class="line">184</span><br><span class="line">185</span><br><span class="line">186</span><br><span class="line">187</span><br><span class="line">188</span><br><span class="line">189</span><br><span class="line">190</span><br><span class="line">191</span><br><span class="line">192</span><br><span class="line">193</span><br><span class="line">194</span><br><span class="line">195</span><br><span class="line">196</span><br><span class="line">197</span><br><span class="line">198</span><br><span class="line">199</span><br><span class="line">200</span><br><span class="line">201</span><br><span class="line">202</span><br><span class="line">203</span><br><span class="line">204</span><br><span class="line">205</span><br><span class="line">206</span><br><span class="line">207</span><br><span class="line">208</span><br><span class="line">209</span><br><span class="line">210</span><br><span class="line">211</span><br><span class="line">212</span><br><span class="line">213</span><br><span class="line">214</span><br><span class="line">215</span><br><span class="line">216</span><br><span class="line">217</span><br><span class="line">218</span><br><span class="line">219</span><br><span class="line">220</span><br><span class="line">221</span><br><span class="line">222</span><br><span class="line">223</span><br><span class="line">224</span><br><span class="line">225</span><br><span class="line">226</span><br><span class="line">227</span><br><span class="line">228</span><br><span class="line">229</span><br><span class="line">230</span><br><span class="line">231</span><br><span class="line">232</span><br><span class="line">233</span><br><span class="line">234</span><br><span class="line">235</span><br><span class="line">236</span><br><span class="line">237</span><br><span class="line">238</span><br><span class="line">239</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> re</span><br><span class="line"><span class="keyword">import</span> torch</span><br><span class="line"><span class="keyword">import</span> torch.nn <span class="keyword">as</span> nn</span><br><span class="line"><span class="keyword">import</span> torch.nn.functional <span class="keyword">as</span> F</span><br><span class="line"><span class="keyword">import</span> torch.utils.checkpoint <span class="keyword">as</span> cp</span><br><span class="line"><span class="keyword">from</span> collections <span class="keyword">import</span> OrderedDict</span><br><span class="line"><span class="keyword">from</span> .densenet_util <span class="keyword">import</span> load_state_dict_from_url</span><br><span class="line"></span><br><span class="line"><span class="keyword">from</span> ..registry <span class="keyword">import</span> BACKBONES</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">__all__ = [<span class="string">'DenseNet'</span>, <span class="string">'densenet121'</span>, <span class="string">'densenet169'</span>, <span class="string">'densenet201'</span>, <span class="string">'densenet161'</span>]</span><br><span class="line"></span><br><span class="line">model_urls = &#123;</span><br><span class="line">    <span class="string">'densenet121'</span>: <span class="string">'https://download.pytorch.org/models/densenet121-a639ec97.pth'</span>,</span><br><span class="line">    <span class="string">'densenet169'</span>: <span class="string">'https://download.pytorch.org/models/densenet169-b2777c0a.pth'</span>,</span><br><span class="line">    <span class="string">'densenet201'</span>: <span class="string">'https://download.pytorch.org/models/densenet201-c1103571.pth'</span>,</span><br><span class="line">    <span class="string">'densenet161'</span>: <span class="string">'https://download.pytorch.org/models/densenet161-8d451a50.pth'</span>,</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">_bn_function_factory</span><span class="params">(norm, relu, conv)</span>:</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">bn_function</span><span class="params">(*inputs)</span>:</span></span><br><span class="line">        concated_features = torch.cat(inputs, <span class="number">1</span>)</span><br><span class="line">        bottleneck_output = conv(relu(norm(concated_features)))</span><br><span class="line">        <span class="keyword">return</span> bottleneck_output</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> bn_function</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">_DenseLayer</span><span class="params">(nn.Sequential)</span>:</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__init__</span><span class="params">(self, num_input_features, growth_rate, bn_size, drop_rate, memory_efficient=False)</span>:</span></span><br><span class="line">        super(_DenseLayer, self).__init__()</span><br><span class="line">        self.add_module(<span class="string">'norm1'</span>, nn.BatchNorm2d(num_input_features)),</span><br><span class="line">        self.add_module(<span class="string">'relu1'</span>, nn.ReLU(inplace=<span class="literal">True</span>)),</span><br><span class="line">        self.add_module(<span class="string">'conv1'</span>, nn.Conv2d(num_input_features, bn_size *</span><br><span class="line">                                           growth_rate, kernel_size=<span class="number">1</span>, stride=<span class="number">1</span>,</span><br><span class="line">                                           bias=<span class="literal">False</span>)),</span><br><span class="line">        self.add_module(<span class="string">'norm2'</span>, nn.BatchNorm2d(bn_size * growth_rate)),</span><br><span class="line">        self.add_module(<span class="string">'relu2'</span>, nn.ReLU(inplace=<span class="literal">True</span>)),</span><br><span class="line">        self.add_module(<span class="string">'conv2'</span>, nn.Conv2d(bn_size * growth_rate, growth_rate,</span><br><span class="line">                                           kernel_size=<span class="number">3</span>, stride=<span class="number">1</span>, padding=<span class="number">1</span>,</span><br><span class="line">                                           bias=<span class="literal">False</span>)),</span><br><span class="line">        self.drop_rate = drop_rate</span><br><span class="line">        self.memory_efficient = memory_efficient</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">forward</span><span class="params">(self, *prev_features)</span>:</span></span><br><span class="line">        bn_function = _bn_function_factory(self.norm1, self.relu1, self.conv1)</span><br><span class="line">        <span class="keyword">if</span> self.memory_efficient <span class="keyword">and</span> any(prev_feature.requires_grad <span class="keyword">for</span> prev_feature <span class="keyword">in</span> prev_features):</span><br><span class="line">            bottleneck_output = cp.checkpoint(bn_function, *prev_features)</span><br><span class="line">        <span class="keyword">else</span>:</span><br><span class="line">            bottleneck_output = bn_function(*prev_features)</span><br><span class="line">        new_features = self.conv2(self.relu2(self.norm2(bottleneck_output)))</span><br><span class="line">        <span class="keyword">if</span> self.drop_rate &gt; <span class="number">0</span>:</span><br><span class="line">            new_features = F.dropout(new_features, p=self.drop_rate,</span><br><span class="line">                                     training=self.training)</span><br><span class="line">        <span class="keyword">return</span> new_features</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">_DenseBlock</span><span class="params">(nn.Module)</span>:</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__init__</span><span class="params">(self, num_layers, num_input_features, bn_size, growth_rate, drop_rate, memory_efficient=False)</span>:</span></span><br><span class="line">        super(_DenseBlock, self).__init__()</span><br><span class="line">        <span class="keyword">for</span> i <span class="keyword">in</span> range(num_layers):</span><br><span class="line">            layer = _DenseLayer(</span><br><span class="line">                num_input_features + i * growth_rate,</span><br><span class="line">                growth_rate=growth_rate,</span><br><span class="line">                bn_size=bn_size,</span><br><span class="line">                drop_rate=drop_rate,</span><br><span class="line">                memory_efficient=memory_efficient,</span><br><span class="line">            )</span><br><span class="line">            self.add_module(<span class="string">'denselayer%d'</span> % (i + <span class="number">1</span>), layer)</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">forward</span><span class="params">(self, init_features)</span>:</span></span><br><span class="line">        features = [init_features]</span><br><span class="line">        <span class="keyword">for</span> name, layer <span class="keyword">in</span> self.named_children():</span><br><span class="line">            new_features = layer(*features)</span><br><span class="line">            features.append(new_features)</span><br><span class="line">        <span class="keyword">return</span> torch.cat(features, <span class="number">1</span>)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">_Transition</span><span class="params">(nn.Sequential)</span>:</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__init__</span><span class="params">(self, num_input_features, num_output_features)</span>:</span></span><br><span class="line">        super(_Transition, self).__init__()</span><br><span class="line">        self.add_module(<span class="string">'norm'</span>, nn.BatchNorm2d(num_input_features))</span><br><span class="line">        self.add_module(<span class="string">'relu'</span>, nn.ReLU(inplace=<span class="literal">True</span>))</span><br><span class="line">        self.add_module(<span class="string">'conv'</span>, nn.Conv2d(num_input_features, num_output_features,</span><br><span class="line">                                          kernel_size=<span class="number">1</span>, stride=<span class="number">1</span>, bias=<span class="literal">False</span>))</span><br><span class="line">        self.add_module(<span class="string">'pool'</span>, nn.AvgPool2d(kernel_size=<span class="number">2</span>, stride=<span class="number">2</span>))</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="meta">@BACKBONES.register_module</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">DenseNet</span><span class="params">(nn.Module)</span>:</span></span><br><span class="line">    <span class="string">r"""Densenet-BC model class, based on</span></span><br><span class="line"><span class="string">    `"Densely Connected Convolutional Networks" &lt;https://arxiv.org/pdf/1608.06993.pdf&gt;`_</span></span><br><span class="line"><span class="string">    Args:</span></span><br><span class="line"><span class="string">        growth_rate (int) - how many filters to add each layer (`k` in paper)</span></span><br><span class="line"><span class="string">        block_config (list of 4 ints) - how many layers in each pooling block</span></span><br><span class="line"><span class="string">        num_init_features (int) - the number of filters to learn in the first convolution layer</span></span><br><span class="line"><span class="string">        bn_size (int) - multiplicative factor for number of bottle neck layers</span></span><br><span class="line"><span class="string">          (i.e. bn_size * k features in the bottleneck layer)</span></span><br><span class="line"><span class="string">        drop_rate (float) - dropout rate after each dense layer</span></span><br><span class="line"><span class="string">        num_classes (int) - number of classification classes</span></span><br><span class="line"><span class="string">        memory_efficient (bool) - set to True to use checkpointing. Much more memory efficient,</span></span><br><span class="line"><span class="string">          but slower. Default: *False*</span></span><br><span class="line"><span class="string">    """</span></span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__init__</span><span class="params">(self, growth_rate=<span class="number">32</span>, block_config=<span class="params">(<span class="number">6</span>, <span class="number">12</span>, <span class="number">24</span>, <span class="number">16</span>)</span>,</span></span></span><br><span class="line"><span class="function"><span class="params">                 num_init_features=<span class="number">64</span>, bn_size=<span class="number">4</span>, drop_rate=<span class="number">0</span>, num_classes=<span class="number">256</span>, memory_efficient=False)</span>:</span></span><br><span class="line">                 <span class="comment"># def __init__(self, growth_rate=32, block_config=(6, 12, 24, 16),</span></span><br><span class="line">                 <span class="comment"># num_init_features=64, bn_size=4, drop_rate=0, num_classes=1000, memory_efficient=False):</span></span><br><span class="line"></span><br><span class="line">        super(DenseNet, self).__init__()</span><br><span class="line"></span><br><span class="line">        <span class="comment"># First convolution</span></span><br><span class="line">        self.features = nn.Sequential(OrderedDict([</span><br><span class="line">            (<span class="string">'conv0'</span>, nn.Conv2d(<span class="number">3</span>, num_init_features, kernel_size=<span class="number">7</span>, stride=<span class="number">2</span>,</span><br><span class="line">                                padding=<span class="number">3</span>, bias=<span class="literal">False</span>)),</span><br><span class="line">            (<span class="string">'norm0'</span>, nn.BatchNorm2d(num_init_features)),</span><br><span class="line">            (<span class="string">'relu0'</span>, nn.ReLU(inplace=<span class="literal">True</span>)),</span><br><span class="line">            (<span class="string">'pool0'</span>, nn.MaxPool2d(kernel_size=<span class="number">3</span>, stride=<span class="number">2</span>, padding=<span class="number">1</span>)),</span><br><span class="line">        ]))</span><br><span class="line"></span><br><span class="line">        <span class="comment"># Each denseblock</span></span><br><span class="line">        num_features = num_init_features</span><br><span class="line">        <span class="keyword">for</span> i, num_layers <span class="keyword">in</span> enumerate(block_config):</span><br><span class="line">            block = _DenseBlock(</span><br><span class="line">                num_layers=num_layers,</span><br><span class="line">                num_input_features=num_features,</span><br><span class="line">                bn_size=bn_size,</span><br><span class="line">                growth_rate=growth_rate,</span><br><span class="line">                drop_rate=drop_rate,</span><br><span class="line">                memory_efficient=memory_efficient</span><br><span class="line">            )</span><br><span class="line">            self.features.add_module(<span class="string">'denseblock%d'</span> % (i + <span class="number">1</span>), block)</span><br><span class="line">            num_features = num_features + num_layers * growth_rate</span><br><span class="line">            <span class="keyword">if</span> i != len(block_config) - <span class="number">1</span>:</span><br><span class="line">                trans = _Transition(num_input_features=num_features,</span><br><span class="line">                                    num_output_features=num_features // <span class="number">2</span>)</span><br><span class="line">                self.features.add_module(<span class="string">'transition%d'</span> % (i + <span class="number">1</span>), trans)</span><br><span class="line">                num_features = num_features // <span class="number">2</span></span><br><span class="line"></span><br><span class="line">        <span class="comment"># Final batch norm</span></span><br><span class="line">        self.features.add_module(<span class="string">'norm5'</span>, nn.BatchNorm2d(num_features))</span><br><span class="line"></span><br><span class="line">        <span class="comment"># Linear layer</span></span><br><span class="line">        self.classifier = nn.Linear(num_features, num_classes)</span><br><span class="line"></span><br><span class="line">        <span class="comment"># Official init from torch repo.</span></span><br><span class="line">        <span class="keyword">for</span> m <span class="keyword">in</span> self.modules():</span><br><span class="line">            <span class="keyword">if</span> isinstance(m, nn.Conv2d):</span><br><span class="line">                nn.init.kaiming_normal_(m.weight)</span><br><span class="line">            <span class="keyword">elif</span> isinstance(m, nn.BatchNorm2d):</span><br><span class="line">                nn.init.constant_(m.weight, <span class="number">1</span>)</span><br><span class="line">                nn.init.constant_(m.bias, <span class="number">0</span>)</span><br><span class="line">            <span class="keyword">elif</span> isinstance(m, nn.Linear):</span><br><span class="line">                nn.init.constant_(m.bias, <span class="number">0</span>)</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">init_weights</span><span class="params">(self, pretrained=None)</span>:</span></span><br><span class="line">        print(<span class="string">'--------------- no pretrained -----------------'</span>)</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">forward</span><span class="params">(self, x)</span>:</span></span><br><span class="line">        outs = []</span><br><span class="line">        features = self.features(x)</span><br><span class="line">        out = F.relu(features, inplace=<span class="literal">True</span>)</span><br><span class="line">        out = F.adaptive_avg_pool2d(out, (<span class="number">1</span>, <span class="number">1</span>)).view(features.size(<span class="number">0</span>), <span class="number">-1</span>)</span><br><span class="line">        out = self.classifier(out)</span><br><span class="line">        <span class="keyword">for</span> i <span class="keyword">in</span> range(<span class="number">4</span>):</span><br><span class="line">            outs.append(out)</span><br><span class="line">        <span class="keyword">return</span> tuple(out)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">_load_state_dict</span><span class="params">(model, model_url, progress)</span>:</span></span><br><span class="line">    <span class="comment"># '.'s are no longer allowed in module names, but previous _DenseLayer</span></span><br><span class="line">    <span class="comment"># has keys 'norm.1', 'relu.1', 'conv.1', 'norm.2', 'relu.2', 'conv.2'.</span></span><br><span class="line">    <span class="comment"># They are also in the checkpoints in model_urls. This pattern is used</span></span><br><span class="line">    <span class="comment"># to find such keys.</span></span><br><span class="line">    pattern = re.compile(</span><br><span class="line">        <span class="string">r'^(.*denselayer\d+\.(?:norm|relu|conv))\.((?:[12])\.(?:weight|bias|running_mean|running_var))$'</span>)</span><br><span class="line"></span><br><span class="line">    state_dict = load_state_dict_from_url(model_url, progress=progress)</span><br><span class="line">    <span class="keyword">for</span> key <span class="keyword">in</span> list(state_dict.keys()):</span><br><span class="line">        res = pattern.match(key)</span><br><span class="line">        <span class="keyword">if</span> res:</span><br><span class="line">            new_key = res.group(<span class="number">1</span>) + res.group(<span class="number">2</span>)</span><br><span class="line">            state_dict[new_key] = state_dict[key]</span><br><span class="line">            <span class="keyword">del</span> state_dict[key]</span><br><span class="line">    model.load_state_dict(state_dict)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">_densenet</span><span class="params">(arch, growth_rate, block_config, num_init_features, pretrained, progress,</span></span></span><br><span class="line"><span class="function"><span class="params">              **kwargs)</span>:</span></span><br><span class="line">    model = DenseNet(growth_rate, block_config, num_init_features, **kwargs)</span><br><span class="line">    <span class="keyword">if</span> pretrained:</span><br><span class="line">        _load_state_dict(model, model_urls[arch], progress)</span><br><span class="line">    <span class="keyword">return</span> model</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">densenet121</span><span class="params">(pretrained=False, progress=True, **kwargs)</span>:</span></span><br><span class="line">    <span class="string">r"""Densenet-121 model from</span></span><br><span class="line"><span class="string">    `"Densely Connected Convolutional Networks" &lt;https://arxiv.org/pdf/1608.06993.pdf&gt;`_</span></span><br><span class="line"><span class="string">    Args:</span></span><br><span class="line"><span class="string">        pretrained (bool): If True, returns a model pre-trained on ImageNet</span></span><br><span class="line"><span class="string">        progress (bool): If True, displays a progress bar of the download to stderr</span></span><br><span class="line"><span class="string">    """</span></span><br><span class="line">    <span class="keyword">return</span> _densenet(<span class="string">'densenet121'</span>, <span class="number">32</span>, (<span class="number">6</span>, <span class="number">12</span>, <span class="number">24</span>, <span class="number">16</span>), <span class="number">64</span>, pretrained, progress,</span><br><span class="line">                     **kwargs)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">densenet161</span><span class="params">(pretrained=False, progress=True, **kwargs)</span>:</span></span><br><span class="line">    <span class="string">r"""Densenet-161 model from</span></span><br><span class="line"><span class="string">    `"Densely Connected Convolutional Networks" &lt;https://arxiv.org/pdf/1608.06993.pdf&gt;`_</span></span><br><span class="line"><span class="string">    Args:</span></span><br><span class="line"><span class="string">        pretrained (bool): If True, returns a model pre-trained on ImageNet</span></span><br><span class="line"><span class="string">        progress (bool): If True, displays a progress bar of the download to stderr</span></span><br><span class="line"><span class="string">    """</span></span><br><span class="line">    <span class="keyword">return</span> _densenet(<span class="string">'densenet161'</span>, <span class="number">48</span>, (<span class="number">6</span>, <span class="number">12</span>, <span class="number">36</span>, <span class="number">24</span>), <span class="number">96</span>, pretrained, progress,</span><br><span class="line">                     **kwargs)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">densenet169</span><span class="params">(pretrained=False, progress=True, **kwargs)</span>:</span></span><br><span class="line">    <span class="string">r"""Densenet-169 model from</span></span><br><span class="line"><span class="string">    `"Densely Connected Convolutional Networks" &lt;https://arxiv.org/pdf/1608.06993.pdf&gt;`_</span></span><br><span class="line"><span class="string">    Args:</span></span><br><span class="line"><span class="string">        pretrained (bool): If True, returns a model pre-trained on ImageNet</span></span><br><span class="line"><span class="string">        progress (bool): If True, displays a progress bar of the download to stderr</span></span><br><span class="line"><span class="string">    """</span></span><br><span class="line">    <span class="keyword">return</span> _densenet(<span class="string">'densenet169'</span>, <span class="number">32</span>, (<span class="number">6</span>, <span class="number">12</span>, <span class="number">32</span>, <span class="number">32</span>), <span class="number">64</span>, pretrained, progress,</span><br><span class="line">                     **kwargs)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">densenet201</span><span class="params">(pretrained=False, progress=True, **kwargs)</span>:</span></span><br><span class="line">    <span class="string">r"""Densenet-201 model from</span></span><br><span class="line"><span class="string">    `"Densely Connected Convolutional Networks" &lt;https://arxiv.org/pdf/1608.06993.pdf&gt;`_</span></span><br><span class="line"><span class="string">    Args:</span></span><br><span class="line"><span class="string">        pretrained (bool): If True, returns a model pre-trained on ImageNet</span></span><br><span class="line"><span class="string">        progress (bool): If True, displays a progress bar of the download to stderr</span></span><br><span class="line"><span class="string">    """</span></span><br><span class="line">    <span class="keyword">return</span> _densenet(<span class="string">'densenet201'</span>, <span class="number">32</span>, (<span class="number">6</span>, <span class="number">12</span>, <span class="number">48</span>, <span class="number">32</span>), <span class="number">64</span>, pretrained, progress,</span><br><span class="line">                     **kwargs)</span><br></pre></td></tr></table></figure>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+    <div>
+    
+    <div>  <div style="text-align:center;color: #ccc;font-size:14px;">-------------本文结束<i class="fa fa-paw"></i>感谢您的阅读-------------</div>  </div>
+
+
+    
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/Two-Stage/" rel="tag"><i class="fa fa-tag"></i> Two Stage</a>
+          
+            <a href="/tags/RCNN/" rel="tag"><i class="fa fa-tag"></i> RCNN</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/目标检测框架/mmdet 测试结果可视化/" rel="next" title="MMdet 可视化">
+                <i class="fa fa-chevron-left"></i> MMdet 可视化
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/硬件加速/cuda/" rel="prev" title="Cuda">
+                Cuda <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+      <div id="sidebar-dimmer"></div>
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+      
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image" src="/images/cjh_head_yuque.png" alt="Jiahao Chen">
+            
+              <p class="site-author-name" itemprop="name">Jiahao Chen</p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+          
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">20</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">9</span>
+                  <span class="site-state-item-name">分类</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">10</span>
+                  <span class="site-state-item-name">标签</span>
+                </a>
+              </div>
+            
+
+          </nav>
+          <iframe frameborder="no" border="0" marginwidth="0" marginheight="0" width="330" height="86" src="//music.163.com/outchain/player?type=2&id=586299&auto=1&height=66"></iframe>
+          
+            <div class="feed-link motion-element">
+              <a href="/atom.xml" rel="alternate">
+                <i class="fa fa-rss"></i>
+                RSS
+              </a>
+            </div>
+          
+
+          
+            <div class="links-of-author motion-element">
+                
+                  <span class="links-of-author-item">
+                    <a href="https://github.com/Edison0902" target="_blank" title="GitHub">
+                      
+                        <i class="fa fa-fw fa-github"></i>GitHub</a>
+                  </span>
+                
+                  <span class="links-of-author-item">
+                    <a href="mailto:edison.18whu@gmail.com" target="_blank" title="E-Mail">
+                      
+                        <i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+                  </span>
+                
+                  <span class="links-of-author-item">
+                    <a href="https://weibo.com/u/6176093611" target="_blank" title="Weibo">
+                      
+                        <i class="fa fa-fw fa-globe"></i>Weibo</a>
+                  </span>
+                
+                  <span class="links-of-author-item">
+                    <a href="https://plus.google.com/yourname" target="_blank" title="Google">
+                      
+                        <i class="fa fa-fw fa-google"></i>Google</a>
+                  </span>
+                
+                  <span class="links-of-author-item">
+                    <a href="https://twitter.com/yourname" target="_blank" title="Twitter">
+                      
+                        <i class="fa fa-fw fa-twitter"></i>Twitter</a>
+                  </span>
+                
+                  <span class="links-of-author-item">
+                    <a href="https://www.facebook.com/yourname" target="_blank" title="FB Page">
+                      
+                        <i class="fa fa-fw fa-facebook"></i>FB Page</a>
+                  </span>
+                
+            </div>
+          
+
+          
+          
+
+          
+          
+            <div class="links-of-blogroll motion-element links-of-blogroll-inline">
+              <div class="links-of-blogroll-title">
+                <i class="fa  fa-fw fa-link"></i>
+                Links
+              </div>
+              <ul class="links-of-blogroll-list">
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="http://baidu.com/" title="百度" target="_blank">百度</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="http://google.com/" title="谷歌" target="_blank">谷歌</a>
+                  </li>
+                
+              </ul>
+            </div>
+          
+
+          
+
+        </div>
+      </section>
+      
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#maskrcnn-源码解读"><span class="nav-text">maskrcnn 源码解读</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#maskrcnn-benchmark"><span class="nav-text">maskrcnn-benchmark</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#训练-测试"><span class="nav-text">训练/测试</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#mmdetection"><span class="nav-text">mmdetection</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#训练-测试-1"><span class="nav-text">训练/测试</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#配置-mmdetection"><span class="nav-text">配置 mmdetection:</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#配置文件"><span class="nav-text">配置文件</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#源码阅读"><span class="nav-text">源码阅读</span></a></li></ol></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+      
+        <div class="back-to-top">
+          <i class="fa fa-arrow-up"></i>
+          
+            <span id="scrollpercent"><span>0</span>%</span>
+          
+        </div>
+      
+
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; 2018 &mdash; <span itemprop="copyrightYear">2019</span>
+  <span class="with-love">
+    <i class="fa fa-[object Object]"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">陈家豪</span>
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+
+
+
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.4"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  <script type="text/javascript">
+    // Popup Window;
+    var isfetched = false;
+    var isXml = true;
+    // Search DB path;
+    var search_path = "search.xml";
+    if (search_path.length === 0) {
+      search_path = "search.xml";
+    } else if (/json$/i.test(search_path)) {
+      isXml = false;
+    }
+    var path = "/" + search_path;
+    // monitor main search box;
+
+    var onPopupClose = function (e) {
+      $('.popup').hide();
+      $('#local-search-input').val('');
+      $('.search-result-list').remove();
+      $('#no-result').remove();
+      $(".local-search-pop-overlay").remove();
+      $('body').css('overflow', '');
+    }
+
+    function proceedsearch() {
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay"></div>')
+        .css('overflow', 'hidden');
+      $('.search-popup-overlay').click(onPopupClose);
+      $('.popup').toggle();
+      var $localSearchInput = $('#local-search-input');
+      $localSearchInput.attr("autocapitalize", "none");
+      $localSearchInput.attr("autocorrect", "off");
+      $localSearchInput.focus();
+    }
+
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+      'use strict';
+
+      // start loading animation
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay">' +
+          '<div id="search-loading-icon">' +
+          '<i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>' +
+          '</div>' +
+          '</div>')
+        .css('overflow', 'hidden');
+      $("#search-loading-icon").css('margin', '20% auto 0 auto').css('text-align', 'center');
+
+      $.ajax({
+        url: path,
+        dataType: isXml ? "xml" : "json",
+        async: true,
+        success: function(res) {
+          // get the contents from search data
+          isfetched = true;
+          $('.popup').detach().appendTo('.header-inner');
+          var datas = isXml ? $("entry", res).map(function() {
+            return {
+              title: $("title", this).text(),
+              content: $("content",this).text(),
+              url: $("url" , this).text()
+            };
+          }).get() : res;
+          var input = document.getElementById(search_id);
+          var resultContent = document.getElementById(content_id);
+          var inputEventFunction = function() {
+            var searchText = input.value.trim().toLowerCase();
+            var keywords = searchText.split(/[\s\-]+/);
+            if (keywords.length > 1) {
+              keywords.push(searchText);
+            }
+            var resultItems = [];
+            if (searchText.length > 0) {
+              // perform local searching
+              datas.forEach(function(data) {
+                var isMatch = false;
+                var hitCount = 0;
+                var searchTextCount = 0;
+                var title = data.title.trim();
+                var titleInLowerCase = title.toLowerCase();
+                var content = data.content.trim().replace(/<[^>]+>/g,"");
+                var contentInLowerCase = content.toLowerCase();
+                var articleUrl = decodeURIComponent(data.url);
+                var indexOfTitle = [];
+                var indexOfContent = [];
+                // only match articles with not empty titles
+                if(title != '') {
+                  keywords.forEach(function(keyword) {
+                    function getIndexByWord(word, text, caseSensitive) {
+                      var wordLen = word.length;
+                      if (wordLen === 0) {
+                        return [];
+                      }
+                      var startPosition = 0, position = [], index = [];
+                      if (!caseSensitive) {
+                        text = text.toLowerCase();
+                        word = word.toLowerCase();
+                      }
+                      while ((position = text.indexOf(word, startPosition)) > -1) {
+                        index.push({position: position, word: word});
+                        startPosition = position + wordLen;
+                      }
+                      return index;
+                    }
+
+                    indexOfTitle = indexOfTitle.concat(getIndexByWord(keyword, titleInLowerCase, false));
+                    indexOfContent = indexOfContent.concat(getIndexByWord(keyword, contentInLowerCase, false));
+                  });
+                  if (indexOfTitle.length > 0 || indexOfContent.length > 0) {
+                    isMatch = true;
+                    hitCount = indexOfTitle.length + indexOfContent.length;
+                  }
+                }
+
+                // show search results
+
+                if (isMatch) {
+                  // sort index by position of keyword
+
+                  [indexOfTitle, indexOfContent].forEach(function (index) {
+                    index.sort(function (itemLeft, itemRight) {
+                      if (itemRight.position !== itemLeft.position) {
+                        return itemRight.position - itemLeft.position;
+                      } else {
+                        return itemLeft.word.length - itemRight.word.length;
+                      }
+                    });
+                  });
+
+                  // merge hits into slices
+
+                  function mergeIntoSlice(text, start, end, index) {
+                    var item = index[index.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    var hits = [];
+                    var searchTextCountInSlice = 0;
+                    while (position + word.length <= end && index.length != 0) {
+                      if (word === searchText) {
+                        searchTextCountInSlice++;
+                      }
+                      hits.push({position: position, length: word.length});
+                      var wordEnd = position + word.length;
+
+                      // move to next position of hit
+
+                      index.pop();
+                      while (index.length != 0) {
+                        item = index[index.length - 1];
+                        position = item.position;
+                        word = item.word;
+                        if (wordEnd > position) {
+                          index.pop();
+                        } else {
+                          break;
+                        }
+                      }
+                    }
+                    searchTextCount += searchTextCountInSlice;
+                    return {
+                      hits: hits,
+                      start: start,
+                      end: end,
+                      searchTextCount: searchTextCountInSlice
+                    };
+                  }
+
+                  var slicesOfTitle = [];
+                  if (indexOfTitle.length != 0) {
+                    slicesOfTitle.push(mergeIntoSlice(title, 0, title.length, indexOfTitle));
+                  }
+
+                  var slicesOfContent = [];
+                  while (indexOfContent.length != 0) {
+                    var item = indexOfContent[indexOfContent.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    // cut out 100 characters
+                    var start = position - 20;
+                    var end = position + 80;
+                    if(start < 0){
+                      start = 0;
+                    }
+                    if (end < position + word.length) {
+                      end = position + word.length;
+                    }
+                    if(end > content.length){
+                      end = content.length;
+                    }
+                    slicesOfContent.push(mergeIntoSlice(content, start, end, indexOfContent));
+                  }
+
+                  // sort slices in content by search text's count and hits' count
+
+                  slicesOfContent.sort(function (sliceLeft, sliceRight) {
+                    if (sliceLeft.searchTextCount !== sliceRight.searchTextCount) {
+                      return sliceRight.searchTextCount - sliceLeft.searchTextCount;
+                    } else if (sliceLeft.hits.length !== sliceRight.hits.length) {
+                      return sliceRight.hits.length - sliceLeft.hits.length;
+                    } else {
+                      return sliceLeft.start - sliceRight.start;
+                    }
+                  });
+
+                  // select top N slices in content
+
+                  var upperBound = parseInt('1');
+                  if (upperBound >= 0) {
+                    slicesOfContent = slicesOfContent.slice(0, upperBound);
+                  }
+
+                  // highlight title and content
+
+                  function highlightKeyword(text, slice) {
+                    var result = '';
+                    var prevEnd = slice.start;
+                    slice.hits.forEach(function (hit) {
+                      result += text.substring(prevEnd, hit.position);
+                      var end = hit.position + hit.length;
+                      result += '<b class="search-keyword">' + text.substring(hit.position, end) + '</b>';
+                      prevEnd = end;
+                    });
+                    result += text.substring(prevEnd, slice.end);
+                    return result;
+                  }
+
+                  var resultItem = '';
+
+                  if (slicesOfTitle.length != 0) {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + highlightKeyword(title, slicesOfTitle[0]) + "</a>";
+                  } else {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + title + "</a>";
+                  }
+
+                  slicesOfContent.forEach(function (slice) {
+                    resultItem += "<a href='" + articleUrl + "'>" +
+                      "<p class=\"search-result\">" + highlightKeyword(content, slice) +
+                      "...</p>" + "</a>";
+                  });
+
+                  resultItem += "</li>";
+                  resultItems.push({
+                    item: resultItem,
+                    searchTextCount: searchTextCount,
+                    hitCount: hitCount,
+                    id: resultItems.length
+                  });
+                }
+              })
+            };
+            if (keywords.length === 1 && keywords[0] === "") {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-search fa-5x" /></div>'
+            } else if (resultItems.length === 0) {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-frown-o fa-5x" /></div>'
+            } else {
+              resultItems.sort(function (resultLeft, resultRight) {
+                if (resultLeft.searchTextCount !== resultRight.searchTextCount) {
+                  return resultRight.searchTextCount - resultLeft.searchTextCount;
+                } else if (resultLeft.hitCount !== resultRight.hitCount) {
+                  return resultRight.hitCount - resultLeft.hitCount;
+                } else {
+                  return resultRight.id - resultLeft.id;
+                }
+              });
+              var searchResultList = '<ul class=\"search-result-list\">';
+              resultItems.forEach(function (result) {
+                searchResultList += result.item;
+              })
+              searchResultList += "</ul>";
+              resultContent.innerHTML = searchResultList;
+            }
+          }
+
+          if ('auto' === 'auto') {
+            input.addEventListener('input', inputEventFunction);
+          } else {
+            $('.search-icon').click(inputEventFunction);
+            input.addEventListener('keypress', function (event) {
+              if (event.keyCode === 13) {
+                inputEventFunction();
+              }
+            });
+          }
+
+          // remove loading animation
+          $(".local-search-pop-overlay").remove();
+          $('body').css('overflow', '');
+
+          proceedsearch();
+        }
+      });
+    }
+
+    // handle and trigger popup window;
+    $('.popup-trigger').click(function(e) {
+      e.stopPropagation();
+      if (isfetched === false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+    });
+
+    $('.popup-btn-close').click(onPopupClose);
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+    $(document).on('keyup', function (event) {
+      var shouldDismissSearchPopup = event.which === 27 &&
+        $('.search-popup').is(':visible');
+      if (shouldDismissSearchPopup) {
+        onPopupClose();
+      }
+    });
+  </script>
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+<script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"pluginRootPath":"live2dw/","pluginJsPath":"lib/","pluginModelPath":"assets/","tagMode":false,"model":{"jsonPath":"/live2dw/assets/miku.model.json"},"display":{"position":"right","width":150,"height":300},"mobile":{"show":false},"log":false});</script></body>
+</html>
+
+
+
+<!-- 页面点击小红心 -->
+<script type="text/javascript" src="/js/src/clicklove.js"></script>

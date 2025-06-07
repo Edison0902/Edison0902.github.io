@@ -1,0 +1,1305 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next gemini use-motion" lang="zh-Hans">
+<head><meta name="generator" content="Hexo 3.9.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<meta name="theme-color" content="#222">
+
+
+
+  
+  
+    
+    
+  <script src="/lib/pace/pace.min.js?v=1.0.2"></script>
+  <link href="/lib/pace/pace-theme-flash.min.css?v=1.0.2" rel="stylesheet">
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css">
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css">
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="标签1,标签2,">
+
+
+
+
+
+  <link rel="alternate" href="/atom.xml" title="陈家豪的个人博客" type="application/atom+xml">
+
+
+
+
+
+
+<meta name="description" content="cudnn 官方文档cudnn 例子：(1) (2)使用cudnn进行卷积Cudnn v5.1与V 6.0的特性 创建开始句柄 对于cudnn的使用，第一步当然是在代码中包含cudnn的头文件。在使用cudnn的函数之前，需要创建cudnn的句柄，定义为：cudnnHandle_t 类型。 12345#include&amp;lt;cudnn.h&amp;gt;int main(int argc,char con">
+<meta name="keywords" content="标签1,标签2">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Cudnn">
+<meta property="og:url" content="https://github.com/Edison0902/硬件加速/cuDNN/index.html">
+<meta property="og:site_name" content="陈家豪的个人博客">
+<meta property="og:description" content="cudnn 官方文档cudnn 例子：(1) (2)使用cudnn进行卷积Cudnn v5.1与V 6.0的特性 创建开始句柄 对于cudnn的使用，第一步当然是在代码中包含cudnn的头文件。在使用cudnn的函数之前，需要创建cudnn的句柄，定义为：cudnnHandle_t 类型。 12345#include&amp;lt;cudnn.h&amp;gt;int main(int argc,char con">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2019-06-18T11:45:42.780Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Cudnn">
+<meta name="twitter:description" content="cudnn 官方文档cudnn 例子：(1) (2)使用cudnn进行卷积Cudnn v5.1与V 6.0的特性 创建开始句柄 对于cudnn的使用，第一步当然是在代码中包含cudnn的头文件。在使用cudnn的函数之前，需要创建cudnn的句柄，定义为：cudnnHandle_t 类型。 12345#include&amp;lt;cudnn.h&amp;gt;int main(int argc,char con">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Gemini',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":true,"scrollpercent":true,"onmobile":true},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="https://github.com/Edison0902/硬件加速/cuDNN/">
+
+
+
+
+
+  <title>Cudnn | 陈家豪的个人博客</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+    
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">陈家豪的个人博客</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">记录技术 & 生活</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br>
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br>
+            
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br>
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br>
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br>
+            
+            归档
+          </a>
+        </li>
+      
+
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br>
+            
+            搜索
+          </a>
+        </li>
+      
+    </ul>
+  
+
+  
+    <div class="site-search">
+      
+  <div class="popup search-popup local-search-popup">
+  <div class="local-search-header clearfix">
+    <span class="search-icon">
+      <i class="fa fa-search"></i>
+    </span>
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+    <div class="local-search-input-wrapper">
+      <input autocomplete="off" placeholder="搜索..." spellcheck="false" type="text" id="local-search-input">
+    </div>
+  </div>
+  <div id="local-search-result"></div>
+</div>
+
+
+
+    </div>
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://github.com/Edison0902/硬件加速/cuDNN/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Jiahao Chen">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/cjh_head_yuque.png">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="陈家豪的个人博客">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">Cudnn</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-08-18T15:41:18+08:00">
+                2017-08-18
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/硬件加速/" itemprop="url" rel="index">
+                    <span itemprop="name">硬件加速</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+            <div class="post-wordcount">
+              
+                
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-file-word-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">字数统计&#58;</span>
+                
+                <span title="字数统计">
+                  2.9k
+                </span>
+              
+
+              
+                <span class="post-meta-divider">|</span>
+              
+
+              
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-clock-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">阅读时长 &asymp;</span>
+                
+                <span title="阅读时长">
+                  12
+                </span>
+              
+            </div>
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p><a href="https://docs.nvidia.com/deeplearning/sdk/cudnn-developer-guide/index.html" target="_blank" rel="noopener">cudnn 官方文档</a><br>cudnn 例子：<a href="https://gist.github.com/odashi/1c20ba90388cf02330e1b95963d78039" target="_blank" rel="noopener">(1)</a> <a href="https://www.cnblogs.com/combfish/p/9259362.html" target="_blank" rel="noopener">(2)</a><br><a href="https://blog.csdn.net/ice__snow/article/details/79699388" target="_blank" rel="noopener">使用cudnn进行卷积</a><br><a href="https://blog.csdn.net/jiangbo1017/article/details/75084608" target="_blank" rel="noopener">Cudnn v5.1与V 6.0的特性</a><br><a name="165b9add"></a></p>
+<h4 id="创建开始句柄"><a href="#创建开始句柄" class="headerlink" title="创建开始句柄"></a>创建开始句柄</h4><p> 对于cudnn的使用，第一步当然是在代码中包含cudnn的头文件。在使用cudnn的函数之前，需要创建cudnn的句柄，定义为：cudnnHandle_t 类型。</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span><span class="meta-string">&lt;cudnn.h&gt;</span></span></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">(<span class="keyword">int</span> argc,<span class="keyword">char</span> <span class="keyword">const</span> *argv[])</span></span>&#123;</span><br><span class="line">  cudnnHandle_t cudnn;</span><br><span class="line">  cudnnCreate(&amp;cudnn)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>(需要注意的是，对于cudnn的每个函数，都会返回一个类型为cudnnStatus_t的错误码。成功执行的话，返回CUDNN_STATUS_SUCCESS。其他错误的话，可以用cudnnGetErrorString(status)来获得具体的错误信息。)</p>
+<p><a name="ed58dd1f"></a></p>
+<h4 id="tensor-描述"><a href="#tensor-描述" class="headerlink" title="tensor 描述"></a>tensor 描述</h4><p>卷积计算主要有三个参数：输入，输出和权重</p>
+<ol>
+<li><p>输入</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">cudnnTensorDescriptor_t input_descriptor;</span><br><span class="line">cudnnCreateTensorDescriptor(&amp;input_descriptor);</span><br><span class="line">cudnnSetTensor4dDescriptor(input_descriptor,</span><br><span class="line">                          <span class="comment">/*format=*/</span>CUDNN_TENSOR_NHWC,</span><br><span class="line">                          <span class="comment">/*dataType=*/</span>CUDNN_DATA_FLOAT,</span><br><span class="line">                          <span class="comment">/*batch_size=*/</span><span class="number">1</span>,</span><br><span class="line">                          <span class="comment">/*channels=*/</span><span class="number">3</span>,</span><br><span class="line">                          <span class="comment">/*image_height=*/</span>image.rows,</span><br><span class="line">                          <span class="comment">/*image_width=*/</span>image.cols);</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>输出</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">cudnnTensorDescriptor_t output_descriptor;</span><br><span class="line">cudnnCreateTensorDescriptor(&amp;output_descriptor);</span><br><span class="line">cudnnSetTensor4dDescriptor(output_descriptor,</span><br><span class="line">                           <span class="comment">/*format=*/</span>CUDNN_TENSOR_NHWC,</span><br><span class="line">                           <span class="comment">/*dataType=*/</span>CUDNN_DATA_FLOAT,</span><br><span class="line">                           <span class="comment">/*batch_size=*/</span><span class="number">1</span>,</span><br><span class="line">                           <span class="comment">/*channels=*/</span><span class="number">3</span>,</span><br><span class="line">                           <span class="comment">/*image_height=*/</span>image.rows,</span><br><span class="line">                           <span class="comment">/*image_width=*/</span>image.cols);</span><br></pre></td></tr></table></figure>
+</li>
+</ol>
+<p>因为我们输入是一张图，所以batch_size为1。而我们的图像是RGB三个通道，所以channels为3.<br>对于权重数组的大小为input_channel<em>output_channel</em>kernel_size*kernel_size。在我们的例子中kernel_size为3</p>
+<ol start="3">
+<li>权重<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">cudnnFilterDescriptor_t kernel_descriptor;</span><br><span class="line">cudnnCreateFilterDescriptor(&amp;kernel_descriptor);</span><br><span class="line">cudnnSetFilter4dDescriptor(kernel_descriptor,</span><br><span class="line">                           <span class="comment">/*dataType=*/</span>CUDNN_DATA_FLOAT,</span><br><span class="line">                           <span class="comment">/*format=*/</span>CUDNN_TENSOR_NCHW,</span><br><span class="line">                           <span class="comment">/*out_channels=*/</span><span class="number">3</span>,</span><br><span class="line">                           <span class="comment">/*in_channels=*/</span><span class="number">3</span>,</span><br><span class="line">                           <span class="comment">/*kernel_height=*/</span><span class="number">3</span>,</span><br><span class="line">                           <span class="comment">/*kernel_width=*/</span><span class="number">3</span>);</span><br></pre></td></tr></table></figure>
+</li>
+</ol>
+<p>对于权重tensor的格式，取决于我们保存的方式。<br>output_channel <em> input_channel </em> kernel_h * kernel_w</p>
+<p><a name="62d29e68"></a></p>
+<h4 id="卷积核描述"><a href="#卷积核描述" class="headerlink" title="卷积核描述"></a>卷积核描述</h4><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">cudnnConvolutionDescriptor_t convolution_descriptor;</span><br><span class="line">cudnnCreateConvolutionDescriptor(&amp;convolution_descriptor);</span><br><span class="line">cudnnSetConvolution2dDescriptor(convolution_descriptor,</span><br><span class="line">                                <span class="comment">/*pad_height=*/</span><span class="number">1</span>,</span><br><span class="line">                                <span class="comment">/*pad_width=*/</span><span class="number">1</span>,</span><br><span class="line">                                <span class="comment">/*vertical_stride=*/</span><span class="number">1</span>,</span><br><span class="line">                                <span class="comment">/*horizontal_stride=*/</span><span class="number">1</span>,</span><br><span class="line">                                <span class="comment">/*dilation_height=*/</span><span class="number">1</span>,</span><br><span class="line">                                <span class="comment">/*dilation_width=*/</span><span class="number">1</span>,</span><br><span class="line">                                <span class="comment">/*mode=*/</span>CUDNN_CROSS_CORRELATION,</span><br><span class="line">                                <span class="comment">/*computeType=*/</span>CUDNN_DATA_FLOAT));</span><br></pre></td></tr></table></figure>
+<p>我们对tensor做了描述，对卷积内核也做了描述，是否就可以计算卷积了呢？如果你这么以为，那就too young too simple了。对于卷积算法而言，有多种计算方式，在cudnn中集成了多种计算方式。需要我们根据当前硬件等情况设置选用哪种算法。</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">cudnnConvolutionFwdAlgo_t convolution_algorithm;</span><br><span class="line">cudnnGetConvolutionForwardAlgorithm(cudnn,</span><br><span class="line">                                    input_descriptor,</span><br><span class="line">                                    kernel_descriptor,</span><br><span class="line">                                    convolution_descriptor,</span><br><span class="line">                                    output_descriptor,</span><br><span class="line">                                    CUDNN_CONVOLUTION_FWD_PREFER_FASTEST,</span><br><span class="line">                                    <span class="comment">/*memoryLimitInBytes=*/</span><span class="number">0</span>,</span><br><span class="line">                                    &amp;convolution_algorithm);</span><br></pre></td></tr></table></figure>
+<p>选定采用哪种算法来计算卷积后，我们需要查询当前算法所需要的额外GPU内存消耗：</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">size_t</span> workspace_bytes = <span class="number">0</span>;</span><br><span class="line">cudnnGetConvolutionForwardWorkspaceSize(cudnn,</span><br><span class="line">                                    input_descriptor,</span><br><span class="line">                                    kernel_descriptor,</span><br><span class="line">                                    convolution_descriptor,</span><br><span class="line">                                    output_descriptor,</span><br><span class="line">                                    convolution_algorithm,</span><br><span class="line">                                    &amp;workspace_bytes);</span><br></pre></td></tr></table></figure>
+<p> 终于到了这里，我们把卷积执行的准备工作做好了。现在就是针对我们的例子来分配数据了：</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">void</span>* d_workspace = <span class="literal">nullptr</span>;</span><br><span class="line">cudaMalloc(&amp;d_workspace, workspace_bytes);</span><br><span class="line"></span><br><span class="line"><span class="keyword">int</span> image_bytes = batch_size * channels * height * width * <span class="keyword">sizeof</span>(<span class="keyword">float</span>);</span><br><span class="line"></span><br><span class="line"><span class="keyword">float</span>* d_input  =<span class="literal">nullptr</span>;</span><br><span class="line">cudaMalloc(&amp;d_input, image_bytes);</span><br><span class="line">cudaMemcpy(d_input, image.ptr&lt;<span class="keyword">float</span>&gt;(<span class="number">0</span>), image_bytes, cudaMemcpyHostToDevice);</span><br><span class="line"></span><br><span class="line"><span class="keyword">float</span>* d_output = <span class="literal">nullptr</span>;</span><br><span class="line">cudaMalloc(&amp;d_output, image_bytes);</span><br><span class="line">cudaMemset(d_output, <span class="number">0</span>, image_bytes);</span><br></pre></td></tr></table></figure>
+<p>权重数据，对于我们的例子，就随便初始化一组了：</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> <span class="keyword">float</span> kernel_template[<span class="number">3</span>][<span class="number">3</span>] = &#123;</span><br><span class="line">  &#123;<span class="number">1</span>,  <span class="number">1</span>, <span class="number">1</span>&#125;,</span><br><span class="line">  &#123;<span class="number">1</span>, <span class="number">-8</span>, <span class="number">1</span>&#125;,</span><br><span class="line">  &#123;<span class="number">1</span>,  <span class="number">1</span>, <span class="number">1</span>&#125;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="keyword">float</span> h_kernel[<span class="number">3</span>][<span class="number">3</span>][<span class="number">3</span>][<span class="number">3</span>];</span><br><span class="line"><span class="keyword">for</span> (<span class="keyword">int</span> kernel = <span class="number">0</span>; kernel &lt; <span class="number">3</span>; ++kernel) &#123;</span><br><span class="line">  <span class="keyword">for</span> (<span class="keyword">int</span> channel = <span class="number">0</span>; channel &lt; <span class="number">3</span>; ++channel) &#123;</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> row = <span class="number">0</span>; row &lt; <span class="number">3</span>; ++row) &#123;</span><br><span class="line">      <span class="keyword">for</span> (<span class="keyword">int</span> column = <span class="number">0</span>; column &lt; <span class="number">3</span>; ++column) &#123;</span><br><span class="line">        h_kernel[kernel][channel][row][column] = kernel_template[row][column];</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">float</span>* d_kernel = <span class="literal">nullptr</span>;</span><br><span class="line">cudaMalloc(&amp;d_kernel, <span class="keyword">sizeof</span>(h_kernel));</span><br><span class="line">cudaMemcpy(d_kernel, h_kernel, <span class="keyword">sizeof</span>(h_kernel), cudaMemcpyHostToDevice);</span><br></pre></td></tr></table></figure>
+<p> 终于，我们要计算卷积了：</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> <span class="keyword">float</span> alpha = <span class="number">1</span>, beta = <span class="number">0</span>;</span><br><span class="line">cudnnConvolutionForward(cudnn,</span><br><span class="line">                        &amp;alpha,</span><br><span class="line">                        input_descriptor,</span><br><span class="line">                        d_input,</span><br><span class="line">                        kernel_descriptor,</span><br><span class="line">                        d_kernel,</span><br><span class="line">                        convolution_descriptor,</span><br><span class="line">                        convolution_algorithm,</span><br><span class="line">                        d_workspace,</span><br><span class="line">                        workspace_bytes,</span><br><span class="line">                        &amp;beta,</span><br><span class="line">                        output_descriptor,</span><br><span class="line">                        d_output);</span><br></pre></td></tr></table></figure>
+<p>后续的操作就是把计算完的数据拷贝回主机端，并释放分配的各种资源：</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">float</span>* h_output = <span class="keyword">new</span> <span class="keyword">float</span>[image_bytes];</span><br><span class="line">cudaMemcpy(h_output, d_output, image_bytes, cudaMemcpyDeviceToHost);</span><br><span class="line"></span><br><span class="line"><span class="comment">// Do something with h_output ...</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">delete</span>[] h_output;</span><br><span class="line">cudaFree(d_kernel);</span><br><span class="line">cudaFree(d_input);</span><br><span class="line">cudaFree(d_output);</span><br><span class="line">cudaFree(d_workspace);</span><br><span class="line"></span><br><span class="line">cudnnDestroyTensorDescriptor(input_descriptor);</span><br><span class="line">cudnnDestroyTensorDescriptor(output_descriptor);</span><br><span class="line">cudnnDestroyFilterDescriptor(kernel_descriptor);</span><br><span class="line">cudnnDestroyConvolutionDescriptor(convolution_descriptor);</span><br><span class="line"></span><br><span class="line">cudnnDestroy(cudnn);</span><br></pre></td></tr></table></figure>
+<p> 终于把一个正向的卷积计算给说完了。但是大伙可能会说，实际应用中一般卷积以后立马都会接激活函数，这个如何处理呢？一，把卷积计算后的结果，调用cudnnAddTensor加上bias值，再通过cudnnConvolutionBiasActivationForward函数；第二：在cudnn6以后添加了cudnnConvolutionBiasActivationForward函数。这个三个函数怎么用，看手册就会明白的。<br>如上，便是cudnn卷积计算的说明。</p>
+<hr>
+<p>NVIDIA cuDNN是一个GPU加速深层神经网络原语库。它提供了在DNN应用程序中频繁出现的例程的高度优化的实现：</p>
+<ul>
+<li>卷积前馈和反馈，</li>
+<li>pooling前馈和反馈</li>
+<li>softmax前馈和反馈</li>
+<li>神经元前馈和反馈：<br><ul>
+<li>整流线性（ReLU）</li>
+<li>-sigmoid</li>
+<li>双曲线正切（TANH）</li>
+<li>张量转换函数</li>
+</ul>
+</li>
+<li>LRN，LCN和批量归一化前进和后退</li>
+</ul>
+<p>cuDNN的卷积程序旨在提高性能，以最快的GEMM（矩阵乘法）为基础实现此类例程，同时使用更少的内存。<br>cuDNN提供基于上下文的API，可以轻松实现与CUDA流的多线程和（可选）互操作性。<br>编程模型：<br>cuDNN库公开了一个Host API，但是假定对于使用GPU的操作，可以从设备直接访问必要的数据。<br>使用cuDNN的应用程序必须通过调用来初始化库上下文的句柄 cudnnCreate（）。这个句柄被显式地传递给每一个在GPU数据上运行的后续库函数。一旦应用程序完成使用cuDNN，它就可以释放与库处理相关的资源 cudnnDestroy（）。这种方法允许用户在使用多个主机线程，GPU和CUDA流时显式控制库的功能。例如，一个应用程序可以使用cudaSetDevice（）要将不同的设备与不同的主机线程关联起来，并在每个主机线程中关联，请使用独特的cuDNN句柄，该句柄将库调用指向与其关联的设备。用不同的手柄创建的cuDNN库调用将自动运行在不同的设备上。与特定cuDNN上下文相关联的设备被假定在相应的之间保持不变cudnnCreate（） 和cudnnDestroy（）调用。为了使cuDNN库在同一个主机线程中使用不同的设备，应用程序必须设置通过调用使用的新设备cudaSetDevice（） 然后通过调用创建另一个与新设备关联的cuDNN上下文 cudnnCreate（）。<br>现在所有的层都遵循推理期间的统一惯例<br>y = layerFunction（x，otherParams）<br>并在反向传播<br>（dx，dOtherParams）= layerFunctionGradient（x，y，dy，otherParams）<br>对于卷积来说，公式是<br>y = x <em> w + b<br>w 是滤波器权重的矩阵， X 是上一层的数据（在推理期间）， y 是下一层的数据， b 是偏见和 </em>是卷积运算符。在反向传播例程中，参数保持其含义。 DX，DY，DW，DB始终参考最终网络误差函数相对于给定参数的梯度。所以DY在所有后向传播例程中，总是指通过网络计算图反向传播的错误梯度。类似于更专门化层中的其他参数，例如，dMeans 或 dBnBias 指的是这些参数的损失函数的梯度。</p>
+<hr>
+<p>Tensor描述符：<br>该cuDNN库描述了数据保存图像，视频和任何其他数据的内容与通用n-D张量定义与以下参数：</p>
+<ul>
+<li>一个尺寸dim为3到8</li>
+<li>数据类型（32位浮点，64位浮点，16位浮点…）</li>
+<li>dim整数类型定义每个维度的大小</li>
+<li>dim整数类型定义每个维度的步幅（例如，为了从同一维度到达下一个元素而添加的元素的数量）</li>
+</ul>
+<p>前两个维度分别定义批量（batch）大小n和特征图c的数量。 该张量定义允许例如通过使一维的步幅小于下一维的尺寸和步幅的乘积而在相同张量内具有彼此重叠的一些尺寸。 在cuDNN中，除非另有规定，否则所有程序都将支持具有重叠尺寸的张量，以用于正向输入张量，但是输出张量的尺寸不能重叠。 尽管这种张量格式支持负跨度（对于数据镜像可能有用），但除非另有说明，否则cuDNN例程不支持负跨度的张量。</p>
+<p>WXYZ张量描述符：<br>张量描述符格式使用首字母缩略词来标识，每个字母都引用相应的维度。</p>
+<ul>
+<li>所有的进步都是严格肯定的</li>
+<li>字母所引用的尺寸按其各自步幅的降序排列</li>
+</ul>
+<p>4-D张量描述符：<br>使用4维张量描述符来定义4个字母的批量2D图像的格式：N，C，H，W分别表示批量大小，特征图的数量，高度和宽度。 这些字母按照步幅的降序排列。 常用的四维张量格式是：</p>
+<ul>
+<li>NCHW</li>
+<li>NHWC</li>
+<li>CHWN</li>
+</ul>
+<p>5-D张量描述符：<br>5-D Tensor描述符用于定义批量3D图像的格式，包含5个字母：N，C，D，H，W分别表示批量大小，特征图的数量，深度，高度和宽度。 这些字母按步伐的递减顺序排序。 常用的5维张量格式称为：</p>
+<ul>
+<li>NCDHW</li>
+<li>NDHWC</li>
+<li>CDHWN</li>
+</ul>
+<p>Fully-packed 张量：<br>张量被定义为XYZ-fully-packed当且仅当：</p>
+<ul>
+<li>张量维数等于完整填充后缀之前的字母数。</li>
+<li>第i维的步幅等于（i + 1）维乘以第（i + 1）步的乘积。</li>
+<li>最后一个维度的步幅是1。</li>
+</ul>
+<p>Partially-packed 张量：<br>部分“XYZ压缩”术语仅适用于用用于定义部分压缩张量的字母超集描述的张量格式的上下文。 WXYZ张量定义为XYZ-packed当且仅当：</p>
+<ul>
+<li>在-packed后缀中未引用的所有维度的跨度大于或等于下一个跨度的下一个维度的乘积。</li>
+<li>在位置i的-packed后缀中引用的每个维度的步幅等于（i + 1）-st维度乘以（i + 1）-st步幅的乘积。</li>
+<li>如果最后张量的维数存在于-packed后缀中，则步幅为1</li>
+</ul>
+<p>例如，NHWC张量WC包装意味着c_stride等于1，w_stride等于c_dim x c_stride。 实际上，-packed后缀通常具有张量变化最小的尺寸，但是也可以参考仅N-packed的NCHW张量。</p>
+<p>空间填充张量：<br>空间填充张量定义为空间维度中的部分填充。<br>例如，空间压缩的4D张量将意味着张量是NCHW HW-packed或CNHW HW-packed。<br>重叠张量：<br>如果遍历整个维度范围多次产生相同的地址，则张量定义为重叠。<br>在实践中，重叠张量对于来自[1，nbDims]区间的一些i，将具有步幅[i-1] </p>
+<hr>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br><span class="line">136</span><br><span class="line">137</span><br><span class="line">138</span><br><span class="line">139</span><br><span class="line">140</span><br><span class="line">141</span><br><span class="line">142</span><br><span class="line">143</span><br><span class="line">144</span><br><span class="line">145</span><br><span class="line">146</span><br><span class="line">147</span><br><span class="line">148</span><br><span class="line">149</span><br><span class="line">150</span><br><span class="line">151</span><br><span class="line">152</span><br><span class="line">153</span><br><span class="line">154</span><br><span class="line">155</span><br><span class="line">156</span><br><span class="line">157</span><br><span class="line">158</span><br><span class="line">159</span><br><span class="line">160</span><br><span class="line">161</span><br><span class="line">162</span><br><span class="line">163</span><br><span class="line">164</span><br><span class="line">165</span><br><span class="line">166</span><br><span class="line">167</span><br><span class="line">168</span><br><span class="line">169</span><br><span class="line">170</span><br><span class="line">171</span><br><span class="line">172</span><br><span class="line">173</span><br><span class="line">174</span><br><span class="line">175</span><br><span class="line">176</span><br><span class="line">177</span><br><span class="line">178</span><br><span class="line">179</span><br><span class="line">180</span><br><span class="line">181</span><br><span class="line">182</span><br><span class="line">183</span><br><span class="line">184</span><br><span class="line">185</span><br><span class="line">186</span><br><span class="line">187</span><br><span class="line">188</span><br><span class="line">189</span><br></pre></td><td class="code"><pre><span class="line">cudnnHandle_t cudnn;</span><br><span class="line">		cudnnCreate(&amp;cudnn);</span><br><span class="line"></span><br><span class="line">		<span class="comment">// ================================== Input ======================================</span></span><br><span class="line">		cudnnTensorDescriptor_t input_descriptor;</span><br><span class="line">		checkCUDNN(cudnnCreateTensorDescriptor(&amp;input_descriptor));</span><br><span class="line">		checkCUDNN(cudnnSetTensor4dDescriptor(input_descriptor,</span><br><span class="line">			<span class="comment">/*format=*/</span>CUDNN_TENSOR_NHWC,</span><br><span class="line">			<span class="comment">/*dataType=*/</span>CUDNN_DATA_FLOAT,</span><br><span class="line">			<span class="comment">/*batch_size=*/</span><span class="number">1</span>,</span><br><span class="line">			<span class="comment">/*channels=*/</span><span class="number">3</span>,</span><br><span class="line">			<span class="comment">/*image_height=*/</span>image.rows,</span><br><span class="line">			<span class="comment">/*image_width=*/</span>image.cols));</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">		<span class="comment">// ================================== Kernel ======================================</span></span><br><span class="line">		cudnnFilterDescriptor_t kernel_descriptor;</span><br><span class="line">		checkCUDNN(cudnnCreateFilterDescriptor(&amp;kernel_descriptor));</span><br><span class="line">		checkCUDNN(cudnnSetFilter4dDescriptor(kernel_descriptor,</span><br><span class="line">			<span class="comment">/*dataType=*/</span>CUDNN_DATA_FLOAT,</span><br><span class="line">			<span class="comment">/*format=*/</span>CUDNN_TENSOR_NCHW,</span><br><span class="line">			<span class="comment">/*out_channels=*/</span><span class="number">3</span>,</span><br><span class="line">			<span class="comment">/*in_channels=*/</span><span class="number">3</span>,</span><br><span class="line">			<span class="comment">/*kernel_height=*/</span><span class="number">3</span>,</span><br><span class="line">			<span class="comment">/*kernel_width=*/</span><span class="number">3</span>));</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">		<span class="comment">// ================================== Conv ======================================</span></span><br><span class="line">		cudnnConvolutionDescriptor_t convolution_descriptor;</span><br><span class="line">		checkCUDNN(cudnnCreateConvolutionDescriptor(&amp;convolution_descriptor));</span><br><span class="line">		checkCUDNN(cudnnSetConvolution2dDescriptor(convolution_descriptor,</span><br><span class="line">			<span class="comment">/*pad_height=*/</span><span class="number">1</span>,</span><br><span class="line">			<span class="comment">/*pad_width=*/</span><span class="number">1</span>,</span><br><span class="line">			<span class="comment">/*vertical_stride=*/</span><span class="number">1</span>,</span><br><span class="line">			<span class="comment">/*horizontal_stride=*/</span><span class="number">1</span>,</span><br><span class="line">			<span class="comment">/*dilation_height=*/</span><span class="number">1</span>,</span><br><span class="line">			<span class="comment">/*dilation_width=*/</span><span class="number">1</span>,</span><br><span class="line">			<span class="comment">/*mode=*/</span>CUDNN_CONVOLUTION,</span><br><span class="line">			<span class="comment">/*computeType=*/</span>CUDNN_DATA_FLOAT));</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">		<span class="comment">// ================================== Set group-conv ======================================</span></span><br><span class="line">		<span class="comment">//int flag_group = 0;</span></span><br><span class="line">		<span class="comment">//std::cout &lt;&lt; "Enter group flag: ";</span></span><br><span class="line">		<span class="comment">//std::cin &gt;&gt; flag_group;</span></span><br><span class="line">		<span class="comment">//if (flag_group &gt;= 1) &#123;</span></span><br><span class="line">		<span class="comment">//	checkCUDNN(cudnnSetConvolutionGroupCount(convolution_descriptor, flag_group));</span></span><br><span class="line">		<span class="comment">//&#125;</span></span><br><span class="line"></span><br><span class="line">		<span class="comment">//int *ret = 0;</span></span><br><span class="line">		<span class="comment">//checkCUDNN(cudnnSetConvolutionGroupCount(convolution_descriptor, *ret));</span></span><br><span class="line">		<span class="comment">//std::cout &lt;&lt; "ret: " &lt;&lt; *ret &lt;&lt; std::endl;</span></span><br><span class="line"></span><br><span class="line">		<span class="comment">// ================================== Output ======================================</span></span><br><span class="line">		<span class="keyword">int</span> batch_size&#123; <span class="number">0</span> &#125;, channels&#123; <span class="number">0</span> &#125;, height&#123; <span class="number">0</span> &#125;, width&#123; <span class="number">0</span> &#125;;</span><br><span class="line">		checkCUDNN(cudnnGetConvolution2dForwardOutputDim(convolution_descriptor,</span><br><span class="line">			input_descriptor,</span><br><span class="line">			kernel_descriptor,</span><br><span class="line">			&amp;batch_size,</span><br><span class="line">			&amp;channels,</span><br><span class="line">			&amp;height,</span><br><span class="line">			&amp;width));</span><br><span class="line">		<span class="built_in">std</span>::<span class="built_in">cerr</span> &lt;&lt; <span class="string">"Output Image: "</span> &lt;&lt; height &lt;&lt; <span class="string">" x "</span> &lt;&lt; width &lt;&lt; <span class="string">" x "</span> &lt;&lt; channels</span><br><span class="line">			&lt;&lt; <span class="built_in">std</span>::<span class="built_in">endl</span>;</span><br><span class="line">		cudnnTensorDescriptor_t output_descriptor;</span><br><span class="line">		checkCUDNN(cudnnCreateTensorDescriptor(&amp;output_descriptor));</span><br><span class="line">		checkCUDNN(cudnnSetTensor4dDescriptor(output_descriptor,</span><br><span class="line">			<span class="comment">/*format=*/</span>CUDNN_TENSOR_NHWC,</span><br><span class="line">			<span class="comment">/*dataType=*/</span>CUDNN_DATA_FLOAT,</span><br><span class="line">			<span class="comment">/*batch_size=*/</span><span class="number">1</span>,</span><br><span class="line">			<span class="comment">/*channels=*/</span><span class="number">3</span>,</span><br><span class="line">			<span class="comment">/*image_height=*/</span>image.rows,</span><br><span class="line">			<span class="comment">/*image_width=*/</span>image.cols));</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">		<span class="comment">// ================================== Algorithm ======================================</span></span><br><span class="line">		cudnnConvolutionFwdAlgo_t convolution_algorithm;</span><br><span class="line">		checkCUDNN(</span><br><span class="line">			cudnnGetConvolutionForwardAlgorithm(cudnn,</span><br><span class="line">				input_descriptor,</span><br><span class="line">				kernel_descriptor,</span><br><span class="line">				convolution_descriptor,</span><br><span class="line">				output_descriptor,</span><br><span class="line">				CUDNN_CONVOLUTION_FWD_PREFER_FASTEST,</span><br><span class="line">				<span class="comment">/*memoryLimitInBytes=*/</span><span class="number">0</span>,</span><br><span class="line">				&amp;convolution_algorithm));</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">		<span class="comment">// ================================== Get space-size ======================================</span></span><br><span class="line">		<span class="keyword">size_t</span> workspace_bytes = <span class="number">0</span>;</span><br><span class="line">		checkCUDNN(cudnnGetConvolutionForwardWorkspaceSize(cudnn,</span><br><span class="line">			input_descriptor,</span><br><span class="line">			kernel_descriptor,</span><br><span class="line">			convolution_descriptor,</span><br><span class="line">			output_descriptor,</span><br><span class="line">			convolution_algorithm,</span><br><span class="line">			&amp;workspace_bytes));</span><br><span class="line">		<span class="built_in">std</span>::<span class="built_in">cerr</span> &lt;&lt; <span class="string">"Workspace size: "</span> &lt;&lt; (workspace_bytes / <span class="number">1048576.0</span>) &lt;&lt; <span class="string">"MB"</span></span><br><span class="line">			&lt;&lt; <span class="built_in">std</span>::<span class="built_in">endl</span>;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">		<span class="comment">//checkCUDNN(cudnnSetConvolutionGroupCount(convolution_descriptor, 3));</span></span><br><span class="line"></span><br><span class="line">		<span class="comment">// ================================== Allocate memory ======================================</span></span><br><span class="line">		<span class="keyword">void</span>* d_workspace&#123; <span class="literal">nullptr</span> &#125;;</span><br><span class="line">		cudaMalloc(&amp;d_workspace, workspace_bytes);</span><br><span class="line"></span><br><span class="line">		<span class="keyword">int</span> image_bytes = batch_size * channels * height * width * <span class="keyword">sizeof</span>(<span class="keyword">float</span>);</span><br><span class="line"></span><br><span class="line">		<span class="keyword">float</span>* d_input&#123; <span class="literal">nullptr</span> &#125;;</span><br><span class="line">		cudaMalloc(&amp;d_input, image_bytes);</span><br><span class="line">		cudaMemcpy(d_input, image.ptr&lt;<span class="keyword">float</span>&gt;(<span class="number">0</span>), image_bytes, cudaMemcpyHostToDevice);</span><br><span class="line"></span><br><span class="line">		<span class="keyword">float</span>* d_output&#123; <span class="literal">nullptr</span> &#125;;</span><br><span class="line">		cudaMalloc(&amp;d_output, image_bytes);</span><br><span class="line">		cudaMemset(d_output, <span class="number">0</span>, image_bytes);</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">		<span class="comment">// ==================================  ======================================</span></span><br><span class="line">		<span class="comment">// Mystery kernel</span></span><br><span class="line">		<span class="keyword">const</span> <span class="keyword">float</span> kernel_template[<span class="number">3</span>][<span class="number">3</span>] = &#123;</span><br><span class="line">			&#123; <span class="number">1</span>,  <span class="number">1</span>, <span class="number">1</span> &#125;,</span><br><span class="line">			&#123; <span class="number">1</span>, <span class="number">-8</span>, <span class="number">1</span> &#125;,</span><br><span class="line">			&#123; <span class="number">1</span>,  <span class="number">1</span>, <span class="number">1</span> &#125;</span><br><span class="line">		&#125;;</span><br><span class="line"></span><br><span class="line">		<span class="keyword">float</span> h_kernel[<span class="number">3</span>][<span class="number">3</span>][<span class="number">3</span>][<span class="number">3</span>];</span><br><span class="line">		<span class="keyword">for</span> (<span class="keyword">int</span> kernel = <span class="number">0</span>; kernel &lt; <span class="number">3</span>; ++kernel) &#123;</span><br><span class="line">			<span class="keyword">for</span> (<span class="keyword">int</span> channel = <span class="number">0</span>; channel &lt; <span class="number">3</span>; ++channel) &#123;</span><br><span class="line">				<span class="keyword">for</span> (<span class="keyword">int</span> row = <span class="number">0</span>; row &lt; <span class="number">3</span>; ++row) &#123;</span><br><span class="line">					<span class="keyword">for</span> (<span class="keyword">int</span> column = <span class="number">0</span>; column &lt; <span class="number">3</span>; ++column) &#123;</span><br><span class="line">						h_kernel[kernel][channel][row][column] = kernel_template[row][column];</span><br><span class="line">					&#125;</span><br><span class="line">				&#125;</span><br><span class="line">			&#125;</span><br><span class="line">		&#125;</span><br><span class="line"></span><br><span class="line">		<span class="keyword">float</span>* d_kernel&#123; <span class="literal">nullptr</span> &#125;;</span><br><span class="line">		cudaMalloc(&amp;d_kernel, <span class="keyword">sizeof</span>(h_kernel));</span><br><span class="line">		cudaMemcpy(d_kernel, h_kernel, <span class="keyword">sizeof</span>(h_kernel), cudaMemcpyHostToDevice);</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">		<span class="comment">// ==================================  ======================================</span></span><br><span class="line">		<span class="keyword">const</span> <span class="keyword">float</span> alpha = <span class="number">1</span>, beta = <span class="number">0</span>;</span><br><span class="line">		checkCUDNN(cudnnConvolutionForward(cudnn,</span><br><span class="line">			&amp;alpha,</span><br><span class="line">			input_descriptor,</span><br><span class="line">			d_input,</span><br><span class="line">			kernel_descriptor,</span><br><span class="line">			d_kernel,</span><br><span class="line">			convolution_descriptor,</span><br><span class="line">			convolution_algorithm,</span><br><span class="line">			d_workspace,</span><br><span class="line">			workspace_bytes,</span><br><span class="line">			&amp;beta,</span><br><span class="line">			output_descriptor,</span><br><span class="line">			d_output));</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">		<span class="comment">// ================================== Destroy ======================================</span></span><br><span class="line">		<span class="keyword">float</span>* h_output = <span class="keyword">new</span> <span class="keyword">float</span>[image_bytes];</span><br><span class="line">		cudaMemcpy(h_output, d_output, image_bytes, cudaMemcpyDeviceToHost);</span><br><span class="line"></span><br><span class="line">		<span class="comment">// Save img</span></span><br><span class="line">		save_image(<span class="string">"cudnn-out.jpg"</span>, h_output, height, width);</span><br><span class="line"></span><br><span class="line">		<span class="comment">// Do something with h_output ...</span></span><br><span class="line">		<span class="keyword">delete</span>[] h_output;</span><br><span class="line">		cudaFree(d_kernel);</span><br><span class="line">		cudaFree(d_input);</span><br><span class="line">		cudaFree(d_output);</span><br><span class="line">		cudaFree(d_workspace);</span><br><span class="line"></span><br><span class="line">		cudnnDestroyTensorDescriptor(input_descriptor);</span><br><span class="line">		cudnnDestroyTensorDescriptor(output_descriptor);</span><br><span class="line">		cudnnDestroyFilterDescriptor(kernel_descriptor);</span><br><span class="line">		cudnnDestroyConvolutionDescriptor(convolution_descriptor);</span><br><span class="line"></span><br><span class="line">		cudnnDestroy(cudnn);</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">		<span class="built_in">std</span>::<span class="built_in">cout</span> &lt;&lt; <span class="string">"\n[Procedure end...]"</span> &lt;&lt; <span class="built_in">std</span>::<span class="built_in">endl</span>;</span><br></pre></td></tr></table></figure>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+    <div>
+    
+    <div>  <div style="text-align:center;color: #ccc;font-size:14px;">-------------本文结束<i class="fa fa-paw"></i>感谢您的阅读-------------</div>  </div>
+
+
+    
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/标签1/" rel="tag"><i class="fa fa-tag"></i> 标签1</a>
+          
+            <a href="/tags/标签2/" rel="tag"><i class="fa fa-tag"></i> 标签2</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/模型评估/mAP/" rel="prev" title="mAP">
+                mAP <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+      <div id="sidebar-dimmer"></div>
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+      
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image" src="/images/cjh_head_yuque.png" alt="Jiahao Chen">
+            
+              <p class="site-author-name" itemprop="name">Jiahao Chen</p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+          
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">20</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">9</span>
+                  <span class="site-state-item-name">分类</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">10</span>
+                  <span class="site-state-item-name">标签</span>
+                </a>
+              </div>
+            
+
+          </nav>
+          <iframe frameborder="no" border="0" marginwidth="0" marginheight="0" width="330" height="86" src="//music.163.com/outchain/player?type=2&id=586299&auto=1&height=66"></iframe>
+          
+            <div class="feed-link motion-element">
+              <a href="/atom.xml" rel="alternate">
+                <i class="fa fa-rss"></i>
+                RSS
+              </a>
+            </div>
+          
+
+          
+            <div class="links-of-author motion-element">
+                
+                  <span class="links-of-author-item">
+                    <a href="https://github.com/Edison0902" target="_blank" title="GitHub">
+                      
+                        <i class="fa fa-fw fa-github"></i>GitHub</a>
+                  </span>
+                
+                  <span class="links-of-author-item">
+                    <a href="mailto:edison.18whu@gmail.com" target="_blank" title="E-Mail">
+                      
+                        <i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+                  </span>
+                
+                  <span class="links-of-author-item">
+                    <a href="https://weibo.com/u/6176093611" target="_blank" title="Weibo">
+                      
+                        <i class="fa fa-fw fa-globe"></i>Weibo</a>
+                  </span>
+                
+                  <span class="links-of-author-item">
+                    <a href="https://plus.google.com/yourname" target="_blank" title="Google">
+                      
+                        <i class="fa fa-fw fa-google"></i>Google</a>
+                  </span>
+                
+                  <span class="links-of-author-item">
+                    <a href="https://twitter.com/yourname" target="_blank" title="Twitter">
+                      
+                        <i class="fa fa-fw fa-twitter"></i>Twitter</a>
+                  </span>
+                
+                  <span class="links-of-author-item">
+                    <a href="https://www.facebook.com/yourname" target="_blank" title="FB Page">
+                      
+                        <i class="fa fa-fw fa-facebook"></i>FB Page</a>
+                  </span>
+                
+            </div>
+          
+
+          
+          
+
+          
+          
+            <div class="links-of-blogroll motion-element links-of-blogroll-inline">
+              <div class="links-of-blogroll-title">
+                <i class="fa  fa-fw fa-link"></i>
+                Links
+              </div>
+              <ul class="links-of-blogroll-list">
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="http://baidu.com/" title="百度" target="_blank">百度</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="http://google.com/" title="谷歌" target="_blank">谷歌</a>
+                  </li>
+                
+              </ul>
+            </div>
+          
+
+          
+
+        </div>
+      </section>
+      
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-4"><a class="nav-link" href="#创建开始句柄"><span class="nav-text">创建开始句柄</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#tensor-描述"><span class="nav-text">tensor 描述</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#卷积核描述"><span class="nav-text">卷积核描述</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+      
+        <div class="back-to-top">
+          <i class="fa fa-arrow-up"></i>
+          
+            <span id="scrollpercent"><span>0</span>%</span>
+          
+        </div>
+      
+
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; 2018 &mdash; <span itemprop="copyrightYear">2019</span>
+  <span class="with-love">
+    <i class="fa fa-[object Object]"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">陈家豪</span>
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+
+
+
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.4"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  <script type="text/javascript">
+    // Popup Window;
+    var isfetched = false;
+    var isXml = true;
+    // Search DB path;
+    var search_path = "search.xml";
+    if (search_path.length === 0) {
+      search_path = "search.xml";
+    } else if (/json$/i.test(search_path)) {
+      isXml = false;
+    }
+    var path = "/" + search_path;
+    // monitor main search box;
+
+    var onPopupClose = function (e) {
+      $('.popup').hide();
+      $('#local-search-input').val('');
+      $('.search-result-list').remove();
+      $('#no-result').remove();
+      $(".local-search-pop-overlay").remove();
+      $('body').css('overflow', '');
+    }
+
+    function proceedsearch() {
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay"></div>')
+        .css('overflow', 'hidden');
+      $('.search-popup-overlay').click(onPopupClose);
+      $('.popup').toggle();
+      var $localSearchInput = $('#local-search-input');
+      $localSearchInput.attr("autocapitalize", "none");
+      $localSearchInput.attr("autocorrect", "off");
+      $localSearchInput.focus();
+    }
+
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+      'use strict';
+
+      // start loading animation
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay">' +
+          '<div id="search-loading-icon">' +
+          '<i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>' +
+          '</div>' +
+          '</div>')
+        .css('overflow', 'hidden');
+      $("#search-loading-icon").css('margin', '20% auto 0 auto').css('text-align', 'center');
+
+      $.ajax({
+        url: path,
+        dataType: isXml ? "xml" : "json",
+        async: true,
+        success: function(res) {
+          // get the contents from search data
+          isfetched = true;
+          $('.popup').detach().appendTo('.header-inner');
+          var datas = isXml ? $("entry", res).map(function() {
+            return {
+              title: $("title", this).text(),
+              content: $("content",this).text(),
+              url: $("url" , this).text()
+            };
+          }).get() : res;
+          var input = document.getElementById(search_id);
+          var resultContent = document.getElementById(content_id);
+          var inputEventFunction = function() {
+            var searchText = input.value.trim().toLowerCase();
+            var keywords = searchText.split(/[\s\-]+/);
+            if (keywords.length > 1) {
+              keywords.push(searchText);
+            }
+            var resultItems = [];
+            if (searchText.length > 0) {
+              // perform local searching
+              datas.forEach(function(data) {
+                var isMatch = false;
+                var hitCount = 0;
+                var searchTextCount = 0;
+                var title = data.title.trim();
+                var titleInLowerCase = title.toLowerCase();
+                var content = data.content.trim().replace(/<[^>]+>/g,"");
+                var contentInLowerCase = content.toLowerCase();
+                var articleUrl = decodeURIComponent(data.url);
+                var indexOfTitle = [];
+                var indexOfContent = [];
+                // only match articles with not empty titles
+                if(title != '') {
+                  keywords.forEach(function(keyword) {
+                    function getIndexByWord(word, text, caseSensitive) {
+                      var wordLen = word.length;
+                      if (wordLen === 0) {
+                        return [];
+                      }
+                      var startPosition = 0, position = [], index = [];
+                      if (!caseSensitive) {
+                        text = text.toLowerCase();
+                        word = word.toLowerCase();
+                      }
+                      while ((position = text.indexOf(word, startPosition)) > -1) {
+                        index.push({position: position, word: word});
+                        startPosition = position + wordLen;
+                      }
+                      return index;
+                    }
+
+                    indexOfTitle = indexOfTitle.concat(getIndexByWord(keyword, titleInLowerCase, false));
+                    indexOfContent = indexOfContent.concat(getIndexByWord(keyword, contentInLowerCase, false));
+                  });
+                  if (indexOfTitle.length > 0 || indexOfContent.length > 0) {
+                    isMatch = true;
+                    hitCount = indexOfTitle.length + indexOfContent.length;
+                  }
+                }
+
+                // show search results
+
+                if (isMatch) {
+                  // sort index by position of keyword
+
+                  [indexOfTitle, indexOfContent].forEach(function (index) {
+                    index.sort(function (itemLeft, itemRight) {
+                      if (itemRight.position !== itemLeft.position) {
+                        return itemRight.position - itemLeft.position;
+                      } else {
+                        return itemLeft.word.length - itemRight.word.length;
+                      }
+                    });
+                  });
+
+                  // merge hits into slices
+
+                  function mergeIntoSlice(text, start, end, index) {
+                    var item = index[index.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    var hits = [];
+                    var searchTextCountInSlice = 0;
+                    while (position + word.length <= end && index.length != 0) {
+                      if (word === searchText) {
+                        searchTextCountInSlice++;
+                      }
+                      hits.push({position: position, length: word.length});
+                      var wordEnd = position + word.length;
+
+                      // move to next position of hit
+
+                      index.pop();
+                      while (index.length != 0) {
+                        item = index[index.length - 1];
+                        position = item.position;
+                        word = item.word;
+                        if (wordEnd > position) {
+                          index.pop();
+                        } else {
+                          break;
+                        }
+                      }
+                    }
+                    searchTextCount += searchTextCountInSlice;
+                    return {
+                      hits: hits,
+                      start: start,
+                      end: end,
+                      searchTextCount: searchTextCountInSlice
+                    };
+                  }
+
+                  var slicesOfTitle = [];
+                  if (indexOfTitle.length != 0) {
+                    slicesOfTitle.push(mergeIntoSlice(title, 0, title.length, indexOfTitle));
+                  }
+
+                  var slicesOfContent = [];
+                  while (indexOfContent.length != 0) {
+                    var item = indexOfContent[indexOfContent.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    // cut out 100 characters
+                    var start = position - 20;
+                    var end = position + 80;
+                    if(start < 0){
+                      start = 0;
+                    }
+                    if (end < position + word.length) {
+                      end = position + word.length;
+                    }
+                    if(end > content.length){
+                      end = content.length;
+                    }
+                    slicesOfContent.push(mergeIntoSlice(content, start, end, indexOfContent));
+                  }
+
+                  // sort slices in content by search text's count and hits' count
+
+                  slicesOfContent.sort(function (sliceLeft, sliceRight) {
+                    if (sliceLeft.searchTextCount !== sliceRight.searchTextCount) {
+                      return sliceRight.searchTextCount - sliceLeft.searchTextCount;
+                    } else if (sliceLeft.hits.length !== sliceRight.hits.length) {
+                      return sliceRight.hits.length - sliceLeft.hits.length;
+                    } else {
+                      return sliceLeft.start - sliceRight.start;
+                    }
+                  });
+
+                  // select top N slices in content
+
+                  var upperBound = parseInt('1');
+                  if (upperBound >= 0) {
+                    slicesOfContent = slicesOfContent.slice(0, upperBound);
+                  }
+
+                  // highlight title and content
+
+                  function highlightKeyword(text, slice) {
+                    var result = '';
+                    var prevEnd = slice.start;
+                    slice.hits.forEach(function (hit) {
+                      result += text.substring(prevEnd, hit.position);
+                      var end = hit.position + hit.length;
+                      result += '<b class="search-keyword">' + text.substring(hit.position, end) + '</b>';
+                      prevEnd = end;
+                    });
+                    result += text.substring(prevEnd, slice.end);
+                    return result;
+                  }
+
+                  var resultItem = '';
+
+                  if (slicesOfTitle.length != 0) {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + highlightKeyword(title, slicesOfTitle[0]) + "</a>";
+                  } else {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + title + "</a>";
+                  }
+
+                  slicesOfContent.forEach(function (slice) {
+                    resultItem += "<a href='" + articleUrl + "'>" +
+                      "<p class=\"search-result\">" + highlightKeyword(content, slice) +
+                      "...</p>" + "</a>";
+                  });
+
+                  resultItem += "</li>";
+                  resultItems.push({
+                    item: resultItem,
+                    searchTextCount: searchTextCount,
+                    hitCount: hitCount,
+                    id: resultItems.length
+                  });
+                }
+              })
+            };
+            if (keywords.length === 1 && keywords[0] === "") {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-search fa-5x" /></div>'
+            } else if (resultItems.length === 0) {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-frown-o fa-5x" /></div>'
+            } else {
+              resultItems.sort(function (resultLeft, resultRight) {
+                if (resultLeft.searchTextCount !== resultRight.searchTextCount) {
+                  return resultRight.searchTextCount - resultLeft.searchTextCount;
+                } else if (resultLeft.hitCount !== resultRight.hitCount) {
+                  return resultRight.hitCount - resultLeft.hitCount;
+                } else {
+                  return resultRight.id - resultLeft.id;
+                }
+              });
+              var searchResultList = '<ul class=\"search-result-list\">';
+              resultItems.forEach(function (result) {
+                searchResultList += result.item;
+              })
+              searchResultList += "</ul>";
+              resultContent.innerHTML = searchResultList;
+            }
+          }
+
+          if ('auto' === 'auto') {
+            input.addEventListener('input', inputEventFunction);
+          } else {
+            $('.search-icon').click(inputEventFunction);
+            input.addEventListener('keypress', function (event) {
+              if (event.keyCode === 13) {
+                inputEventFunction();
+              }
+            });
+          }
+
+          // remove loading animation
+          $(".local-search-pop-overlay").remove();
+          $('body').css('overflow', '');
+
+          proceedsearch();
+        }
+      });
+    }
+
+    // handle and trigger popup window;
+    $('.popup-trigger').click(function(e) {
+      e.stopPropagation();
+      if (isfetched === false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+    });
+
+    $('.popup-btn-close').click(onPopupClose);
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+    $(document).on('keyup', function (event) {
+      var shouldDismissSearchPopup = event.which === 27 &&
+        $('.search-popup').is(':visible');
+      if (shouldDismissSearchPopup) {
+        onPopupClose();
+      }
+    });
+  </script>
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+<script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"pluginRootPath":"live2dw/","pluginJsPath":"lib/","pluginModelPath":"assets/","tagMode":false,"model":{"jsonPath":"/live2dw/assets/miku.model.json"},"display":{"position":"right","width":150,"height":300},"mobile":{"show":false},"log":false});</script></body>
+</html>
+
+
+
+<!-- 页面点击小红心 -->
+<script type="text/javascript" src="/js/src/clicklove.js"></script>

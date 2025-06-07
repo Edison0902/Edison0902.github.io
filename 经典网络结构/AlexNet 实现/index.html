@@ -1,0 +1,1442 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next gemini use-motion" lang="zh-Hans">
+<head><meta name="generator" content="Hexo 3.9.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<meta name="theme-color" content="#222">
+
+
+
+  
+  
+    
+    
+  <script src="/lib/pace/pace.min.js?v=1.0.2"></script>
+  <link href="/lib/pace/pace-theme-flash.min.css?v=1.0.2" rel="stylesheet">
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css">
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css">
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="标签1,标签2,">
+
+
+
+
+
+  <link rel="alternate" href="/atom.xml" title="陈家豪的个人博客" type="application/atom+xml">
+
+
+
+
+
+
+<meta name="description" content="前言 本文使用 torch 框架实现了 AlexNet仅供学习使用，无任何商业用途。如有错误的地方，欢迎读者给予批评。    作者：Alex（Hiton的学生） 时间：2012年 网络输入大小 原论文：2242243 caffee/tensorflow：2272273（常用）   网络结构 5个conv，3个pool，3个fc   成就 2012年ILSVRC第一名，Top-5错误率15.3%，">
+<meta name="keywords" content="标签1,标签2">
+<meta property="og:type" content="article">
+<meta property="og:title" content="AlexNet 实现">
+<meta property="og:url" content="https://github.com/Edison0902/经典网络结构/AlexNet 实现/index.html">
+<meta property="og:site_name" content="陈家豪的个人博客">
+<meta property="og:description" content="前言 本文使用 torch 框架实现了 AlexNet仅供学习使用，无任何商业用途。如有错误的地方，欢迎读者给予批评。    作者：Alex（Hiton的学生） 时间：2012年 网络输入大小 原论文：2242243 caffee/tensorflow：2272273（常用）   网络结构 5个conv，3个pool，3个fc   成就 2012年ILSVRC第一名，Top-5错误率15.3%，">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2019/png/220248/1551180971940-7c278242-157e-4ab5-9dbd-b091440373f6.png#align=left&display=inline&height=465&originHeight=743&originWidth=1164&size=0&status=done&width=729">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2019/png/220248/1551181122652-b515efe7-51f6-42a5-8559-92cd6ffb0c56.png#align=left&display=inline&height=533&originHeight=533&originWidth=550&size=0&status=done&width=550">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2019/png/220248/1551181201489-b9844ace-cfbc-42b4-8aa3-635fedce6185.png#align=left&display=inline&height=121&originHeight=121&originWidth=312&size=0&status=done&width=312">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2019/png/220248/1551181200899-78498fe9-73b2-438e-b040-8e48ee68adcf.png#align=left&display=inline&height=205&originHeight=205&originWidth=421&size=0&status=done&width=421">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2019/png/220248/1551181200742-2bb31cde-5715-4160-a40e-0346fc246f7e.png#align=left&display=inline&height=216&originHeight=216&originWidth=577&size=0&status=done&width=577">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2019/png/220248/1551181202752-29bdbcd2-0e1e-492a-9203-a42178c07814.png#align=left&display=inline&height=75&originHeight=75&originWidth=297&size=0&status=done&width=297">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2019/png/220248/1551166663297-0ed678dd-066c-4e50-88a8-d09481ffae36.png#align=left&display=inline&height=327&name=image.png&originHeight=360&originWidth=887&size=51470&status=done&width=806">
+<meta property="og:updated_time" content="2019-06-18T11:44:29.025Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="AlexNet 实现">
+<meta name="twitter:description" content="前言 本文使用 torch 框架实现了 AlexNet仅供学习使用，无任何商业用途。如有错误的地方，欢迎读者给予批评。    作者：Alex（Hiton的学生） 时间：2012年 网络输入大小 原论文：2242243 caffee/tensorflow：2272273（常用）   网络结构 5个conv，3个pool，3个fc   成就 2012年ILSVRC第一名，Top-5错误率15.3%，">
+<meta name="twitter:image" content="https://cdn.nlark.com/yuque/0/2019/png/220248/1551180971940-7c278242-157e-4ab5-9dbd-b091440373f6.png#align=left&display=inline&height=465&originHeight=743&originWidth=1164&size=0&status=done&width=729">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Gemini',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":true,"scrollpercent":true,"onmobile":true},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="https://github.com/Edison0902/经典网络结构/AlexNet 实现/">
+
+
+
+
+
+  <title>AlexNet 实现 | 陈家豪的个人博客</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+    
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">陈家豪的个人博客</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">记录技术 & 生活</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br>
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br>
+            
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br>
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br>
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br>
+            
+            归档
+          </a>
+        </li>
+      
+
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br>
+            
+            搜索
+          </a>
+        </li>
+      
+    </ul>
+  
+
+  
+    <div class="site-search">
+      
+  <div class="popup search-popup local-search-popup">
+  <div class="local-search-header clearfix">
+    <span class="search-icon">
+      <i class="fa fa-search"></i>
+    </span>
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+    <div class="local-search-input-wrapper">
+      <input autocomplete="off" placeholder="搜索..." spellcheck="false" type="text" id="local-search-input">
+    </div>
+  </div>
+  <div id="local-search-result"></div>
+</div>
+
+
+
+    </div>
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://github.com/Edison0902/经典网络结构/AlexNet 实现/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Jiahao Chen">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/cjh_head_yuque.png">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="陈家豪的个人博客">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">AlexNet 实现</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-08-18T15:41:18+08:00">
+                2017-08-18
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/经典网络结构/" itemprop="url" rel="index">
+                    <span itemprop="name">经典网络结构</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+            <div class="post-wordcount">
+              
+                
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-file-word-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">字数统计&#58;</span>
+                
+                <span title="字数统计">
+                  3.2k
+                </span>
+              
+
+              
+                <span class="post-meta-divider">|</span>
+              
+
+              
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-clock-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">阅读时长 &asymp;</span>
+                
+                <span title="阅读时长">
+                  13
+                </span>
+              
+            </div>
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p><a name="df368884"></a></p>
+<h1 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h1><blockquote>
+<p>本文使用 torch 框架实现了 AlexNet<br>仅供学习使用，无任何商业用途。如有错误的地方，欢迎读者给予批评。</p>
+</blockquote>
+<blockquote>
+<ul>
+<li>作者：Alex（Hiton的学生）</li>
+<li>时间：2012年</li>
+<li>网络输入大小<ul>
+<li>原论文：224<em>224</em>3</li>
+<li>caffee/tensorflow：227<em>227</em>3（常用）</li>
+</ul>
+</li>
+<li>网络结构<ul>
+<li>5个conv，3个pool，3个fc</li>
+</ul>
+</li>
+<li>成就<ul>
+<li>2012年ILSVRC第一名，Top-5错误率15.3%，碾压第二名（SVM）的性能</li>
+<li>2012年首次在CNN中应用了ReLu、Dropout层，使得CNN成为在图像分类上的核心算法模型</li>
+</ul>
+</li>
+</ul>
+</blockquote>
+<blockquote>
+<p>AlexNet取得效果好几个原因：</p>
+<ol>
+<li>使用ReLU作为激活函数</li>
+<li>局部正则化</li>
+<li>Dropout</li>
+<li>Data Augmentation(数据增强)</li>
+</ol>
+</blockquote>
+<blockquote>
+<p>AlexNet 的形状</p>
+</blockquote>
+<p><img src="https://cdn.nlark.com/yuque/0/2019/png/220248/1551180971940-7c278242-157e-4ab5-9dbd-b091440373f6.png#align=left&amp;display=inline&amp;height=465&amp;originHeight=743&amp;originWidth=1164&amp;size=0&amp;status=done&amp;width=729" alt><br></p>
+<p><a name="c74a56c7"></a></p>
+<h1 id="网络结构参数"><a href="#网络结构参数" class="headerlink" title="网络结构参数"></a>网络结构参数</h1><ul>
+<li>综述<ul>
+<li>卷积层：5层</li>
+<li>全连接层：3层</li>
+<li>深度：8层</li>
+<li>参数个数：60.3M</li>
+<li>神经元个数：650k</li>
+<li>分类数目：1000类</li>
+<li>注：由于当时的显卡容量问题，AlexNet 的60M个参数无法全部放在一张显卡上操作，所以采用了两张显卡分开操作的形式，其中在C3，R1，R2，R3层上出现交互，所谓的交互就是通道的合并，是一种串接操作。</li>
+</ul>
+</li>
+<li>计算公式</li>
+<li><p><img src="https://cdn.nlark.com/yuque/0/2019/png/220248/1551181122652-b515efe7-51f6-42a5-8559-92cd6ffb0c56.png#align=left&amp;display=inline&amp;height=533&amp;originHeight=533&amp;originWidth=550&amp;size=0&amp;status=done&amp;width=550" alt></p>
+<ul>
+<li>卷积模型：上图中左边的一幅输入图的三个通道，中间是卷积层，尺寸为3x3x3x2（长x宽x输入维度x输出通道），这里就是三维卷积，得到的特征图还是一个通道，有两个三维卷积得到两个featuremap。</li>
+<li>全连接模型：类似上图，卷积层尺寸为(输入图像长x输入图像宽x输入维度x输出通道)；注意：卷积核大小和输入图像大小一致</li>
+<li>CNN网络中一般卷积层学习参数量占比小，计算量占比大，而全连接中学习参数量占比大，计算量占比小。</li>
+<li>1.输出size<ul>
+<li>假定输入维度是n<em>n，卷积核维度k</em>k，stride是s<ul>
+<li>当padding = ‘VALID’时(不填充，舍弃)，N = (n-k)/s+1 (向上取整) pad_width = 0（边缘不填充）</li>
+<li>当padding = ‘SAME’时(自动填充)，N = n/k (向上取整) ， pad_width = (dim_out - 1) * s + k -n ， pad_left = pad_width / 2 ， pad_right = pad_width - pad_left</li>
+<li>pytorch最新计算方法： N = (W − K + 2P )/S+1 (W:输入维度 K:卷积核大小kernel_size P:padding S:stride)</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>2.学习参数个数<ul>
+<li>param = h <em> w </em> c_in * c_out + c_out （卷积核的宽，高，输入通道数，输出通道数，bias偏移个数）</li>
+</ul>
+</li>
+<li>3.连接个数：每个的学习参数与输出图像每个像素之间的连接数<ul>
+<li>LinkNum = ( h <em> w </em> c_in * c_out + c_out ) x 输出图像长 x 输出图像宽 （卷积核的宽 x 卷积核的高 x 输入通道数 x 输出通道数 + bias偏移个数) x 输出图像长 x 输出图像宽<br><a name="0ba75d5d"></a><h1 id="技术点"><a href="#技术点" class="headerlink" title="技术点"></a>技术点</h1></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p>概述</p>
+<ul>
+<li>使用Relu<ul>
+<li>AlexNet使用ReLU代替了Sigmoid作为CNN的激活函数，效果在深度的网络上超过了sigmoid，同时解决sigmoid在训练较深的网络中出现的梯度消失（梯度弥散）的问题</li>
+<li>基于ReLU的深度卷积网络比基于tanh和sigmoid的网络训练快数倍</li>
+</ul>
+</li>
+<li>多个GPU 训练<ul>
+<li>由于硬件资源有限，训练AlexNet时卷积操作不能全部放在同一个GPU中处理，因此作者把feature maps分给两个GPU分别进行处理，最后把两个GPU的结果在C3和R1层进行融合</li>
+<li>group conv可以降低参数量，提高计算速度</li>
+</ul>
+</li>
+<li>重叠的pool池化<ul>
+<li>（之前主要用平均池化）避免平均池化模糊效果</li>
+<li>步长比池化的核的尺寸小，这样池化层的结果之间有重叠，提升了特征的丰富性</li>
+<li>论文中提到，使用这种池化可以一定程度上减少过拟合现象</li>
+</ul>
+</li>
+<li>Dropout<ul>
+<li>AlexNet在最后几个全连接层使用了dropout，避免过拟合</li>
+</ul>
+</li>
+<li>数据增强<ul>
+<li>随机中256<em>_256的原始图像中截取224</em>_224大小的区域（以及水平翻转镜像），避免过拟合</li>
+</ul>
+</li>
+<li>局部响应归一化LRN<ul>
+<li>增强模型的泛化能力：对局部神经元创建了竞争的机制，使得其中响应大的值变得更大，并抑制反馈较小的。</li>
+<li>论文Very Deep Convolution Networks for Large-Scale image Recognition(VGG网络的文章)中证明。LRN对CNN没有什么作用，反而增加了计算复杂度，因此，这一技术也不再使用了</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<p><a name="74fc3db9"></a></p>
+<h1 id="详细技术内容"><a href="#详细技术内容" class="headerlink" title="详细技术内容"></a>详细技术内容</h1><ul>
+<li>减少过度拟合方法<ul>
+<li>数据增强：通常会从现有数据中生成额外的数据。<ul>
+<li>通过镜像实现数据增强。如果训练集中有一只猫的图像，那么它的镜像也是一只猫。训练数据集可变为原来的两倍。</li>
+<li><img src="https://cdn.nlark.com/yuque/0/2019/png/220248/1551181201489-b9844ace-cfbc-42b4-8aa3-635fedce6185.png#align=left&amp;display=inline&amp;height=121&amp;originHeight=121&amp;originWidth=312&amp;size=0&amp;status=done&amp;width=312" alt></li>
+<li>通过随机裁剪实现数据增强，即原始数据的移位版本。AlexNet的作者从大小为256×256的图像中随机裁剪出大小为227×227的图像，作为网络的输入。使用这种方法将数据的大小变为原来的2048倍。如下图，这四个随机裁剪的图像相似但不相同，对神经网络来说，都是一只猫。<br><img src="https://cdn.nlark.com/yuque/0/2019/png/220248/1551181200899-78498fe9-73b2-438e-b040-8e48ee68adcf.png#align=left&amp;display=inline&amp;height=205&amp;originHeight=205&amp;originWidth=421&amp;size=0&amp;status=done&amp;width=421" alt><br></li>
+<li>改变原图的RGB的强弱来增加样本总数。及时图片颜色变化或亮度变化，不会影响预测效果。<br></li>
+</ul>
+</li>
+</ul>
+</li>
+<li>Dropout<ul>
+<li>在对6000多万个参数的训练中，作者采用了Dropout的技术来减少过拟合。在丢弃过程中，一个神经元被从网络中丢弃的概率为0.5，当一个神经元被丢弃时，并不影响正向传播和反向传播 ,因此，所学习的权重参数更可靠。Dropout层使迭代次数减少，如果没有使用丢弃技术，AlexNet的过拟合会更加严重。</li>
+</ul>
+</li>
+<li>重叠最大池化<ul>
+<li>通常使用最大池化层来对张量的宽度和高度进行采样，且保持深度不变。重叠的最大池层与最大池层类似，除了重叠最大池层的相邻窗口是相互重叠的。作者使用的池化窗口是大小为3×3，相邻窗口步幅为2的窗口。在输出尺寸相同的情况下，与使用大小为2×2，相邻窗口步幅为2的非重叠池化窗口相比，重叠池化窗口能够分别将第一名的错误率降低0.4%，第5名的错误率降低0.3%。</li>
+</ul>
+</li>
+<li>ReLU非线性<ul>
+<li>AlexNet的另一个重要特性就是使用了ReLU激活函数。优点：1、与使用tanh相比ReLUs能以6倍快的速度到达25%的训练错误率（CIFAR-10数据集）。2、解决了sigmoid在网络层次较深时的梯度弥散问题。</li>
+<li>ReLU函数： f(x)= max(0,x)</li>
+<li>注：梯度弥散：在梯度下降过程中，随着算法反向反馈到前面几层，梯度会越来越小，最终会在还没有找到最优解时就收敛。并且深度学习遭受不稳定梯度，不同层学习在不同的速度上，后面几层变化大，前面几层变化小（甚至基本没有变化）。<br><img src="https://cdn.nlark.com/yuque/0/2019/png/220248/1551181200742-2bb31cde-5715-4160-a40e-0346fc246f7e.png#align=left&amp;display=inline&amp;height=216&amp;originHeight=216&amp;originWidth=577&amp;size=0&amp;status=done&amp;width=577" alt><br></li>
+<li>激活函数介绍、梯度消失及梯度弥散可参考链接： <a href="http://www.360doc.com/content/17/1102/21/1489589_700400500.shtml" target="_blank" rel="noopener">http://www.360doc.com/content/17/1102/21/1489589_700400500.shtml</a><br></li>
+</ul>
+</li>
+<li>局部响应归一化（LRN）<ul>
+<li>对局部神经元创建了竞争的机制，使得其中响应较大的值变得更大，并抑制反馈较小的（强者更强，弱者更弱）。</li>
+<li>需要学习两个参数k,β<br><img src="https://cdn.nlark.com/yuque/0/2019/png/220248/1551181202752-29bdbcd2-0e1e-492a-9203-a42178c07814.png#align=left&amp;display=inline&amp;height=75&amp;originHeight=75&amp;originWidth=297&amp;size=0&amp;status=done&amp;width=297" alt><br></li>
+<li>但人们对LRN层的评价都不高，下面是一个参考链接： <a href="https://blog.csdn.net/searobbers_duck/article/details/51645941" target="_blank" rel="noopener">https://blog.csdn.net/searobbers_duck/article/details/51645941</a><br></li>
+</ul>
+</li>
+</ul>
+<p><a name="162dfe76"></a></p>
+<h1 id="代码详解"><a href="#代码详解" class="headerlink" title="代码详解"></a>代码详解</h1><p><a name="8516348f"></a></p>
+<h2 id="头文件"><a href="#头文件" class="headerlink" title="头文件"></a>头文件</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> torch									</span><br><span class="line"><span class="keyword">import</span> torch.nn <span class="keyword">as</span> nn												<span class="comment"># </span></span><br><span class="line"><span class="keyword">from</span> torch.autograd <span class="keyword">import</span> Variable					<span class="comment"># 自动求导</span></span><br><span class="line"><span class="keyword">from</span> torch.utils.data <span class="keyword">import</span> DataLoader			<span class="comment"># 加载数据集的工具</span></span><br><span class="line"><span class="keyword">import</span> torchvision													<span class="comment"># 处理图像的包</span></span><br><span class="line"><span class="keyword">import</span> torch.nn.functional <span class="keyword">as</span> F							<span class="comment"># 激活函数</span></span><br></pre></td></tr></table></figure>
+<p><a name="51606366"></a></p>
+<h2 id="网络定义"><a href="#网络定义" class="headerlink" title="网络定义"></a>网络定义</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">AlexNet</span><span class="params">(nn.Module)</span>:</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__init__</span><span class="params">(self, in_channel, n_class)</span>:</span></span><br><span class="line">        super(AlexNet, self).__init__()</span><br><span class="line"></span><br><span class="line">        self.conv1 = nn.Sequential(</span><br><span class="line">            nn.Conv2d(in_channel, <span class="number">96</span>, kernel_size=<span class="number">11</span>, stride=<span class="number">4</span>),		<span class="comment"># 96个[11*11*3]卷积核</span></span><br><span class="line">            nn.ReLU(inplace=<span class="literal">True</span>),</span><br><span class="line">            nn.MaxPool2d(kernel_size=<span class="number">3</span>, stride=<span class="number">2</span>),</span><br><span class="line">        )</span><br><span class="line"></span><br><span class="line">        self.conv2 = nn.Sequential(</span><br><span class="line">          	<span class="comment"># p = ((W_output - 1) * s + k - W_input) / 2</span></span><br><span class="line">            nn.Conv2d(<span class="number">96</span>, <span class="number">256</span>, kernel_size=<span class="number">5</span>, padding=<span class="number">2</span>),  					<span class="comment"># 256个[5*5*48]卷积核         </span></span><br><span class="line">            nn.ReLU(inplace=<span class="literal">True</span>),</span><br><span class="line">            nn.MaxPool2d(kernel_size=<span class="number">3</span>, stride=<span class="number">2</span>),</span><br><span class="line">        )</span><br><span class="line"></span><br><span class="line">        self.conv3 = nn.Sequential(</span><br><span class="line">            nn.Conv2d(<span class="number">256</span>, <span class="number">384</span>, kernel_size=<span class="number">3</span>, padding=<span class="number">1</span>),					<span class="comment"># 384个[3*3*]卷积核 </span></span><br><span class="line">            nn.ReLU(inplace=<span class="literal">True</span>),</span><br><span class="line"></span><br><span class="line">            nn.Conv2d(<span class="number">384</span>, <span class="number">384</span>, kernel_size=<span class="number">3</span>, padding=<span class="number">1</span>),					<span class="comment"># 384个[3*3*192]卷积核</span></span><br><span class="line">            nn.ReLU(inplace=<span class="literal">True</span>),</span><br><span class="line"></span><br><span class="line">            nn.Conv2d(<span class="number">384</span>, <span class="number">256</span>, kernel_size=<span class="number">3</span>, padding=<span class="number">1</span>),					<span class="comment"># 256个[3*3*192]卷积核</span></span><br><span class="line">            nn.ReLU(inplace=<span class="literal">True</span>),</span><br><span class="line"></span><br><span class="line">            nn.MaxPool2d(kernel_size=<span class="number">3</span>, stride=<span class="number">2</span>),</span><br><span class="line">        )</span><br><span class="line"></span><br><span class="line">        self.fc4 = nn.Sequential(</span><br><span class="line">            nn.Linear(<span class="number">1</span>*<span class="number">1</span>*<span class="number">256</span>, <span class="number">4096</span>),</span><br><span class="line">            nn.ReLU(inplace=<span class="literal">True</span>),</span><br><span class="line">            nn.Dropout(<span class="number">0.5</span>),																				<span class="comment"># 防止过拟合，丢掉 p=0.5 的</span></span><br><span class="line"></span><br><span class="line">            nn.Linear(<span class="number">4096</span>, <span class="number">4096</span>),</span><br><span class="line">            nn.ReLU(inplace=<span class="literal">True</span>),</span><br><span class="line">            nn.Dropout(<span class="number">0.5</span>),																				<span class="comment"># 防止过拟合，丢掉 p=0.5 的</span></span><br><span class="line">          </span><br><span class="line">            nn.Linear(<span class="number">4096</span>, n_class)</span><br><span class="line">        )</span><br><span class="line"></span><br><span class="line">    </span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">forward</span><span class="params">(self, x)</span>:</span></span><br><span class="line">        con1_x = self.conv1(x)</span><br><span class="line">        con2_x = self.conv2(con1_x)</span><br><span class="line">        con3_x = self.conv3(con2_x)</span><br><span class="line"></span><br><span class="line">        <span class="comment"># 注意：卷积层到全连接层需要经过变换</span></span><br><span class="line">        lin_x = con3_x.view(con3_x.size(<span class="number">0</span>), <span class="number">-1</span>)</span><br><span class="line">        <span class="comment"># 用 reshape 也可以？注意和 reshape 的区别！</span></span><br><span class="line"></span><br><span class="line">        out = self.fc4(lin_x)</span><br><span class="line">        <span class="keyword">return</span> out</span><br></pre></td></tr></table></figure>
+<p><a name="d9108163"></a></p>
+<h2 id="输出-AlexNet-的形状"><a href="#输出-AlexNet-的形状" class="headerlink" title="输出 AlexNet 的形状"></a>输出 AlexNet 的形状</h2><table>
+<thead>
+<tr>
+<th>AlexNet(<br>  (conv1): Sequential(<br>    (0): Conv2d(3, 96, kernel_size=(11, 11), stride=(4, 4))<br>    (1): ReLU(inplace)<br>    (2): MaxPool2d(kernel_size=3, stride=2, padding=0, dilation=1, ceil_mode=False)<br>  )<br>  (conv2): Sequential(<br>    (0): Conv2d(96, 256, kernel_size=(5, 5), stride=(1, 1), padding=(2, 2))<br>    (1): ReLU(inplace)<br>    (2): MaxPool2d(kernel_size=3, stride=2, padding=0, dilation=1, ceil_mode=False)<br>  )<br>  (conv3): Sequential(<br>    (0): Conv2d(256, 384, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1))<br>    (1): ReLU(inplace)<br>    (2): Conv2d(384, 384, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1))<br>    (3): ReLU(inplace)<br>    (4): Conv2d(384, 256, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1))<br>    (5): ReLU(inplace)<br>    (6): MaxPool2d(kernel_size=3, stride=2, padding=0, dilation=1, ceil_mode=False)<br>  )<br>  (fc4): Sequential(<br>    (0): Linear(in_features=256, out_features=4096, bias=True)<br>    (1): ReLU(inplace)<br>    (2): Dropout(p=0.5)<br>    (3): Linear(in_features=4096, out_features =4096, bias=True)<br>    (4): ReLU(inplace)<br>    (5): Dropout(p=0.5)<br>    (6): Linear(in_features=4096, out_features=1000, bias=True)<br>  )<br>)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td></td>
+</tr>
+</tbody>
+</table>
+<p><a name="07fb9421"></a></p>
+<h2 id="图像预处理"><a href="#图像预处理" class="headerlink" title="图像预处理"></a>图像预处理</h2><blockquote>
+<p>AlexNet 使用的是 227<em>227 的图片<br>而本文使用的 CIFAR-10 数据集中已有 32</em>32 的图片</p>
+</blockquote>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">transform = torchvision.transforms.Compose([</span><br><span class="line">    torchvision.transforms.Resize(<span class="number">96</span>),</span><br><span class="line">    torchvision.transforms.ToTensor(),                                      <span class="comment"># 将数据转化成 tensor</span></span><br><span class="line">    torchvision.transforms.Normalize((<span class="number">0.5</span>, <span class="number">0.5</span>, <span class="number">0.5</span>), (<span class="number">0.5</span>, <span class="number">0.5</span>, <span class="number">0.5</span>))      <span class="comment"># 归一化。参数为数据的平均差、标准差</span></span><br><span class="line">])</span><br></pre></td></tr></table></figure>
+<p>定义超参数</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">use_gpu = torch.cuda.is_available()</span><br><span class="line">EPOCH = <span class="number">3</span></span><br><span class="line">learning_rate = <span class="number">1e-3</span></span><br><span class="line">BATCH_SIZE = <span class="number">256</span></span><br><span class="line">DOWNLOAD = <span class="literal">True</span></span><br></pre></td></tr></table></figure>
+<p><a name="a2540719"></a></p>
+<h2 id="加载数据集"><a href="#加载数据集" class="headerlink" title="加载数据集"></a>加载数据集</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># Download Dataset</span></span><br><span class="line">train_dataset = torchvision.datasets.CIFAR10(root=<span class="string">'./data/'</span>, train=<span class="literal">True</span>, transform=transform, download=DOWNLOAD)</span><br><span class="line">test_dataset = torchvision.datasets.CIFAR10(root=<span class="string">'./data/'</span>, train=<span class="literal">False</span>, transform=transform)</span><br><span class="line"></span><br><span class="line"><span class="comment"># Data Loader</span></span><br><span class="line"><span class="comment"># DataLoader对象，可以对数据洗牌、批处理、多处理来加载数据</span></span><br><span class="line">train_loader = DataLoader(dataset=train_dataset, batch_size=BATCH_SIZE, shuffle=<span class="literal">True</span>)</span><br><span class="line">test_loader = DataLoader(dataset=test_dataset, batch_size=BATCH_SIZE, shuffle=<span class="literal">False</span>)</span><br></pre></td></tr></table></figure>
+<p><a name="2ff32878"></a></p>
+<h2 id="定义损失函数和优化函数"><a href="#定义损失函数和优化函数" class="headerlink" title="定义损失函数和优化函数"></a>定义损失函数和优化函数</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 定义损失函数和优化函数</span></span><br><span class="line"><span class="comment"># CrossEntropyLoss 包括了 cross entropy 和 softmax activation</span></span><br><span class="line">lose_fn = nn.CrossEntropyLoss()</span><br><span class="line"><span class="comment"># nn.parameters() 可以追踪所有 CNN 中需要训练的模型参数</span></span><br><span class="line">optimizer = torch.optim.Adam(alexnet.parameters(), lr=learning_rate)</span><br></pre></td></tr></table></figure>
+<p><a name="4b35008c"></a></p>
+<h2 id="使用-GPU"><a href="#使用-GPU" class="headerlink" title="使用 GPU"></a>使用 GPU</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 转换成 variable 类型，在torch 0.4.0 版本中，已舍弃此用法</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">to_var</span><span class="params">(x)</span>:</span></span><br><span class="line">    x = Variable(x)</span><br><span class="line">    <span class="keyword">if</span> use_gpu:</span><br><span class="line">        x = x.cuda()</span><br><span class="line">    <span class="keyword">return</span> x</span><br><span class="line">  </span><br><span class="line"><span class="keyword">if</span> use_gpu:</span><br><span class="line">    alexnet = alexnet.cuda()</span><br></pre></td></tr></table></figure>
+<p><a name="ce2acc69"></a></p>
+<h2 id="开始训练"><a href="#开始训练" class="headerlink" title="开始训练"></a>开始训练</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 设置模型为训练模式</span></span><br><span class="line">alexnet.train()</span><br><span class="line"></span><br><span class="line"><span class="keyword">for</span> epoch <span class="keyword">in</span> range(EPOCH):</span><br><span class="line">    total = <span class="number">0</span></span><br><span class="line">    correct = <span class="number">0</span></span><br><span class="line"></span><br><span class="line">    <span class="comment"># 遍历训练数据 (images, labels)</span></span><br><span class="line">    <span class="keyword">for</span> batch_idx, (images, labels) <span class="keyword">in</span> enumerate(train_loader):</span><br><span class="line">        images, labels = to_var(images), to_var(labels)</span><br><span class="line"></span><br><span class="line">        <span class="comment"># 前向传播</span></span><br><span class="line">        optimizer.zero_grad()               <span class="comment"># 清零梯度</span></span><br><span class="line">        outputs = alexnet(images)           <span class="comment"># 会自动调用 model.forward(images) 函数</span></span><br><span class="line"></span><br><span class="line">        <span class="comment"># 计算损失</span></span><br><span class="line">        loss = lose_fn(outputs, labels)</span><br><span class="line">        loss_list.append(loss.item())</span><br><span class="line"></span><br><span class="line">        <span class="comment"># 反向传播</span></span><br><span class="line">        loss.backward()</span><br><span class="line"></span><br><span class="line">        <span class="comment"># 更新梯度</span></span><br><span class="line">        optimizer.step()</span><br><span class="line"></span><br><span class="line">        <span class="keyword">if</span> (batch_idx + <span class="number">1</span>) % <span class="number">100</span> == <span class="number">0</span>:</span><br><span class="line">            print(<span class="string">'Epoch[&#123;&#125;/&#123;&#125;], step[&#123;&#125;,&#123;&#125;], Loss:&#123;:.4f&#125;, Acc:&#123;:.2f&#125;%'</span></span><br><span class="line">                  .format(epoch+<span class="number">1</span>, EPOCH, batch_idx+<span class="number">1</span>, total_step, loss.item(), (correct/total)*<span class="number">100</span>),</span><br><span class="line">                  end=<span class="string">'  -- '</span>)</span><br><span class="line">            print(<span class="string">'[Time: &#123;:&#125;]'</span>.format(time.strftime(<span class="string">'%H:%M:%S'</span>, time.localtime())))</span><br><span class="line"></span><br><span class="line">      </span><br><span class="line">        <span class="comment"># 记录精度</span></span><br><span class="line">        total += labels.size(<span class="number">0</span>)</span><br><span class="line"></span><br><span class="line">        <span class="comment"># torch.max(x, 1) 为按行取最大值</span></span><br><span class="line">        <span class="comment"># output 的每一行的最大值，存放在 _ 中； 索引存放在 predicted 中</span></span><br><span class="line">        <span class="comment"># output 的每一行每一个元素表示的是： 这一类的概率</span></span><br><span class="line">        _, predicted = torch.max(outputs.data, <span class="number">1</span>)</span><br><span class="line"></span><br><span class="line">        <span class="comment"># sum 计算出 predicted 和 label 相同元素的个数，返回一个张量，.item()方法得到他的数值</span></span><br><span class="line">        correct += (predicted == labels).sum().item() <span class="comment"># #############去掉</span></span><br><span class="line">        acc_list.append(correct / total)</span><br><span class="line"></span><br><span class="line">    print(<span class="string">'======================= 【Training Acc: &#123;:&#125;%】====================='</span>.format(<span class="number">100</span> * correct / total), end=<span class="string">''</span>)</span><br><span class="line">    print(<span class="string">'[Time: &#123;:&#125;]'</span>.format(time.strftime(<span class="string">'%H:%M:%S'</span>, time.localtime())))</span><br></pre></td></tr></table></figure>
+<p><a name="3df85acb"></a></p>
+<h2 id="开始测试"><a href="#开始测试" class="headerlink" title="开始测试"></a>开始测试</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 将模型设置成评估模式</span></span><br><span class="line"><span class="comment"># 禁用 dropout 或者 batch normalization 层</span></span><br><span class="line">alexnet.eval()</span><br><span class="line"></span><br><span class="line"><span class="comment"># 禁用 autograd 功能，加速计算</span></span><br><span class="line"><span class="keyword">with</span> torch.no_grad():</span><br><span class="line">    correct = <span class="number">0</span></span><br><span class="line">    total = <span class="number">0</span></span><br><span class="line">    <span class="keyword">for</span> images, labels <span class="keyword">in</span> test_loader:</span><br><span class="line">        images, labels = to_var(images), to_var(labels)</span><br><span class="line">        outputs = alexnet(images)</span><br><span class="line">        _, predicted = torch.max(outputs, <span class="number">1</span>)</span><br><span class="line">        total += labels.size(<span class="number">0</span>)</span><br><span class="line">        temp = (predicted == labels.data).sum()</span><br><span class="line">        correct += temp</span><br><span class="line"></span><br><span class="line">    print(<span class="string">'======================= 【Testing Acc: &#123;:&#125;%】====================='</span>.format(<span class="number">100</span> * correct / total), end=<span class="string">''</span>)</span><br><span class="line">    print(<span class="string">'[Time: &#123;:&#125;]'</span>.format(time.strftime(<span class="string">'%H:%M:%S'</span>, time.localtime())))</span><br></pre></td></tr></table></figure>
+<p><a name="2368cbf8"></a></p>
+<h2 id="保存模型"><a href="#保存模型" class="headerlink" title="保存模型"></a>保存模型</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">torch.save(alexnet.state_dict(), <span class="string">'D:/Workspace/ModelsPath/'</span> + <span class="string">'Alex_net_model.ckpt'</span>)</span><br><span class="line">print(<span class="string">'Model Test and Save Succeed. '</span>)</span><br></pre></td></tr></table></figure>
+<p><a name="b5b1c66a"></a></p>
+<h2 id="结果截图"><a href="#结果截图" class="headerlink" title="结果截图"></a>结果截图</h2><p><img src="https://cdn.nlark.com/yuque/0/2019/png/220248/1551166663297-0ed678dd-066c-4e50-88a8-d09481ffae36.png#align=left&amp;display=inline&amp;height=327&amp;name=image.png&amp;originHeight=360&amp;originWidth=887&amp;size=51470&amp;status=done&amp;width=806" alt="image.png"></p>
+<p><a name="7051dc52"></a></p>
+<h1 id="笔记"><a href="#笔记" class="headerlink" title="笔记"></a>笔记</h1><table>
+<thead>
+<tr>
+<th style="text-align:center">nn.Dropout(0.5)</th>
+<th style="text-align:center">按照一定概率丢掉一些连接</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">优化函数</td>
+<td style="text-align:center">SGD, Adam, Momentum, AdaGrad, RMSProp</td>
+</tr>
+<tr>
+<td style="text-align:center">损失函数</td>
+<td style="text-align:center">CrossEntropy(包括了softmax activation), MSE</td>
+</tr>
+<tr>
+<td style="text-align:center">nn.Sequential()</td>
+<td style="text-align:center">将多个有序的模块组合在一起</td>
+</tr>
+<tr>
+<td style="text-align:center">nn.Conv2d()</td>
+<td style="text-align:center">二维卷积，参数有：in_channels, out_channels, kernel_size, stride, padding(p = ((W_output - 1) * s + k - W_input) / 2)</td>
+</tr>
+<tr>
+<td style="text-align:center">nn.MaxPool2d()</td>
+<td style="text-align:center">最大池化函数，参数有：kernel_size, stride, padding</td>
+</tr>
+<tr>
+<td style="text-align:center">torchvision.transforms<br>.Compose()</td>
+<td style="text-align:center">将某种tansform有序的组合到list中</td>
+</tr>
+</tbody>
+</table>
+<p><a name="197be963"></a></p>
+<h1 id="待完善"><a href="#待完善" class="headerlink" title="待完善"></a>待完善</h1><p>1）torch 0.3.0 和 0.4.0 的对比<br>2）参数初始化的作用 <br>3）transforms中，图片预处理先调尺寸<br>4）torch.view() 和 reshape() 的区别和用法</p>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+    <div>
+    
+    <div>  <div style="text-align:center;color: #ccc;font-size:14px;">-------------本文结束<i class="fa fa-paw"></i>感谢您的阅读-------------</div>  </div>
+
+
+    
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/标签1/" rel="tag"><i class="fa fa-tag"></i> 标签1</a>
+          
+            <a href="/tags/标签2/" rel="tag"><i class="fa fa-tag"></i> 标签2</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/目标检测/Faster RCNN/" rel="next" title="Faster RCNN">
+                <i class="fa fa-chevron-left"></i> Faster RCNN
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/目标检测/Fast RCNN/" rel="prev" title="Fast RCNN">
+                Fast RCNN <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+      <div id="sidebar-dimmer"></div>
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+      
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image" src="/images/cjh_head_yuque.png" alt="Jiahao Chen">
+            
+              <p class="site-author-name" itemprop="name">Jiahao Chen</p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+          
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">20</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">9</span>
+                  <span class="site-state-item-name">分类</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">10</span>
+                  <span class="site-state-item-name">标签</span>
+                </a>
+              </div>
+            
+
+          </nav>
+          <iframe frameborder="no" border="0" marginwidth="0" marginheight="0" width="330" height="86" src="//music.163.com/outchain/player?type=2&id=586299&auto=1&height=66"></iframe>
+          
+            <div class="feed-link motion-element">
+              <a href="/atom.xml" rel="alternate">
+                <i class="fa fa-rss"></i>
+                RSS
+              </a>
+            </div>
+          
+
+          
+            <div class="links-of-author motion-element">
+                
+                  <span class="links-of-author-item">
+                    <a href="https://github.com/Edison0902" target="_blank" title="GitHub">
+                      
+                        <i class="fa fa-fw fa-github"></i>GitHub</a>
+                  </span>
+                
+                  <span class="links-of-author-item">
+                    <a href="mailto:edison.18whu@gmail.com" target="_blank" title="E-Mail">
+                      
+                        <i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+                  </span>
+                
+                  <span class="links-of-author-item">
+                    <a href="https://weibo.com/u/6176093611" target="_blank" title="Weibo">
+                      
+                        <i class="fa fa-fw fa-globe"></i>Weibo</a>
+                  </span>
+                
+                  <span class="links-of-author-item">
+                    <a href="https://plus.google.com/yourname" target="_blank" title="Google">
+                      
+                        <i class="fa fa-fw fa-google"></i>Google</a>
+                  </span>
+                
+                  <span class="links-of-author-item">
+                    <a href="https://twitter.com/yourname" target="_blank" title="Twitter">
+                      
+                        <i class="fa fa-fw fa-twitter"></i>Twitter</a>
+                  </span>
+                
+                  <span class="links-of-author-item">
+                    <a href="https://www.facebook.com/yourname" target="_blank" title="FB Page">
+                      
+                        <i class="fa fa-fw fa-facebook"></i>FB Page</a>
+                  </span>
+                
+            </div>
+          
+
+          
+          
+
+          
+          
+            <div class="links-of-blogroll motion-element links-of-blogroll-inline">
+              <div class="links-of-blogroll-title">
+                <i class="fa  fa-fw fa-link"></i>
+                Links
+              </div>
+              <ul class="links-of-blogroll-list">
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="http://baidu.com/" title="百度" target="_blank">百度</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="http://google.com/" title="谷歌" target="_blank">谷歌</a>
+                  </li>
+                
+              </ul>
+            </div>
+          
+
+          
+
+        </div>
+      </section>
+      
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#前言"><span class="nav-text">前言</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#网络结构参数"><span class="nav-text">网络结构参数</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#技术点"><span class="nav-text">技术点</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#详细技术内容"><span class="nav-text">详细技术内容</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#代码详解"><span class="nav-text">代码详解</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#头文件"><span class="nav-text">头文件</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#网络定义"><span class="nav-text">网络定义</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#输出-AlexNet-的形状"><span class="nav-text">输出 AlexNet 的形状</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#图像预处理"><span class="nav-text">图像预处理</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#加载数据集"><span class="nav-text">加载数据集</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#定义损失函数和优化函数"><span class="nav-text">定义损失函数和优化函数</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#使用-GPU"><span class="nav-text">使用 GPU</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#开始训练"><span class="nav-text">开始训练</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#开始测试"><span class="nav-text">开始测试</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#保存模型"><span class="nav-text">保存模型</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#结果截图"><span class="nav-text">结果截图</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#笔记"><span class="nav-text">笔记</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#待完善"><span class="nav-text">待完善</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+      
+        <div class="back-to-top">
+          <i class="fa fa-arrow-up"></i>
+          
+            <span id="scrollpercent"><span>0</span>%</span>
+          
+        </div>
+      
+
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; 2018 &mdash; <span itemprop="copyrightYear">2019</span>
+  <span class="with-love">
+    <i class="fa fa-[object Object]"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">陈家豪</span>
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+
+
+
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.4"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  <script type="text/javascript">
+    // Popup Window;
+    var isfetched = false;
+    var isXml = true;
+    // Search DB path;
+    var search_path = "search.xml";
+    if (search_path.length === 0) {
+      search_path = "search.xml";
+    } else if (/json$/i.test(search_path)) {
+      isXml = false;
+    }
+    var path = "/" + search_path;
+    // monitor main search box;
+
+    var onPopupClose = function (e) {
+      $('.popup').hide();
+      $('#local-search-input').val('');
+      $('.search-result-list').remove();
+      $('#no-result').remove();
+      $(".local-search-pop-overlay").remove();
+      $('body').css('overflow', '');
+    }
+
+    function proceedsearch() {
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay"></div>')
+        .css('overflow', 'hidden');
+      $('.search-popup-overlay').click(onPopupClose);
+      $('.popup').toggle();
+      var $localSearchInput = $('#local-search-input');
+      $localSearchInput.attr("autocapitalize", "none");
+      $localSearchInput.attr("autocorrect", "off");
+      $localSearchInput.focus();
+    }
+
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+      'use strict';
+
+      // start loading animation
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay">' +
+          '<div id="search-loading-icon">' +
+          '<i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>' +
+          '</div>' +
+          '</div>')
+        .css('overflow', 'hidden');
+      $("#search-loading-icon").css('margin', '20% auto 0 auto').css('text-align', 'center');
+
+      $.ajax({
+        url: path,
+        dataType: isXml ? "xml" : "json",
+        async: true,
+        success: function(res) {
+          // get the contents from search data
+          isfetched = true;
+          $('.popup').detach().appendTo('.header-inner');
+          var datas = isXml ? $("entry", res).map(function() {
+            return {
+              title: $("title", this).text(),
+              content: $("content",this).text(),
+              url: $("url" , this).text()
+            };
+          }).get() : res;
+          var input = document.getElementById(search_id);
+          var resultContent = document.getElementById(content_id);
+          var inputEventFunction = function() {
+            var searchText = input.value.trim().toLowerCase();
+            var keywords = searchText.split(/[\s\-]+/);
+            if (keywords.length > 1) {
+              keywords.push(searchText);
+            }
+            var resultItems = [];
+            if (searchText.length > 0) {
+              // perform local searching
+              datas.forEach(function(data) {
+                var isMatch = false;
+                var hitCount = 0;
+                var searchTextCount = 0;
+                var title = data.title.trim();
+                var titleInLowerCase = title.toLowerCase();
+                var content = data.content.trim().replace(/<[^>]+>/g,"");
+                var contentInLowerCase = content.toLowerCase();
+                var articleUrl = decodeURIComponent(data.url);
+                var indexOfTitle = [];
+                var indexOfContent = [];
+                // only match articles with not empty titles
+                if(title != '') {
+                  keywords.forEach(function(keyword) {
+                    function getIndexByWord(word, text, caseSensitive) {
+                      var wordLen = word.length;
+                      if (wordLen === 0) {
+                        return [];
+                      }
+                      var startPosition = 0, position = [], index = [];
+                      if (!caseSensitive) {
+                        text = text.toLowerCase();
+                        word = word.toLowerCase();
+                      }
+                      while ((position = text.indexOf(word, startPosition)) > -1) {
+                        index.push({position: position, word: word});
+                        startPosition = position + wordLen;
+                      }
+                      return index;
+                    }
+
+                    indexOfTitle = indexOfTitle.concat(getIndexByWord(keyword, titleInLowerCase, false));
+                    indexOfContent = indexOfContent.concat(getIndexByWord(keyword, contentInLowerCase, false));
+                  });
+                  if (indexOfTitle.length > 0 || indexOfContent.length > 0) {
+                    isMatch = true;
+                    hitCount = indexOfTitle.length + indexOfContent.length;
+                  }
+                }
+
+                // show search results
+
+                if (isMatch) {
+                  // sort index by position of keyword
+
+                  [indexOfTitle, indexOfContent].forEach(function (index) {
+                    index.sort(function (itemLeft, itemRight) {
+                      if (itemRight.position !== itemLeft.position) {
+                        return itemRight.position - itemLeft.position;
+                      } else {
+                        return itemLeft.word.length - itemRight.word.length;
+                      }
+                    });
+                  });
+
+                  // merge hits into slices
+
+                  function mergeIntoSlice(text, start, end, index) {
+                    var item = index[index.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    var hits = [];
+                    var searchTextCountInSlice = 0;
+                    while (position + word.length <= end && index.length != 0) {
+                      if (word === searchText) {
+                        searchTextCountInSlice++;
+                      }
+                      hits.push({position: position, length: word.length});
+                      var wordEnd = position + word.length;
+
+                      // move to next position of hit
+
+                      index.pop();
+                      while (index.length != 0) {
+                        item = index[index.length - 1];
+                        position = item.position;
+                        word = item.word;
+                        if (wordEnd > position) {
+                          index.pop();
+                        } else {
+                          break;
+                        }
+                      }
+                    }
+                    searchTextCount += searchTextCountInSlice;
+                    return {
+                      hits: hits,
+                      start: start,
+                      end: end,
+                      searchTextCount: searchTextCountInSlice
+                    };
+                  }
+
+                  var slicesOfTitle = [];
+                  if (indexOfTitle.length != 0) {
+                    slicesOfTitle.push(mergeIntoSlice(title, 0, title.length, indexOfTitle));
+                  }
+
+                  var slicesOfContent = [];
+                  while (indexOfContent.length != 0) {
+                    var item = indexOfContent[indexOfContent.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    // cut out 100 characters
+                    var start = position - 20;
+                    var end = position + 80;
+                    if(start < 0){
+                      start = 0;
+                    }
+                    if (end < position + word.length) {
+                      end = position + word.length;
+                    }
+                    if(end > content.length){
+                      end = content.length;
+                    }
+                    slicesOfContent.push(mergeIntoSlice(content, start, end, indexOfContent));
+                  }
+
+                  // sort slices in content by search text's count and hits' count
+
+                  slicesOfContent.sort(function (sliceLeft, sliceRight) {
+                    if (sliceLeft.searchTextCount !== sliceRight.searchTextCount) {
+                      return sliceRight.searchTextCount - sliceLeft.searchTextCount;
+                    } else if (sliceLeft.hits.length !== sliceRight.hits.length) {
+                      return sliceRight.hits.length - sliceLeft.hits.length;
+                    } else {
+                      return sliceLeft.start - sliceRight.start;
+                    }
+                  });
+
+                  // select top N slices in content
+
+                  var upperBound = parseInt('1');
+                  if (upperBound >= 0) {
+                    slicesOfContent = slicesOfContent.slice(0, upperBound);
+                  }
+
+                  // highlight title and content
+
+                  function highlightKeyword(text, slice) {
+                    var result = '';
+                    var prevEnd = slice.start;
+                    slice.hits.forEach(function (hit) {
+                      result += text.substring(prevEnd, hit.position);
+                      var end = hit.position + hit.length;
+                      result += '<b class="search-keyword">' + text.substring(hit.position, end) + '</b>';
+                      prevEnd = end;
+                    });
+                    result += text.substring(prevEnd, slice.end);
+                    return result;
+                  }
+
+                  var resultItem = '';
+
+                  if (slicesOfTitle.length != 0) {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + highlightKeyword(title, slicesOfTitle[0]) + "</a>";
+                  } else {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + title + "</a>";
+                  }
+
+                  slicesOfContent.forEach(function (slice) {
+                    resultItem += "<a href='" + articleUrl + "'>" +
+                      "<p class=\"search-result\">" + highlightKeyword(content, slice) +
+                      "...</p>" + "</a>";
+                  });
+
+                  resultItem += "</li>";
+                  resultItems.push({
+                    item: resultItem,
+                    searchTextCount: searchTextCount,
+                    hitCount: hitCount,
+                    id: resultItems.length
+                  });
+                }
+              })
+            };
+            if (keywords.length === 1 && keywords[0] === "") {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-search fa-5x" /></div>'
+            } else if (resultItems.length === 0) {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-frown-o fa-5x" /></div>'
+            } else {
+              resultItems.sort(function (resultLeft, resultRight) {
+                if (resultLeft.searchTextCount !== resultRight.searchTextCount) {
+                  return resultRight.searchTextCount - resultLeft.searchTextCount;
+                } else if (resultLeft.hitCount !== resultRight.hitCount) {
+                  return resultRight.hitCount - resultLeft.hitCount;
+                } else {
+                  return resultRight.id - resultLeft.id;
+                }
+              });
+              var searchResultList = '<ul class=\"search-result-list\">';
+              resultItems.forEach(function (result) {
+                searchResultList += result.item;
+              })
+              searchResultList += "</ul>";
+              resultContent.innerHTML = searchResultList;
+            }
+          }
+
+          if ('auto' === 'auto') {
+            input.addEventListener('input', inputEventFunction);
+          } else {
+            $('.search-icon').click(inputEventFunction);
+            input.addEventListener('keypress', function (event) {
+              if (event.keyCode === 13) {
+                inputEventFunction();
+              }
+            });
+          }
+
+          // remove loading animation
+          $(".local-search-pop-overlay").remove();
+          $('body').css('overflow', '');
+
+          proceedsearch();
+        }
+      });
+    }
+
+    // handle and trigger popup window;
+    $('.popup-trigger').click(function(e) {
+      e.stopPropagation();
+      if (isfetched === false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+    });
+
+    $('.popup-btn-close').click(onPopupClose);
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+    $(document).on('keyup', function (event) {
+      var shouldDismissSearchPopup = event.which === 27 &&
+        $('.search-popup').is(':visible');
+      if (shouldDismissSearchPopup) {
+        onPopupClose();
+      }
+    });
+  </script>
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+<script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"pluginRootPath":"live2dw/","pluginJsPath":"lib/","pluginModelPath":"assets/","tagMode":false,"model":{"jsonPath":"/live2dw/assets/miku.model.json"},"display":{"position":"right","width":150,"height":300},"mobile":{"show":false},"log":false});</script></body>
+</html>
+
+
+
+<!-- 页面点击小红心 -->
+<script type="text/javascript" src="/js/src/clicklove.js"></script>

@@ -1,0 +1,1306 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next gemini use-motion" lang="zh-Hans">
+<head><meta name="generator" content="Hexo 3.9.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<meta name="theme-color" content="#222">
+
+
+
+  
+  
+    
+    
+  <script src="/lib/pace/pace.min.js?v=1.0.2"></script>
+  <link href="/lib/pace/pace-theme-flash.min.css?v=1.0.2" rel="stylesheet">
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css">
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css">
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="深度学习,">
+
+
+
+
+
+  <link rel="alternate" href="/atom.xml" title="陈家豪的个人博客" type="application/atom+xml">
+
+
+
+
+
+
+<meta name="description" content="深度学习入门 仅作为个人学习笔记，无任何商业用途，转载请注明。联系作者：JiahaoChen@whu.edu.cn时间：2019/2/18   日常心得【心得2019/2/18】  今天收获蛮大，看了 torch 教程的线性回归和感知机部分，并且手动在 pycharm 和 jupyter notebook 上撸了一遍代码，对神经网络的写法有了很大的领悟。 但是看书的时候，发现很多东西只知道这样调用">
+<meta name="keywords" content="深度学习">
+<meta property="og:type" content="article">
+<meta property="og:title" content="深度学习入门">
+<meta property="og:url" content="https://github.com/Edison0902/入门资料/深度学习入门/index.html">
+<meta property="og:site_name" content="陈家豪的个人博客">
+<meta property="og:description" content="深度学习入门 仅作为个人学习笔记，无任何商业用途，转载请注明。联系作者：JiahaoChen@whu.edu.cn时间：2019/2/18   日常心得【心得2019/2/18】  今天收获蛮大，看了 torch 教程的线性回归和感知机部分，并且手动在 pycharm 和 jupyter notebook 上撸了一遍代码，对神经网络的写法有了很大的领悟。 但是看书的时候，发现很多东西只知道这样调用">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2019/png/220248/1550487810893-ea305487-e324-40f2-9dbd-cb14524f1c15.png#align=left&display=inline&height=36&originHeight=40&originWidth=236&size=0&status=done&width=215">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2019/svg/220248/1550488017227-96a87c41-d614-474d-98cb-93f0fa3d9241.svg#align=left&display=inline&height=57&originHeight=55&originWidth=241&size=0&status=done&width=250">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2019/jpeg/220248/1550488738188-9d9bcae7-218f-4a38-b139-14c2d358913f.jpeg#align=left&display=inline&height=560&name=IMG_20190218_191529.jpg&originHeight=3000&originWidth=4000&size=3482119&status=done&width=746">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2019/jpeg/220248/1550488739147-7371238b-0a27-4b94-94b3-6a17ae8a0e38.jpeg#align=left&display=inline&height=560&name=IMG_20190218_191542.jpg&originHeight=3000&originWidth=4000&size=3775232&status=done&width=746">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2019/svg/220248/1550488816106-b99eebd1-58fe-4fa3-8be0-546d9335b6fe.svg#align=left&display=inline&height=26&originHeight=20&originWidth=140&size=0&status=done&width=181">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2019/png/220248/1550488867239-0e702c43-fdd4-4119-b2f2-f12e63082f6d.png#align=left&display=inline&height=284&originHeight=284&originWidth=474&size=0&status=done&width=474">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2019/png/220248/1550488885436-b4200e9a-a4b1-4deb-960f-6a375542fee4.png#align=left&display=inline&height=274&originHeight=274&originWidth=453&size=0&status=done&width=453">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2019/svg/220248/1550489102194-f99ae80e-b77a-4393-ac4f-80bc9c8dd806.svg#align=left&display=inline&height=26&originHeight=23&originWidth=134&size=0&status=done&width=151">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2019/svg/220248/1550489136071-0c84d2ca-daa6-4b79-aa09-2010669ba984.svg#align=left&display=inline&height=24&originHeight=21&originWidth=44&size=0&status=done&width=50">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2019/svg/220248/1550489150202-94fce7dd-969a-49a2-819b-b35bfe5e3453.svg#align=left&display=inline&height=26&originHeight=23&originWidth=104&size=0&status=done&width=117">
+<meta property="og:updated_time" content="2019-07-10T04:43:41.138Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="深度学习入门">
+<meta name="twitter:description" content="深度学习入门 仅作为个人学习笔记，无任何商业用途，转载请注明。联系作者：JiahaoChen@whu.edu.cn时间：2019/2/18   日常心得【心得2019/2/18】  今天收获蛮大，看了 torch 教程的线性回归和感知机部分，并且手动在 pycharm 和 jupyter notebook 上撸了一遍代码，对神经网络的写法有了很大的领悟。 但是看书的时候，发现很多东西只知道这样调用">
+<meta name="twitter:image" content="https://cdn.nlark.com/yuque/0/2019/png/220248/1550487810893-ea305487-e324-40f2-9dbd-cb14524f1c15.png#align=left&display=inline&height=36&originHeight=40&originWidth=236&size=0&status=done&width=215">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Gemini',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":true,"scrollpercent":true,"onmobile":true},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="https://github.com/Edison0902/入门资料/深度学习入门/">
+
+
+
+
+
+  <title>深度学习入门 | 陈家豪的个人博客</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+    
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">陈家豪的个人博客</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">记录技术 & 生活</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br>
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br>
+            
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br>
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br>
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br>
+            
+            归档
+          </a>
+        </li>
+      
+
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br>
+            
+            搜索
+          </a>
+        </li>
+      
+    </ul>
+  
+
+  
+    <div class="site-search">
+      
+  <div class="popup search-popup local-search-popup">
+  <div class="local-search-header clearfix">
+    <span class="search-icon">
+      <i class="fa fa-search"></i>
+    </span>
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+    <div class="local-search-input-wrapper">
+      <input autocomplete="off" placeholder="搜索..." spellcheck="false" type="text" id="local-search-input">
+    </div>
+  </div>
+  <div id="local-search-result"></div>
+</div>
+
+
+
+    </div>
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://github.com/Edison0902/入门资料/深度学习入门/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Jiahao Chen">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/cjh_head_yuque.png">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="陈家豪的个人博客">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">深度学习入门</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-08-18T15:41:18+08:00">
+                2017-08-18
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/入门资料/" itemprop="url" rel="index">
+                    <span itemprop="name">入门资料</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+            <div class="post-wordcount">
+              
+                
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-file-word-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">字数统计&#58;</span>
+                
+                <span title="字数统计">
+                  1.4k
+                </span>
+              
+
+              
+                <span class="post-meta-divider">|</span>
+              
+
+              
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-clock-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">阅读时长 &asymp;</span>
+                
+                <span title="阅读时长">
+                  6
+                </span>
+              
+            </div>
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h1 id="深度学习入门"><a href="#深度学习入门" class="headerlink" title="深度学习入门"></a>深度学习入门</h1><blockquote>
+<p>仅作为个人学习笔记，无任何商业用途，转载请注明。<br>联系作者：<a href="mailto:JiahaoChen@whu.edu.cn" target="_blank" rel="noopener">JiahaoChen@whu.edu.cn</a><br>时间：2019/2/18</p>
+</blockquote>
+<p><a name="333ae562"></a></p>
+<h1 id="日常心得"><a href="#日常心得" class="headerlink" title="日常心得"></a>日常心得</h1><p>【心得2019/2/18】</p>
+<ol>
+<li>今天收获蛮大，看了 torch 教程的线性回归和感知机部分，并且手动在 pycharm 和 jupyter notebook 上撸了一遍代码，对神经网络的写法有了很大的领悟。</li>
+<li>但是看书的时候，发现很多东西只知道这样调用，却不知道具体怎么做的，于是开始了查博客、看西瓜书等…一系列操作。一下子将梯度下降法弄的差不多了。</li>
+<li>发现 torch 很方便，而且要注意：网上的代码很多是早期的torch版本；然而我用的是 0.4.1 版本，用法有一些变化，具体会在下面整理。</li>
+<li>神经网络的学习过程，就是根据训练数据来调整神经元之间的“连接权”以及每个功能神经元的阈值。</li>
+</ol>
+<p><a name="733d7def"></a></p>
+<h1 id="知识点总结"><a href="#知识点总结" class="headerlink" title="知识点总结"></a>知识点总结</h1><p><a name="10d176de"></a></p>
+<h2 id="代码Error或Warning的解决方法"><a href="#代码Error或Warning的解决方法" class="headerlink" title="代码Error或Warning的解决方法"></a>代码Error或Warning的解决方法</h2><ul>
+<li><strong><code>size_average=False</code></strong> 替代成 <code>**reduction=&#39;sum&#39;**</code></li>
+</ul>
+<p>**<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># torch0.3中</span></span><br><span class="line">loss_fn = nn.MSELoss(size_average=<span class="literal">False</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment"># torch0.4中</span></span><br><span class="line">loss_fn = nn.MSELoss(reduction=<span class="string">'sum'</span>)</span><br></pre></td></tr></table></figure></p>
+<ul>
+<li><code>**lose.data[0]**</code> 替换成 <strong><code>loss.item()</code></strong></li>
+</ul>
+<p><br><br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 显示损失</span></span><br><span class="line"><span class="keyword">if</span> (t + <span class="number">1</span>) % <span class="number">50</span> == <span class="number">0</span>:</span><br><span class="line">  print(loss.item())</span><br></pre></td></tr></table></figure></p>
+<p><a name="061b9789"></a></p>
+<h2 id="构建神经网络步骤"><a href="#构建神经网络步骤" class="headerlink" title="构建神经网络步骤"></a>构建神经网络步骤</h2><blockquote>
+<ol>
+<li>构建好网络模型</li>
+<li>参数初始化</li>
+<li>前向传播</li>
+<li>计算损失</li>
+<li>反向传播计算梯度</li>
+<li>更新权重</li>
+</ol>
+</blockquote>
+<p><a name="04321e70"></a></p>
+<h3 id="线性回归模板"><a href="#线性回归模板" class="headerlink" title="线性回归模板"></a>线性回归模板</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">LinearRegression</span><span class="params">(nn.Module)</span>:</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__init__</span><span class="params">(self)</span>:</span></span><br><span class="line">        super(LinearRegression, self).__init__()</span><br><span class="line">        self.linear = nn.Linear(<span class="number">1</span>, <span class="number">1</span>)                   <span class="comment"># y = w*x + b</span></span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">forward</span><span class="params">(self, x)</span>:</span></span><br><span class="line">        ret = self.linear(x)</span><br><span class="line">        <span class="keyword">return</span> ret</span><br></pre></td></tr></table></figure>
+<p><a name="9282680f"></a></p>
+<h3 id="神经网络通用模板"><a href="#神经网络通用模板" class="headerlink" title="神经网络通用模板"></a>神经网络通用模板</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">net_name</span><span class="params">(nn.Module)</span>:</span></span><br><span class="line">  <span class="function"><span class="keyword">def</span> <span class="title">__init__</span><span class="params">(self)</span>:</span></span><br><span class="line">    super(net_name, self).__init__()</span><br><span class="line">    </span><br><span class="line">    <span class="comment"># 可添加子网络</span></span><br><span class="line">  	self.conv1 = nn.Conv2d(<span class="number">3</span>, <span class="number">10</span>, <span class="number">3</span>)</span><br><span class="line">  </span><br><span class="line">  <span class="function"><span class="keyword">def</span> <span class="title">forward</span><span class="params">(self, x)</span>:</span></span><br><span class="line">    ret = self.conv1(x)</span><br><span class="line">    <span class="keyword">return</span> ret</span><br></pre></td></tr></table></figure>
+<p><a name="87fe1da5"></a></p>
+<h4 id="神经网络实例（1）"><a href="#神经网络实例（1）" class="headerlink" title="神经网络实例（1）"></a>神经网络实例（1）</h4><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> torch</span><br><span class="line"><span class="keyword">import</span> torch.nn <span class="keyword">as</span> nn</span><br><span class="line"><span class="keyword">from</span> torch.autograd <span class="keyword">import</span> Variable</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">TwoLayerNet</span><span class="params">(nn.Module)</span>:</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__init__</span><span class="params">(self, input_size, hidden_size, output_size)</span>:</span></span><br><span class="line">        super(TwoLayerNet, self).__init__()</span><br><span class="line">        <span class="string">'''</span></span><br><span class="line"><span class="string">        关于 nn.Sequential见 “实例（1）备注”</span></span><br><span class="line"><span class="string">        '''</span></span><br><span class="line">        self.twolayernet = nn.Sequential(</span><br><span class="line">            nn.Linear(input_size, hidden_size),</span><br><span class="line">            nn.ReLU(),</span><br><span class="line">            nn.Linear(hidden_size, output_size),</span><br><span class="line">        )</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">forward</span><span class="params">(self, x)</span>:</span></span><br><span class="line">        <span class="string">'''</span></span><br><span class="line"><span class="string">        在forward函数中，我们会接受一个Variable，然后我们也会返回一个Varible</span></span><br><span class="line"><span class="string">        '''</span></span><br><span class="line">        y_pred = self.twolayernet(x)</span><br><span class="line">        <span class="keyword">return</span> y_pred</span><br><span class="line"></span><br><span class="line"><span class="string">''''''</span><span class="string">''''''</span><span class="string">''</span></span><br><span class="line"><span class="comment"># M是样本数量，input_size是输入层大小</span></span><br><span class="line"><span class="comment"># hidden_size是隐含层大小，output_size是输出层大小</span></span><br><span class="line">M, input_size, hidden_size, output_size = <span class="number">64</span>, <span class="number">1000</span>, <span class="number">100</span>, <span class="number">10</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 生成随机数当作样本，同时用Variable 来包装这些数据，设置 requires_grad=False 表示在方向传播的时候，</span></span><br><span class="line"><span class="comment"># 我们不需要求这几个 Variable 的导数</span></span><br><span class="line">x = Variable(torch.randn(M, input_size))</span><br><span class="line">y = Variable(torch.randn(M, output_size))</span><br><span class="line"></span><br><span class="line">model = TwoLayerNet(input_size, hidden_size, output_size)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 定义损失函数</span></span><br><span class="line">loss_fn = nn.MSELoss(reduction=<span class="string">'sum'</span>)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="string">''''''</span><span class="string">'设置超参数'</span><span class="string">''''''</span></span><br><span class="line">learning_rate = <span class="number">1e-4</span></span><br><span class="line">EPOCH = <span class="number">300</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 使用optim包来定义优化算法，可以自动的帮我们对模型的参数进行梯度更新。这里我们使用的是随机梯度下降法。</span></span><br><span class="line"><span class="comment"># 第一个传入的参数是告诉优化器，我们需要进行梯度更新的Variable 是哪些，</span></span><br><span class="line"><span class="comment"># 第二个参数就是学习速率了。</span></span><br><span class="line">optimizer = torch.optim.SGD(model.parameters(), lr=learning_rate)</span><br><span class="line"></span><br><span class="line"><span class="string">''''''</span><span class="string">'开始训练'</span><span class="string">''''''</span></span><br><span class="line"><span class="keyword">for</span> t <span class="keyword">in</span> range(EPOCH):</span><br><span class="line"></span><br><span class="line">    <span class="comment"># 向前传播</span></span><br><span class="line">    y_pred = model(x)</span><br><span class="line"></span><br><span class="line">    <span class="comment"># 计算损失</span></span><br><span class="line">    loss = loss_fn(y_pred, y)</span><br><span class="line"></span><br><span class="line">    <span class="comment"># 显示损失</span></span><br><span class="line">    <span class="keyword">if</span> (t + <span class="number">1</span>) % <span class="number">50</span> == <span class="number">0</span>:</span><br><span class="line">        print(loss.item())</span><br><span class="line"></span><br><span class="line">    <span class="comment"># 在我们进行梯度更新之前，先使用optimier对象提供的清除已经积累的梯度。</span></span><br><span class="line">    optimizer.zero_grad()</span><br><span class="line"></span><br><span class="line">    <span class="comment"># 计算梯度</span></span><br><span class="line">    loss.backward()</span><br><span class="line"></span><br><span class="line">    <span class="comment"># 更新梯度</span></span><br><span class="line">    optimizer.step()</span><br></pre></td></tr></table></figure>
+<p><a name="48dd6662"></a></p>
+<h4 id="实例（1）备注"><a href="#实例（1）备注" class="headerlink" title="实例（1）备注"></a>实例（1）备注</h4><blockquote>
+<p>使用 nn 包的 Sequential 来快速构建模型，Sequential可以看成一个组件的容器。它涵盖神经网络中的很多层，并将这些层组合在一起构成一个模型之后，我们输入的数据会按照这个Sequential的流程进行数据的传输，最后一层就是输出层。默认会帮我们进行参数初始化。</p>
+</blockquote>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">model = nn.Sequential(</span><br><span class="line">    nn.Linear(input_size, hidden_size),</span><br><span class="line">    nn.ReLU(),</span><br><span class="line">    nn.Linear(hidden_size, output_size),</span><br><span class="line">)</span><br></pre></td></tr></table></figure>
+<p><a name="dc7108e9"></a></p>
+<h4 id="神经网络实例（2）"><a href="#神经网络实例（2）" class="headerlink" title="神经网络实例（2）"></a>神经网络实例（2）</h4><p>注意：代码不完整，待继续补充。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># -*- coding: utf-8 -*-</span></span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">NeuralNetwork</span><span class="params">(nn.Module)</span>:</span></span><br><span class="line"></span><br><span class="line">    <span class="comment"># 跟之前一样的框架，只不过多了神经网络的层数定义</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__init__</span><span class="params">(self, in_dim, n_hidden_1, n_hidden_2, out_dim)</span>:</span></span><br><span class="line">        super(NeuralNetwork, self).__init__()</span><br><span class="line">        self.layer1 = nn.Linear(in_dim, n_hidden_1)</span><br><span class="line">        self.layer2 = nn.Linear(n_hidden_1, n_hidden_2)</span><br><span class="line">        self.layer3 = nn.Linear(n_hidden_2, out_dim)</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">forward</span><span class="params">(self, x)</span>:</span></span><br><span class="line">        x = self.layer1(x)</span><br><span class="line">        x = self.layer2(x)</span><br><span class="line">        x = self.layer3(x)</span><br><span class="line">        <span class="keyword">return</span> x</span><br><span class="line"></span><br><span class="line"><span class="comment"># 图片尺寸：28*28</span></span><br><span class="line"><span class="comment"># 隐藏层大小： 300，100</span></span><br><span class="line"><span class="comment"># 10分类</span></span><br><span class="line">model = NeuralNetwork(<span class="number">28</span>*<span class="number">28</span>, <span class="number">300</span>, <span class="number">100</span>, <span class="number">10</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment"># GPU 加速</span></span><br><span class="line"><span class="keyword">if</span> torch.cuda.is_available():</span><br><span class="line">    model = model.cuda()</span><br><span class="line"></span><br><span class="line"><span class="string">'''定义loss'''</span></span><br><span class="line"><span class="comment"># 使用交叉熵</span></span><br><span class="line">criterion = nn.CrossEntropyLoss()</span><br><span class="line"><span class="comment"># 最小二乘法：criterion = nn.MSELoss()</span></span><br><span class="line"></span><br><span class="line"><span class="string">'''定义optimizer'''</span></span><br><span class="line"><span class="comment"># lr: learning-rate</span></span><br><span class="line">optimizer = torch.optim.SGD(model.parameters(), lr=<span class="number">1e-4</span>)</span><br><span class="line"></span><br><span class="line"><span class="string">'''开始训练'''</span></span><br><span class="line"><span class="comment"># TODO</span></span><br></pre></td></tr></table></figure>
+<p><a name="2299dd9d"></a></p>
+<h1 id="公式理解"><a href="#公式理解" class="headerlink" title="公式理解"></a>公式理解</h1><p><a name="b4fcf33c"></a></p>
+<h2 id="西瓜书笔记"><a href="#西瓜书笔记" class="headerlink" title="西瓜书笔记"></a>西瓜书笔记</h2><blockquote>
+<p>权重w，阈值θ，学习率η</p>
+</blockquote>
+<p><a name="b958e8f0"></a></p>
+<h3 id="概念理解"><a href="#概念理解" class="headerlink" title="概念理解"></a>概念理解</h3><p><a name="724796e9"></a></p>
+<h4 id="激活函数"><a href="#激活函数" class="headerlink" title="激活函数"></a>激活函数</h4><ul>
+<li><p>Sigmoid函数    </p>
+<pre><code>公式：                 ![](https://cdn.nlark.com/yuque/0/2019/png/220248/1550487698436-efd2bfc2-5a10-441f-97c7-e8ae58cf1de7.png#align=left&amp;display=inline&amp;height=39&amp;originHeight=35&amp;originWidth=99&amp;size=0&amp;status=done&amp;width=109)   &lt;br /&gt;图像：&lt;br /&gt;                         ![](https://cdn.nlark.com/yuque/0/2019/png/220248/1550487751644-62c420f2-199a-4f18-970f-86679533dbe0.png#align=left&amp;display=inline&amp;height=247&amp;originHeight=400&amp;originWidth=400&amp;size=0&amp;status=done&amp;width=247)
+</code></pre></li>
+</ul>
+<p>性质：            <img src="https://cdn.nlark.com/yuque/0/2019/png/220248/1550487810893-ea305487-e324-40f2-9dbd-cb14524f1c15.png#align=left&amp;display=inline&amp;height=36&amp;originHeight=40&amp;originWidth=236&amp;size=0&amp;status=done&amp;width=215" alt></p>
+<p><a name="58c7b519"></a></p>
+<h4 id="感知机"><a href="#感知机" class="headerlink" title="感知机"></a>感知机</h4><p>公式：           <img src="https://cdn.nlark.com/yuque/0/2019/svg/220248/1550488017227-96a87c41-d614-474d-98cb-93f0fa3d9241.svg#align=left&amp;display=inline&amp;height=57&amp;originHeight=55&amp;originWidth=241&amp;size=0&amp;status=done&amp;width=250" alt></p>
+<p>性质：           只有<strong>输出层</strong>神经元进行激活函数处理。<br>  适用于<strong>线性可分</strong>问题。</p>
+<p><a name="dfdcd6a6"></a></p>
+<h4 id="多层前馈神经网络"><a href="#多层前馈神经网络" class="headerlink" title="多层前馈神经网络"></a>多层前馈神经网络</h4><p>前馈，并不意味着不能后传；而是指网络拓扑结构上不存在环或者回路。</p>
+<p><a name="c2ff6c74"></a></p>
+<h4 id="BP-算法（error-Back-Propagation）"><a href="#BP-算法（error-Back-Propagation）" class="headerlink" title="BP 算法（error Back Propagation）"></a>BP 算法（error Back Propagation）</h4><p>误差逆传播算法，或“反向传播算法”</p>
+<p><a name="b2ec4e2f"></a></p>
+<h3 id="手动笔记"><a href="#手动笔记" class="headerlink" title="手动笔记"></a>手动笔记</h3><p><img src="https://cdn.nlark.com/yuque/0/2019/jpeg/220248/1550488738188-9d9bcae7-218f-4a38-b139-14c2d358913f.jpeg#align=left&amp;display=inline&amp;height=560&amp;name=IMG_20190218_191529.jpg&amp;originHeight=3000&amp;originWidth=4000&amp;size=3482119&amp;status=done&amp;width=746" alt="IMG_20190218_191529.jpg"><img src="https://cdn.nlark.com/yuque/0/2019/jpeg/220248/1550488739147-7371238b-0a27-4b94-94b3-6a17ae8a0e38.jpeg#align=left&amp;display=inline&amp;height=560&amp;name=IMG_20190218_191542.jpg&amp;originHeight=3000&amp;originWidth=4000&amp;size=3775232&amp;status=done&amp;width=746" alt="IMG_20190218_191542.jpg"></p>
+<p><a name="8a45bb91"></a></p>
+<h2 id="梯度下降和反向求导"><a href="#梯度下降和反向求导" class="headerlink" title="梯度下降和反向求导"></a>梯度下降和反向求导</h2><p><a name="6dfbaab5"></a></p>
+<h3 id="关于反向求导"><a href="#关于反向求导" class="headerlink" title="关于反向求导"></a>关于反向求导</h3><p>以 <img src="https://cdn.nlark.com/yuque/0/2019/svg/220248/1550488816106-b99eebd1-58fe-4fa3-8be0-546d9335b6fe.svg#align=left&amp;display=inline&amp;height=26&amp;originHeight=20&amp;originWidth=140&amp;size=0&amp;status=done&amp;width=181" alt> 为例，对 b 进行求导<br>前向求导：<br><img src="https://cdn.nlark.com/yuque/0/2019/png/220248/1550488867239-0e702c43-fdd4-4119-b2f2-f12e63082f6d.png#align=left&amp;display=inline&amp;height=284&amp;originHeight=284&amp;originWidth=474&amp;size=0&amp;status=done&amp;width=474" alt></p>
+<p>反向求导：<br><img src="https://cdn.nlark.com/yuque/0/2019/png/220248/1550488885436-b4200e9a-a4b1-4deb-960f-6a375542fee4.png#align=left&amp;display=inline&amp;height=274&amp;originHeight=274&amp;originWidth=453&amp;size=0&amp;status=done&amp;width=453" alt></p>
+<p>区别一看便知，后向求导，不仅求出了对b的偏导数，还求出了对a的偏导数。</p>
+<p><a name="47680dc0"></a></p>
+<h3 id="关于梯度下降（Gradient-descent）"><a href="#关于梯度下降（Gradient-descent）" class="headerlink" title="关于梯度下降（Gradient descent）"></a>关于梯度下降（Gradient descent）</h3><p><img src="https://cdn.nlark.com/yuque/0/2019/svg/220248/1550489102194-f99ae80e-b77a-4393-ac4f-80bc9c8dd806.svg#align=left&amp;display=inline&amp;height=26&amp;originHeight=23&amp;originWidth=134&amp;size=0&amp;status=done&amp;width=151" alt></p>
+<p>对于  <img src="https://cdn.nlark.com/yuque/0/2019/svg/220248/1550489136071-0c84d2ca-daa6-4b79-aa09-2010669ba984.svg#align=left&amp;display=inline&amp;height=24&amp;originHeight=21&amp;originWidth=44&amp;size=0&amp;status=done&amp;width=50" alt>  为一个够小数值时成立，那么  <img src="https://cdn.nlark.com/yuque/0/2019/svg/220248/1550489150202-94fce7dd-969a-49a2-819b-b35bfe5e3453.svg#align=left&amp;display=inline&amp;height=26&amp;originHeight=23&amp;originWidth=104&amp;size=0&amp;status=done&amp;width=117" alt></p>
+<p><a name="2e307a62"></a></p>
+<h1 id="附录"><a href="#附录" class="headerlink" title="附录"></a>附录</h1><p><a href="https://blog.algorithmia.com/introduction-to-optimizers/" target="_blank" rel="noopener">优化器选择</a></p>
+<p><a href="https://pytorch.org/docs/stable/optim.html" target="_blank" rel="noopener">torch.optim</a></p>
+<p><a href="http://ufldl.stanford.edu/wiki/index.php/UFLDL教程" target="_blank" rel="noopener">UFLDL教程</a></p>
+<p><a href="https://www.cnblogs.com/guoyaohua/p/8617086.html" target="_blank" rel="noopener">十分钟看懂神经网络</a></p>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+    <div>
+    
+    <div>  <div style="text-align:center;color: #ccc;font-size:14px;">-------------本文结束<i class="fa fa-paw"></i>感谢您的阅读-------------</div>  </div>
+
+
+    
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/深度学习/" rel="tag"><i class="fa fa-tag"></i> 深度学习</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/环境配置/深度学习环境配置/" rel="next" title="深度学习环境配置">
+                <i class="fa fa-chevron-left"></i> 深度学习环境配置
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/目标检测框架/mmdet 测试结果可视化/" rel="prev" title="MMdet 可视化">
+                MMdet 可视化 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+      <div id="sidebar-dimmer"></div>
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+      
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image" src="/images/cjh_head_yuque.png" alt="Jiahao Chen">
+            
+              <p class="site-author-name" itemprop="name">Jiahao Chen</p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+          
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">20</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">9</span>
+                  <span class="site-state-item-name">分类</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">10</span>
+                  <span class="site-state-item-name">标签</span>
+                </a>
+              </div>
+            
+
+          </nav>
+          <iframe frameborder="no" border="0" marginwidth="0" marginheight="0" width="330" height="86" src="//music.163.com/outchain/player?type=2&id=586299&auto=1&height=66"></iframe>
+          
+            <div class="feed-link motion-element">
+              <a href="/atom.xml" rel="alternate">
+                <i class="fa fa-rss"></i>
+                RSS
+              </a>
+            </div>
+          
+
+          
+            <div class="links-of-author motion-element">
+                
+                  <span class="links-of-author-item">
+                    <a href="https://github.com/Edison0902" target="_blank" title="GitHub">
+                      
+                        <i class="fa fa-fw fa-github"></i>GitHub</a>
+                  </span>
+                
+                  <span class="links-of-author-item">
+                    <a href="mailto:edison.18whu@gmail.com" target="_blank" title="E-Mail">
+                      
+                        <i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+                  </span>
+                
+                  <span class="links-of-author-item">
+                    <a href="https://weibo.com/u/6176093611" target="_blank" title="Weibo">
+                      
+                        <i class="fa fa-fw fa-globe"></i>Weibo</a>
+                  </span>
+                
+                  <span class="links-of-author-item">
+                    <a href="https://plus.google.com/yourname" target="_blank" title="Google">
+                      
+                        <i class="fa fa-fw fa-google"></i>Google</a>
+                  </span>
+                
+                  <span class="links-of-author-item">
+                    <a href="https://twitter.com/yourname" target="_blank" title="Twitter">
+                      
+                        <i class="fa fa-fw fa-twitter"></i>Twitter</a>
+                  </span>
+                
+                  <span class="links-of-author-item">
+                    <a href="https://www.facebook.com/yourname" target="_blank" title="FB Page">
+                      
+                        <i class="fa fa-fw fa-facebook"></i>FB Page</a>
+                  </span>
+                
+            </div>
+          
+
+          
+          
+
+          
+          
+            <div class="links-of-blogroll motion-element links-of-blogroll-inline">
+              <div class="links-of-blogroll-title">
+                <i class="fa  fa-fw fa-link"></i>
+                Links
+              </div>
+              <ul class="links-of-blogroll-list">
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="http://baidu.com/" title="百度" target="_blank">百度</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="http://google.com/" title="谷歌" target="_blank">谷歌</a>
+                  </li>
+                
+              </ul>
+            </div>
+          
+
+          
+
+        </div>
+      </section>
+      
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#深度学习入门"><span class="nav-text">深度学习入门</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#日常心得"><span class="nav-text">日常心得</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#知识点总结"><span class="nav-text">知识点总结</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#代码Error或Warning的解决方法"><span class="nav-text">代码Error或Warning的解决方法</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#构建神经网络步骤"><span class="nav-text">构建神经网络步骤</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#线性回归模板"><span class="nav-text">线性回归模板</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#神经网络通用模板"><span class="nav-text">神经网络通用模板</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#神经网络实例（1）"><span class="nav-text">神经网络实例（1）</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#实例（1）备注"><span class="nav-text">实例（1）备注</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#神经网络实例（2）"><span class="nav-text">神经网络实例（2）</span></a></li></ol></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#公式理解"><span class="nav-text">公式理解</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#西瓜书笔记"><span class="nav-text">西瓜书笔记</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#概念理解"><span class="nav-text">概念理解</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#激活函数"><span class="nav-text">激活函数</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#感知机"><span class="nav-text">感知机</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#多层前馈神经网络"><span class="nav-text">多层前馈神经网络</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#BP-算法（error-Back-Propagation）"><span class="nav-text">BP 算法（error Back Propagation）</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#手动笔记"><span class="nav-text">手动笔记</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#梯度下降和反向求导"><span class="nav-text">梯度下降和反向求导</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#关于反向求导"><span class="nav-text">关于反向求导</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#关于梯度下降（Gradient-descent）"><span class="nav-text">关于梯度下降（Gradient descent）</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#附录"><span class="nav-text">附录</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+      
+        <div class="back-to-top">
+          <i class="fa fa-arrow-up"></i>
+          
+            <span id="scrollpercent"><span>0</span>%</span>
+          
+        </div>
+      
+
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; 2018 &mdash; <span itemprop="copyrightYear">2019</span>
+  <span class="with-love">
+    <i class="fa fa-[object Object]"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">陈家豪</span>
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+
+
+
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.4"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  <script type="text/javascript">
+    // Popup Window;
+    var isfetched = false;
+    var isXml = true;
+    // Search DB path;
+    var search_path = "search.xml";
+    if (search_path.length === 0) {
+      search_path = "search.xml";
+    } else if (/json$/i.test(search_path)) {
+      isXml = false;
+    }
+    var path = "/" + search_path;
+    // monitor main search box;
+
+    var onPopupClose = function (e) {
+      $('.popup').hide();
+      $('#local-search-input').val('');
+      $('.search-result-list').remove();
+      $('#no-result').remove();
+      $(".local-search-pop-overlay").remove();
+      $('body').css('overflow', '');
+    }
+
+    function proceedsearch() {
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay"></div>')
+        .css('overflow', 'hidden');
+      $('.search-popup-overlay').click(onPopupClose);
+      $('.popup').toggle();
+      var $localSearchInput = $('#local-search-input');
+      $localSearchInput.attr("autocapitalize", "none");
+      $localSearchInput.attr("autocorrect", "off");
+      $localSearchInput.focus();
+    }
+
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+      'use strict';
+
+      // start loading animation
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay">' +
+          '<div id="search-loading-icon">' +
+          '<i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>' +
+          '</div>' +
+          '</div>')
+        .css('overflow', 'hidden');
+      $("#search-loading-icon").css('margin', '20% auto 0 auto').css('text-align', 'center');
+
+      $.ajax({
+        url: path,
+        dataType: isXml ? "xml" : "json",
+        async: true,
+        success: function(res) {
+          // get the contents from search data
+          isfetched = true;
+          $('.popup').detach().appendTo('.header-inner');
+          var datas = isXml ? $("entry", res).map(function() {
+            return {
+              title: $("title", this).text(),
+              content: $("content",this).text(),
+              url: $("url" , this).text()
+            };
+          }).get() : res;
+          var input = document.getElementById(search_id);
+          var resultContent = document.getElementById(content_id);
+          var inputEventFunction = function() {
+            var searchText = input.value.trim().toLowerCase();
+            var keywords = searchText.split(/[\s\-]+/);
+            if (keywords.length > 1) {
+              keywords.push(searchText);
+            }
+            var resultItems = [];
+            if (searchText.length > 0) {
+              // perform local searching
+              datas.forEach(function(data) {
+                var isMatch = false;
+                var hitCount = 0;
+                var searchTextCount = 0;
+                var title = data.title.trim();
+                var titleInLowerCase = title.toLowerCase();
+                var content = data.content.trim().replace(/<[^>]+>/g,"");
+                var contentInLowerCase = content.toLowerCase();
+                var articleUrl = decodeURIComponent(data.url);
+                var indexOfTitle = [];
+                var indexOfContent = [];
+                // only match articles with not empty titles
+                if(title != '') {
+                  keywords.forEach(function(keyword) {
+                    function getIndexByWord(word, text, caseSensitive) {
+                      var wordLen = word.length;
+                      if (wordLen === 0) {
+                        return [];
+                      }
+                      var startPosition = 0, position = [], index = [];
+                      if (!caseSensitive) {
+                        text = text.toLowerCase();
+                        word = word.toLowerCase();
+                      }
+                      while ((position = text.indexOf(word, startPosition)) > -1) {
+                        index.push({position: position, word: word});
+                        startPosition = position + wordLen;
+                      }
+                      return index;
+                    }
+
+                    indexOfTitle = indexOfTitle.concat(getIndexByWord(keyword, titleInLowerCase, false));
+                    indexOfContent = indexOfContent.concat(getIndexByWord(keyword, contentInLowerCase, false));
+                  });
+                  if (indexOfTitle.length > 0 || indexOfContent.length > 0) {
+                    isMatch = true;
+                    hitCount = indexOfTitle.length + indexOfContent.length;
+                  }
+                }
+
+                // show search results
+
+                if (isMatch) {
+                  // sort index by position of keyword
+
+                  [indexOfTitle, indexOfContent].forEach(function (index) {
+                    index.sort(function (itemLeft, itemRight) {
+                      if (itemRight.position !== itemLeft.position) {
+                        return itemRight.position - itemLeft.position;
+                      } else {
+                        return itemLeft.word.length - itemRight.word.length;
+                      }
+                    });
+                  });
+
+                  // merge hits into slices
+
+                  function mergeIntoSlice(text, start, end, index) {
+                    var item = index[index.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    var hits = [];
+                    var searchTextCountInSlice = 0;
+                    while (position + word.length <= end && index.length != 0) {
+                      if (word === searchText) {
+                        searchTextCountInSlice++;
+                      }
+                      hits.push({position: position, length: word.length});
+                      var wordEnd = position + word.length;
+
+                      // move to next position of hit
+
+                      index.pop();
+                      while (index.length != 0) {
+                        item = index[index.length - 1];
+                        position = item.position;
+                        word = item.word;
+                        if (wordEnd > position) {
+                          index.pop();
+                        } else {
+                          break;
+                        }
+                      }
+                    }
+                    searchTextCount += searchTextCountInSlice;
+                    return {
+                      hits: hits,
+                      start: start,
+                      end: end,
+                      searchTextCount: searchTextCountInSlice
+                    };
+                  }
+
+                  var slicesOfTitle = [];
+                  if (indexOfTitle.length != 0) {
+                    slicesOfTitle.push(mergeIntoSlice(title, 0, title.length, indexOfTitle));
+                  }
+
+                  var slicesOfContent = [];
+                  while (indexOfContent.length != 0) {
+                    var item = indexOfContent[indexOfContent.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    // cut out 100 characters
+                    var start = position - 20;
+                    var end = position + 80;
+                    if(start < 0){
+                      start = 0;
+                    }
+                    if (end < position + word.length) {
+                      end = position + word.length;
+                    }
+                    if(end > content.length){
+                      end = content.length;
+                    }
+                    slicesOfContent.push(mergeIntoSlice(content, start, end, indexOfContent));
+                  }
+
+                  // sort slices in content by search text's count and hits' count
+
+                  slicesOfContent.sort(function (sliceLeft, sliceRight) {
+                    if (sliceLeft.searchTextCount !== sliceRight.searchTextCount) {
+                      return sliceRight.searchTextCount - sliceLeft.searchTextCount;
+                    } else if (sliceLeft.hits.length !== sliceRight.hits.length) {
+                      return sliceRight.hits.length - sliceLeft.hits.length;
+                    } else {
+                      return sliceLeft.start - sliceRight.start;
+                    }
+                  });
+
+                  // select top N slices in content
+
+                  var upperBound = parseInt('1');
+                  if (upperBound >= 0) {
+                    slicesOfContent = slicesOfContent.slice(0, upperBound);
+                  }
+
+                  // highlight title and content
+
+                  function highlightKeyword(text, slice) {
+                    var result = '';
+                    var prevEnd = slice.start;
+                    slice.hits.forEach(function (hit) {
+                      result += text.substring(prevEnd, hit.position);
+                      var end = hit.position + hit.length;
+                      result += '<b class="search-keyword">' + text.substring(hit.position, end) + '</b>';
+                      prevEnd = end;
+                    });
+                    result += text.substring(prevEnd, slice.end);
+                    return result;
+                  }
+
+                  var resultItem = '';
+
+                  if (slicesOfTitle.length != 0) {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + highlightKeyword(title, slicesOfTitle[0]) + "</a>";
+                  } else {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + title + "</a>";
+                  }
+
+                  slicesOfContent.forEach(function (slice) {
+                    resultItem += "<a href='" + articleUrl + "'>" +
+                      "<p class=\"search-result\">" + highlightKeyword(content, slice) +
+                      "...</p>" + "</a>";
+                  });
+
+                  resultItem += "</li>";
+                  resultItems.push({
+                    item: resultItem,
+                    searchTextCount: searchTextCount,
+                    hitCount: hitCount,
+                    id: resultItems.length
+                  });
+                }
+              })
+            };
+            if (keywords.length === 1 && keywords[0] === "") {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-search fa-5x" /></div>'
+            } else if (resultItems.length === 0) {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-frown-o fa-5x" /></div>'
+            } else {
+              resultItems.sort(function (resultLeft, resultRight) {
+                if (resultLeft.searchTextCount !== resultRight.searchTextCount) {
+                  return resultRight.searchTextCount - resultLeft.searchTextCount;
+                } else if (resultLeft.hitCount !== resultRight.hitCount) {
+                  return resultRight.hitCount - resultLeft.hitCount;
+                } else {
+                  return resultRight.id - resultLeft.id;
+                }
+              });
+              var searchResultList = '<ul class=\"search-result-list\">';
+              resultItems.forEach(function (result) {
+                searchResultList += result.item;
+              })
+              searchResultList += "</ul>";
+              resultContent.innerHTML = searchResultList;
+            }
+          }
+
+          if ('auto' === 'auto') {
+            input.addEventListener('input', inputEventFunction);
+          } else {
+            $('.search-icon').click(inputEventFunction);
+            input.addEventListener('keypress', function (event) {
+              if (event.keyCode === 13) {
+                inputEventFunction();
+              }
+            });
+          }
+
+          // remove loading animation
+          $(".local-search-pop-overlay").remove();
+          $('body').css('overflow', '');
+
+          proceedsearch();
+        }
+      });
+    }
+
+    // handle and trigger popup window;
+    $('.popup-trigger').click(function(e) {
+      e.stopPropagation();
+      if (isfetched === false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+    });
+
+    $('.popup-btn-close').click(onPopupClose);
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+    $(document).on('keyup', function (event) {
+      var shouldDismissSearchPopup = event.which === 27 &&
+        $('.search-popup').is(':visible');
+      if (shouldDismissSearchPopup) {
+        onPopupClose();
+      }
+    });
+  </script>
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+<script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"pluginRootPath":"live2dw/","pluginJsPath":"lib/","pluginModelPath":"assets/","tagMode":false,"model":{"jsonPath":"/live2dw/assets/miku.model.json"},"display":{"position":"right","width":150,"height":300},"mobile":{"show":false},"log":false});</script></body>
+</html>
+
+
+
+<!-- 页面点击小红心 -->
+<script type="text/javascript" src="/js/src/clicklove.js"></script>

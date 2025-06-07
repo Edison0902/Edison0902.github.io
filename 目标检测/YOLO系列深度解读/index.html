@@ -1,0 +1,1417 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next gemini use-motion" lang="zh-Hans">
+<head><meta name="generator" content="Hexo 3.9.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<meta name="theme-color" content="#222">
+
+
+
+  
+  
+    
+    
+  <script src="/lib/pace/pace.min.js?v=1.0.2"></script>
+  <link href="/lib/pace/pace-theme-flash.min.css?v=1.0.2" rel="stylesheet">
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css">
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css">
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="One Stage,">
+
+
+
+
+
+  <link rel="alternate" href="/atom.xml" title="陈家豪的个人博客" type="application/atom+xml">
+
+
+
+
+
+
+<meta name="description" content="YOLO系列深度解读 YOLO（You only look once）是基于深度学习的端到端的目标检测算法。与大部分目标检测与识别方法（比如Fast R-CNN）将目标识别任务分类目标区域预测和类别预测等多个流程不同，YOLO将目标区域预测和目标类别预测整合于单个神经网络模型中，实现在准确率较高的情况下实时快速目标检测与识别，其增强版本GPU中能跑45fps，简化版本155fps   YOLO v">
+<meta name="keywords" content="One Stage">
+<meta property="og:type" content="article">
+<meta property="og:title" content="YOLO系列深度解读">
+<meta property="og:url" content="https://github.com/Edison0902/目标检测/YOLO系列深度解读/index.html">
+<meta property="og:site_name" content="陈家豪的个人博客">
+<meta property="og:description" content="YOLO系列深度解读 YOLO（You only look once）是基于深度学习的端到端的目标检测算法。与大部分目标检测与识别方法（比如Fast R-CNN）将目标识别任务分类目标区域预测和类别预测等多个流程不同，YOLO将目标区域预测和目标类别预测整合于单个神经网络模型中，实现在准确率较高的情况下实时快速目标检测与识别，其增强版本GPU中能跑45fps，简化版本155fps   YOLO v">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2019/png/220248/1552897864098-f1f6c743-be36-4c4b-b6c5-e47061a772a5.png#align=left&display=inline&height=434&originHeight=1116&originWidth=1919&size=0&status=done&width=746">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2019/png/220248/1552897864066-494a5d01-dbbc-488e-beae-c64ea78bc3e8.png#align=left&display=inline&height=415&originHeight=897&originWidth=1497&size=0&status=done&width=692">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2019/png/220248/1552897864271-8e436dc9-2caf-4c78-a1ac-e34ea8290204.png#align=left&display=inline&height=442&originHeight=460&originWidth=720&size=0&status=done&width=692">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2019/png/220248/1552897863545-3e772999-db20-44bc-9c6a-f60c7717b886.png#align=left&display=inline&height=310&originHeight=473&originWidth=1139&size=0&status=done&width=746">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2019/png/220248/1552897863640-f874122d-52b9-4830-a308-7fc53df20049.png#align=left&display=inline&height=399&originHeight=560&originWidth=1011&size=0&status=done&width=720">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2019/png/220248/1552897863592-9aaa79d2-b155-453d-afb2-a8dd93905d73.png#align=left&display=inline&height=277&originHeight=334&originWidth=868&size=0&status=done&width=720">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2019/png/220248/1552897865947-5d34005b-bf85-4b0f-93c8-0e25b7dc6def.png#align=left&display=inline&height=335&originHeight=636&originWidth=1415&size=0&status=done&width=746">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2019/png/220248/1552897863747-76def20c-5942-4129-9e8a-b11229fd4aa0.png#align=left&display=inline&height=680&originHeight=787&originWidth=863&size=0&status=done&width=746">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2019/png/220248/1552897863568-37f6084f-154c-4e29-a500-6b53310e326f.png#align=left&display=inline&height=4221&originHeight=6297&originWidth=1113&size=0&status=done&width=746">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2019/png/220248/1552897863908-46a6b4fc-79f5-4505-bf83-8dce6d8bf436.png#align=left&display=inline&height=1469&originHeight=1469&originWidth=713&size=0&status=done&width=713">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2019/png/220248/1552897863594-668612d9-7202-47de-8575-561c408c7b1d.png#align=left&display=inline&height=305&originHeight=305&originWidth=458&size=0&status=done&width=458">
+<meta property="og:updated_time" content="2019-07-10T04:43:05.382Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="YOLO系列深度解读">
+<meta name="twitter:description" content="YOLO系列深度解读 YOLO（You only look once）是基于深度学习的端到端的目标检测算法。与大部分目标检测与识别方法（比如Fast R-CNN）将目标识别任务分类目标区域预测和类别预测等多个流程不同，YOLO将目标区域预测和目标类别预测整合于单个神经网络模型中，实现在准确率较高的情况下实时快速目标检测与识别，其增强版本GPU中能跑45fps，简化版本155fps   YOLO v">
+<meta name="twitter:image" content="https://cdn.nlark.com/yuque/0/2019/png/220248/1552897864098-f1f6c743-be36-4c4b-b6c5-e47061a772a5.png#align=left&display=inline&height=434&originHeight=1116&originWidth=1919&size=0&status=done&width=746">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Gemini',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":true,"scrollpercent":true,"onmobile":true},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="https://github.com/Edison0902/目标检测/YOLO系列深度解读/">
+
+
+
+
+
+  <title>YOLO系列深度解读 | 陈家豪的个人博客</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+    
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">陈家豪的个人博客</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">记录技术 & 生活</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br>
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br>
+            
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br>
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br>
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br>
+            
+            归档
+          </a>
+        </li>
+      
+
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br>
+            
+            搜索
+          </a>
+        </li>
+      
+    </ul>
+  
+
+  
+    <div class="site-search">
+      
+  <div class="popup search-popup local-search-popup">
+  <div class="local-search-header clearfix">
+    <span class="search-icon">
+      <i class="fa fa-search"></i>
+    </span>
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+    <div class="local-search-input-wrapper">
+      <input autocomplete="off" placeholder="搜索..." spellcheck="false" type="text" id="local-search-input">
+    </div>
+  </div>
+  <div id="local-search-result"></div>
+</div>
+
+
+
+    </div>
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://github.com/Edison0902/目标检测/YOLO系列深度解读/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Jiahao Chen">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/cjh_head_yuque.png">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="陈家豪的个人博客">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">YOLO系列深度解读</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-08-18T15:41:18+08:00">
+                2017-08-18
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/目标检测/" itemprop="url" rel="index">
+                    <span itemprop="name">目标检测</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+            <div class="post-wordcount">
+              
+                
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-file-word-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">字数统计&#58;</span>
+                
+                <span title="字数统计">
+                  3.6k
+                </span>
+              
+
+              
+                <span class="post-meta-divider">|</span>
+              
+
+              
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-clock-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">阅读时长 &asymp;</span>
+                
+                <span title="阅读时长">
+                  14
+                </span>
+              
+            </div>
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h1 id="YOLO系列深度解读"><a href="#YOLO系列深度解读" class="headerlink" title="YOLO系列深度解读"></a>YOLO系列深度解读</h1><blockquote>
+<p>YOLO（You only look once）是基于深度学习的端到端的目标检测算法。与大部分目标检测与识别方法（比如Fast R-CNN）将目标识别任务分类目标区域预测和类别预测等多个流程不同，YOLO将目标区域预测和目标类别预测整合于单个神经网络模型中，实现在准确率较高的情况下实时快速目标检测与识别，其增强版本GPU中能跑45fps，简化版本155fps<br><a href></a></p>
+</blockquote>
+<p><a name="401612bb"></a></p>
+<h1 id="YOLO-v1简介"><a href="#YOLO-v1简介" class="headerlink" title="YOLO v1简介"></a><a href="https://luckmoonlight.github.io/2018/11/28/yoloV1yolov2yoloV3/#YOLO-v1%E7%AE%80%E4%BB%8B" target="_blank" rel="noopener"></a>YOLO v1简介</h1><blockquote>
+<ul>
+<li>时间：CVPR 2016(YOLO v1)</li>
+<li>作者：Joseph Redmon, Santosh Divvala, Ross Girshick, Ali Farhadi</li>
+<li>论文：<a href="https://arxiv.org/pdf/1506.02640.pdf" target="_blank" rel="noopener">You Only Look Once: Unified, Real-Time Object Detection</a></li>
+<li>代码：<a href="https://github.com/hizhangp/yolo_tensorflow">yolo_tensorflow</a></li>
+<li>源码分析参考：<a href="https://zhuanlan.zhihu.com/p/25053311" target="_blank" rel="noopener">YOLO源码解析</a></li>
+<li>博客参考：<a href="https://zhuanlan.zhihu.com/p/24916786" target="_blank" rel="noopener">图解YOLO</a></li>
+<li>网络设计<ul>
+<li>输入shape：448×448×3</li>
+<li>输出shape：7×7×30</li>
+<li>卷积层个数：24</li>
+<li>全连接层个数：2</li>
+</ul>
+</li>
+</ul>
+</blockquote>
+<p><a name="113bff06"></a></p>
+<h2 id="YOLO核心思想"><a href="#YOLO核心思想" class="headerlink" title="YOLO核心思想"></a><a href="https://luckmoonlight.github.io/2018/11/28/yoloV1yolov2yoloV3/#YOLO%E6%A0%B8%E5%BF%83%E6%80%9D%E6%83%B3" target="_blank" rel="noopener"></a>YOLO核心思想</h2><ul>
+<li><p>YOLO的核心思想就是将整张图作为网络的输入，直接在输出层回归bounding box的位置和bounding box的类别<br><a name="d695d796"></a></p>
+<h2 id="YOLO网络结构设计"><a href="#YOLO网络结构设计" class="headerlink" title="YOLO网络结构设计"></a><a href="https://luckmoonlight.github.io/2018/11/28/yoloV1yolov2yoloV3/#YOLO%E7%BD%91%E7%BB%9C%E7%BB%93%E6%9E%84%E8%AE%BE%E8%AE%A1" target="_blank" rel="noopener"></a>YOLO网络结构设计</h2><p><img src="https://cdn.nlark.com/yuque/0/2019/png/220248/1552897864098-f1f6c743-be36-4c4b-b6c5-e47061a772a5.png#align=left&amp;display=inline&amp;height=434&amp;originHeight=1116&amp;originWidth=1919&amp;size=0&amp;status=done&amp;width=746" alt></p>
+</li>
+<li><p>网络结构借鉴了 GoogLeNet 。24个卷积层，2个全链接层。（用1×1 reduction layers 紧跟 3×3 convolutional layers 取代Goolenet的 inception modules ）</p>
+</li>
+</ul>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">build_network</span><span class="params">(self,</span></span></span><br><span class="line"><span class="function"><span class="params">                      images,</span></span></span><br><span class="line"><span class="function"><span class="params">                      num_outputs,</span></span></span><br><span class="line"><span class="function"><span class="params">                      alpha,</span></span></span><br><span class="line"><span class="function"><span class="params">                      keep_prob=<span class="number">0.5</span>,</span></span></span><br><span class="line"><span class="function"><span class="params">                      is_training=True,</span></span></span><br><span class="line"><span class="function"><span class="params">                      scope=<span class="string">'yolo'</span>)</span>:</span></span><br><span class="line">        <span class="keyword">with</span> tf.variable_scope(scope):</span><br><span class="line">            <span class="keyword">with</span> slim.arg_scope(</span><br><span class="line">                [slim.conv2d, slim.fully_connected],</span><br><span class="line">                activation_fn=leaky_relu(alpha),</span><br><span class="line">                weights_regularizer=slim.l2_regularizer(<span class="number">0.0005</span>),</span><br><span class="line">                weights_initializer=tf.truncated_normal_initializer(<span class="number">0.0</span>, <span class="number">0.01</span>)</span><br><span class="line">            ):</span><br><span class="line">                net = tf.pad(</span><br><span class="line">                    images, np.array([[<span class="number">0</span>, <span class="number">0</span>], [<span class="number">3</span>, <span class="number">3</span>], [<span class="number">3</span>, <span class="number">3</span>], [<span class="number">0</span>, <span class="number">0</span>]]),</span><br><span class="line">                    name=<span class="string">'pad_1'</span>)</span><br><span class="line">                net = slim.conv2d(</span><br><span class="line">                    net, <span class="number">64</span>, <span class="number">7</span>, <span class="number">2</span>, padding=<span class="string">'VALID'</span>, scope=<span class="string">'conv_2'</span>)</span><br><span class="line">                net = slim.max_pool2d(net, <span class="number">2</span>, padding=<span class="string">'SAME'</span>, scope=<span class="string">'pool_3'</span>)</span><br><span class="line">                net = slim.conv2d(net, <span class="number">192</span>, <span class="number">3</span>, scope=<span class="string">'conv_4'</span>)</span><br><span class="line">                net = slim.max_pool2d(net, <span class="number">2</span>, padding=<span class="string">'SAME'</span>, scope=<span class="string">'pool_5'</span>)</span><br><span class="line">                net = slim.conv2d(net, <span class="number">128</span>, <span class="number">1</span>, scope=<span class="string">'conv_6'</span>)</span><br><span class="line">                net = slim.conv2d(net, <span class="number">256</span>, <span class="number">3</span>, scope=<span class="string">'conv_7'</span>)</span><br><span class="line">                net = slim.conv2d(net, <span class="number">256</span>, <span class="number">1</span>, scope=<span class="string">'conv_8'</span>)</span><br><span class="line">                net = slim.conv2d(net, <span class="number">512</span>, <span class="number">3</span>, scope=<span class="string">'conv_9'</span>)</span><br><span class="line">                net = slim.max_pool2d(net, <span class="number">2</span>, padding=<span class="string">'SAME'</span>, scope=<span class="string">'pool_10'</span>)</span><br><span class="line">                net = slim.conv2d(net, <span class="number">256</span>, <span class="number">1</span>, scope=<span class="string">'conv_11'</span>)</span><br><span class="line">                net = slim.conv2d(net, <span class="number">512</span>, <span class="number">3</span>, scope=<span class="string">'conv_12'</span>)</span><br><span class="line">                net = slim.conv2d(net, <span class="number">256</span>, <span class="number">1</span>, scope=<span class="string">'conv_13'</span>)</span><br><span class="line">                net = slim.conv2d(net, <span class="number">512</span>, <span class="number">3</span>, scope=<span class="string">'conv_14'</span>)</span><br><span class="line">                net = slim.conv2d(net, <span class="number">256</span>, <span class="number">1</span>, scope=<span class="string">'conv_15'</span>)</span><br><span class="line">                net = slim.conv2d(net, <span class="number">512</span>, <span class="number">3</span>, scope=<span class="string">'conv_16'</span>)</span><br><span class="line">                net = slim.conv2d(net, <span class="number">256</span>, <span class="number">1</span>, scope=<span class="string">'conv_17'</span>)</span><br><span class="line">                net = slim.conv2d(net, <span class="number">512</span>, <span class="number">3</span>, scope=<span class="string">'conv_18'</span>)</span><br><span class="line">                net = slim.conv2d(net, <span class="number">512</span>, <span class="number">1</span>, scope=<span class="string">'conv_19'</span>)</span><br><span class="line">                net = slim.conv2d(net, <span class="number">1024</span>, <span class="number">3</span>, scope=<span class="string">'conv_20'</span>)</span><br><span class="line">                net = slim.max_pool2d(net, <span class="number">2</span>, padding=<span class="string">'SAME'</span>, scope=<span class="string">'pool_21'</span>)</span><br><span class="line">                net = slim.conv2d(net, <span class="number">512</span>, <span class="number">1</span>, scope=<span class="string">'conv_22'</span>)</span><br><span class="line">                net = slim.conv2d(net, <span class="number">1024</span>, <span class="number">3</span>, scope=<span class="string">'conv_23'</span>)</span><br><span class="line">                net = slim.conv2d(net, <span class="number">512</span>, <span class="number">1</span>, scope=<span class="string">'conv_24'</span>)</span><br><span class="line">                net = slim.conv2d(net, <span class="number">1024</span>, <span class="number">3</span>, scope=<span class="string">'conv_25'</span>)</span><br><span class="line">                net = slim.conv2d(net, <span class="number">1024</span>, <span class="number">3</span>, scope=<span class="string">'conv_26'</span>)</span><br><span class="line">                net = tf.pad(</span><br><span class="line">                    net, np.array([[<span class="number">0</span>, <span class="number">0</span>], [<span class="number">1</span>, <span class="number">1</span>], [<span class="number">1</span>, <span class="number">1</span>], [<span class="number">0</span>, <span class="number">0</span>]]),</span><br><span class="line">                    name=<span class="string">'pad_27'</span>)</span><br><span class="line">                net = slim.conv2d(</span><br><span class="line">                    net, <span class="number">1024</span>, <span class="number">3</span>, <span class="number">2</span>, padding=<span class="string">'VALID'</span>, scope=<span class="string">'conv_28'</span>)</span><br><span class="line">                net = slim.conv2d(net, <span class="number">1024</span>, <span class="number">3</span>, scope=<span class="string">'conv_29'</span>)</span><br><span class="line">                net = slim.conv2d(net, <span class="number">1024</span>, <span class="number">3</span>, scope=<span class="string">'conv_30'</span>)</span><br><span class="line">                net = tf.transpose(net, [<span class="number">0</span>, <span class="number">3</span>, <span class="number">1</span>, <span class="number">2</span>], name=<span class="string">'trans_31'</span>)</span><br><span class="line">                net = slim.flatten(net, scope=<span class="string">'flat_32'</span>)</span><br><span class="line">                net = slim.fully_connected(net, <span class="number">512</span>, scope=<span class="string">'fc_33'</span>)</span><br><span class="line">                net = slim.fully_connected(net, <span class="number">4096</span>, scope=<span class="string">'fc_34'</span>)</span><br><span class="line">                net = slim.dropout(</span><br><span class="line">                    net, keep_prob=keep_prob, is_training=is_training,</span><br><span class="line">                    scope=<span class="string">'dropout_35'</span>)</span><br><span class="line">                net = slim.fully_connected(</span><br><span class="line">                    net, num_outputs, activation_fn=<span class="literal">None</span>, scope=<span class="string">'fc_36'</span>)</span><br><span class="line">        <span class="keyword">return</span> net</span><br></pre></td></tr></table></figure>
+<p><a name="bde2c721"></a></p>
+<h2 id="YOLO实现规则"><a href="#YOLO实现规则" class="headerlink" title="YOLO实现规则"></a><a href="https://luckmoonlight.github.io/2018/11/28/yoloV1yolov2yoloV3/#YOLO%E5%AE%9E%E7%8E%B0%E8%A7%84%E5%88%99" target="_blank" rel="noopener"></a>YOLO实现规则</h2><ul>
+<li>将一幅图像分成S×S个网络(grid cell)，如果某个object的中心落在这个网格中，则这个网格就负责预测这个object (5×B+C)</li>
+<li>每个网格要预测B个bounding box，预测C个类别的概率<ul>
+<li>每个bounding box要预测(x, y, w, h)和confidence共5个值</li>
+<li>confidence代表了(1.所有预测的box含有object的置信度)和(2.box预测的准确度)。其公式为Pr(Object)∗IOUtruthprePr(Object)∗IOUpretruth</li>
+<li>第一项：其中如果有object落在一个grid cell里，Pr(Object)=1，否则Pr(Object)=0；第二项：预测bounding box 和 gt_boxes之间的IOU值</li>
+</ul>
+</li>
+<li>S×S个网格(grid cell)的输出维度为 S×S×(5×B+C)</li>
+<li><p>举例说明: 在PASCAL VOC中，图像输入为448x448，取S=7，B=2，一共有20个类别(C=20)。则输出就是7x7x30<br><a name="596a39de"></a></p>
+<h2 id="训练过程"><a href="#训练过程" class="headerlink" title="训练过程"></a><a href="https://luckmoonlight.github.io/2018/11/28/yoloV1yolov2yoloV3/#%E8%AE%AD%E7%BB%83%E8%BF%87%E7%A8%8B" target="_blank" rel="noopener"></a>训练过程</h2></li>
+<li><p>imame Resize成448<em>448，图片分割得到7</em>7网格(cell)</p>
+</li>
+<li>CNN提取特征和预测：卷积负责提特征，全链接部分负责预测：<ul>
+<li>a) 7×7×2=98个bounding box(bbox) 的坐标xcenterxcenter,ycenterycenter,w,h 和grid cell是否有物体的conﬁdence 。</li>
+<li>b) 7×7=49个cell所属20个物体的概率。</li>
+<li>c) 得到每个box的分类置信度得分(class-specific confidence score)<ul>
+<li>每个网格预测C个类别的概率和bounding box预测的confidence相乘，得到每个boundind box的分类置信度得分(class-specific confidence score),即属于某一类的概率</li>
+<li>Pr(Classi|Object)∗Pr(Object)∗IOUtruthpre=Pr(Classi)∗IOUtruthprePr(Classi|Object)∗Pr(Object)∗IOUpretruth=Pr(Classi)∗IOUpretruth</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>过滤boxes<ul>
+<li>设置阈值，滤掉分类置信度得分(class-specific confidence score)得分低的boxes</li>
+<li>对boxes进行NMS处理，就得到最终的检测结果。<a href="https://luckmoonlight.github.io/2018/11/28/yoloV1yolov2yoloV3/#%E6%8D%9F%E5%A4%B1%E5%87%BD%E6%95%B0" target="_blank" rel="noopener"></a>损失函数<br><img src="https://cdn.nlark.com/yuque/0/2019/png/220248/1552897864066-494a5d01-dbbc-488e-beae-c64ea78bc3e8.png#align=left&amp;display=inline&amp;height=415&amp;originHeight=897&amp;originWidth=1497&amp;size=0&amp;status=done&amp;width=692" alt></li>
+</ul>
+</li>
+<li>损失函数的设计目标就是让坐标（x,y,w,h），confidence，classification 这个三个方面达到很好的平衡。</li>
+<li>简单的全部采用了平方误差损失(sum-squared error loss)来做这件事会有以下不足：<ul>
+<li>a) 8维的localization error和20维的classification error同等重要显然是不合理的；</li>
+<li>b) 如果一个网格中没有object（一幅图中这种网格很多），那么就会将这些网格中的box的confidence push到0，相比于较少的有object的网格，这种做法是overpowering的，这会导致网络不稳定甚至发散。</li>
+<li>c) 对不同大小的bbox预测中，相比于大bbox预测偏一点，小box预测偏一点更不能忍受。而平方误差损失(sum-squared error loss)中对同样的偏移loss是一样。</li>
+<li>d) 一个网格预测多个bounding box，在训练时我们希望每个object（ground true box）只有一个bounding box专门负责（一个object 一个bbox）</li>
+</ul>
+</li>
+<li><p>解决方案如下：</p>
+<ul>
+<li>a) 更重视8维的坐标预测，给这些损失前面赋予更大的loss weight, 记为 λcoordλcoord ,在pascal VOC训练中取5,对没有object的bbox的confidence loss，赋予小的loss weight，记为 λnoobjλnoobj ，在pascal VOC训练中取0.5</li>
+<li>b) 有object的bbox的confidence loss 和类别的loss 的loss weight正常取1</li>
+<li>c) 作者用了一个比较取巧的办法，就是将box的width和height取平方根代替原本的height和width。 因为small bbox的横轴值较小，发生偏移时，反应到y轴上的loss 比 big box 要大</li>
+<li><img src="https://cdn.nlark.com/yuque/0/2019/png/220248/1552897864271-8e436dc9-2caf-4c78-a1ac-e34ea8290204.png#align=left&amp;display=inline&amp;height=442&amp;originHeight=460&amp;originWidth=720&amp;size=0&amp;status=done&amp;width=692" alt></li>
+<li>d) 具体做法是与ground true box（object）的IOU最大的bounding box 负责该ground true box(object)的预测。（个人理解：通过过滤和NMS，得到的IOU最大者偏移会更少一些，可以更快速的学习到正确位置）<br><a name="2e769a75"></a><h2 id="缺点"><a href="#缺点" class="headerlink" title="缺点"></a><a href="https://luckmoonlight.github.io/2018/11/28/yoloV1yolov2yoloV3/#%E7%BC%BA%E7%82%B9" target="_blank" rel="noopener"></a>缺点</h2></li>
+</ul>
+</li>
+<li><p>YOLO对相互靠的很近的物体，还有很小的群体,检测效果不好，这是因为一个网格中只预测了两个框，并且只属于一类。</p>
+</li>
+<li>对测试图像中，同一类物体出现的新的不常见的长宽比和其他情况下泛化能力偏弱。</li>
+<li>由于损失函数的问题，定位误差是影响检测效果的主要原因。尤其是大小物体的处理上，还有待加强。<br><a name="fcea00ca"></a><h1 id="YOLO-v2简介"><a href="#YOLO-v2简介" class="headerlink" title="YOLO v2简介"></a><a href="https://luckmoonlight.github.io/2018/11/28/yoloV1yolov2yoloV3/#YOLO-v2%E7%AE%80%E4%BB%8B" target="_blank" rel="noopener"></a>YOLO v2简介</h1><blockquote>
+<ul>
+<li>[YOLO9000：Better，Faster，Stronger]，YOLOv2是Joseph Redmon提出的针对YOLO算法不足的改进版本，作者使用了一系列的方法对原来的YOLO多目标检测框架进行了改进，在保持原有速度的优势之下，对小物体检测精度上得以提升，此外作者提出了一种目标分类与检测的联合训练方法，通过这种方法YOLO9000可以同时在COCO和ImageNet数据集中进行训练，训练后的模型可以实现多达9000种物体的实时检测。</li>
+<li>时间：CVPR 2017(YOLO v2),Arxiv 2018(YOLO v3)</li>
+<li>作者：Joseph Redmon, Ali Farhadi</li>
+<li>论文：<a href="https://arxiv.org/pdf/1612.08242v1.pdf" target="_blank" rel="noopener">YOLO9000: Better, Faster, Stronger</a></li>
+<li>代码：<a href="https://github.com/hizhangp/yolo_tensorflow">yolo_tensorflow</a></li>
+<li>源码分析参考：<a href="https://blog.csdn.net/qq_17550379/column/info/18380" target="_blank" rel="noopener">YOLOv2源码分析(c版)</a></li>
+<li>博客参考<ul>
+<li><a href="https://zhuanlan.zhihu.com/p/25052190" target="_blank" rel="noopener">YOLO升级版：YOLOv2和YOLO9000解析</a></li>
+<li><a href="https://www.jianshu.com/p/3e77cefeb49b" target="_blank" rel="noopener">在Python 3中使用YOLOv2</a></li>
+</ul>
+</li>
+</ul>
+</blockquote>
+</li>
+</ul>
+<p><a name="3e09c4ea"></a></p>
+<h2 id="基本思路"><a href="#基本思路" class="headerlink" title="基本思路"></a><a href="https://luckmoonlight.github.io/2018/11/28/yoloV1yolov2yoloV3/#%E5%9F%BA%E6%9C%AC%E6%80%9D%E8%B7%AF" target="_blank" rel="noopener"></a>基本思路</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">- 神经网络：将<span class="number">416</span> × <span class="number">416</span> × <span class="number">3</span>的图片计算为一个<span class="number">13</span> × <span class="number">13</span> × <span class="number">125</span>的向量，该向量包含了预测的物品位置和类别信息</span><br><span class="line">- 检测器：将神经网络输出的向量进行“解码”操作，输出物品的分类和位置信息。</span><br></pre></td></tr></table></figure>
+<p><img src="https://cdn.nlark.com/yuque/0/2019/png/220248/1552897863545-3e772999-db20-44bc-9c6a-f60c7717b886.png#align=left&amp;display=inline&amp;height=310&amp;originHeight=473&amp;originWidth=1139&amp;size=0&amp;status=done&amp;width=746" alt><br><a name="d2e43066"></a></p>
+<h2 id="神经网络设计"><a href="#神经网络设计" class="headerlink" title="神经网络设计"></a><a href="https://luckmoonlight.github.io/2018/11/28/yoloV1yolov2yoloV3/#%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C%E8%AE%BE%E8%AE%A1" target="_blank" rel="noopener"></a>神经网络设计</h2><ul>
+<li>输入shape：416 × 416 × 3</li>
+<li>输出shape：13 × 13 × 125</li>
+<li>YOLOv2的神经网络部分使用了一个带跳层的神经网络，具体结构如下所示：</li>
+<li><img src="https://cdn.nlark.com/yuque/0/2019/png/220248/1552897863640-f874122d-52b9-4830-a308-7fc53df20049.png#align=left&amp;display=inline&amp;height=399&amp;originHeight=560&amp;originWidth=1011&amp;size=0&amp;status=done&amp;width=720" alt></li>
+<li>输入尺寸变为416 × 416 × 3，识别更高分辨率的图片。</li>
+<li>每个卷积层后添加了批标准化层，加速了网络的收敛。</li>
+<li>(跳层)在第16层开始分为两条路径，将低层的特征直接连接到高层，可提高模型性能。</li>
+<li><p>移除全连接层，使用卷积层预测框的偏移量，最终的输出向量中保存了原来的位置信息。<br><a name="b4c5a9d9"></a></p>
+<h2 id="检测规则"><a href="#检测规则" class="headerlink" title="检测规则"></a><a href="https://luckmoonlight.github.io/2018/11/28/yoloV1yolov2yoloV3/#%E6%A3%80%E6%B5%8B%E8%A7%84%E5%88%99" target="_blank" rel="noopener"></a>检测规则</h2></li>
+<li><p>YOLOv2使用了Anchor Box的方法，神经网络输出的向量尺寸是13 × 13 × 125，其中13 × 13是将图片划分为13行和13列共169个cell，每个cell预测125个数据。对于每个cell的125个数据，分解为125 = 5 × (5+20)，即每个cell包括5个anchor box(预测框)，每个anchor box(预测框)包括25个数据，分别为物体存在置信度，物体中心位置(x,y)，物体尺寸(w,h)和类别信息（20个）。如下图所示：</p>
+</li>
+<li><img src="https://cdn.nlark.com/yuque/0/2019/png/220248/1552897863592-9aaa79d2-b155-453d-afb2-a8dd93905d73.png#align=left&amp;display=inline&amp;height=277&amp;originHeight=334&amp;originWidth=868&amp;size=0&amp;status=done&amp;width=720" alt></li>
+<li><p>对于每个cell包括5个anchor box信息，每个anchor box包括25个数据，分别：</p>
+<ul>
+<li>为是否有物品（1个）：表示位于第i,j的cell中第K个anchor box中有物品的置信度(标签值为cell预测框与gtbox进行IOU的值)</li>
+<li>物品位置（4个）：物品位置(x,y,w,h)与物品位置中心点和尺寸的关系：bx=f(xijk)+cx by=f(yijk)+cy bw=pwewijk bh=phehijkbx=f(xijk)+cx by=f(yijk)+cy bw=pwewijk bh=phehijk</li>
+<li>其中，xijk,yijk,wijk,hijkxijk,yijk,wijk,hijk为网络为边界框anchor box预测4个坐标，cx,cycx,cy为单元格从图像的左上角偏移,pw,bhpw,bh为之前的边界框anchor box具有宽度和高度</li>
+<li>物体种类（20个）：softmax计算每一种物体的概率值</li>
+<li>每个cell预测5个anchor box，这5个anchor box有不同的预设尺寸，该预设尺寸可以手动指定也可以在训练集上训练获得。在YOLOv2中，预设尺寸是通过在测试集上进行类聚获得的。<br><a name="28151a39"></a><h2 id="模型训练"><a href="#模型训练" class="headerlink" title="模型训练"></a><a href="https://luckmoonlight.github.io/2018/11/28/yoloV1yolov2yoloV3/#%E6%A8%A1%E5%9E%8B%E8%AE%AD%E7%BB%83" target="_blank" rel="noopener"></a>模型训练</h2></li>
+</ul>
+</li>
+<li><p>神经网络部分基于模型Darknet-19，该模型的训练部分分为两个部分：预训练和训练部分</p>
+<ul>
+<li>预训练：预训练是在ImageNet上按分类的方式进行预训练160轮，使用SGD优化方法，初始学习率0.1，每次下降4倍，到0.0005时终止。除了训练224x224尺寸的图像外，还是用448x448尺寸的图片。</li>
+<li>训练：去除Darknet的最后一个卷积层，并将网络结构修改为YOLOv2的网络，在VOC数据集上进行训练。训练使用的代价函数是MSE代价函数。</li>
+</ul>
+</li>
+<li>在训练过程中，还引入了多尺寸训练，由于网络删除了全连接层，所以该网络并不关心图片的具体大小，训练时使用320~608尺寸的图像{320,352，….，608}。<br><a name="7a709d34"></a><h1 id="YOLO-v3简介"><a href="#YOLO-v3简介" class="headerlink" title="YOLO v3简介"></a><a href="https://luckmoonlight.github.io/2018/11/28/yoloV1yolov2yoloV3/#YOLO-v3%E7%AE%80%E4%BB%8B" target="_blank" rel="noopener"></a>YOLO v3简介</h1><blockquote>
+<ul>
+<li>YOLOv3在YOLOv2的基础进行了一些改进，这些更改使其效果变得更好。 在320×320的图像上，YOLOv3运行速度达到了22.2毫秒，mAP为28.2。其与SSD一样准确，但速度快了三倍</li>
+<li>时间：Arxiv 2018(YOLO v3)</li>
+<li>作者：Joseph Redmon, Ali Farhadi</li>
+<li>论文：<a href="https://pjreddie.com/media/files/papers/YOLOv3.pdf" target="_blank" rel="noopener">YOLOv3: An Incremental Improvement</a></li>
+<li>代码：<ul>
+<li><a href="https://github.com/pjreddie/darknet">darknet</a></li>
+<li><a href="https://github.com/qqwweee/keras-yolo3]">keras-yolo3</a></li>
+<li><a href="https://github.com/YunYang1994/tensorflow-yolov3">tensorflow-yolov3</a></li>
+</ul>
+</li>
+<li>官网：<a href="https://pjreddie.com/darknet/yolo/" target="_blank" rel="noopener">darknet</a></li>
+<li>源码分析参考：<a href="https://luckmoonlight.github.io/2018/12/04/yolov3SourceCode/" target="_blank" rel="noopener">YOLO v3源码解读</a></li>
+<li>博客参考<ul>
+<li><a href="https://zhuanlan.zhihu.com/p/34945787" target="_blank" rel="noopener">YOLOv3论文中文解读</a></li>
+<li><a href="https://blog.csdn.net/leviopku/article/details/82660381" target="_blank" rel="noopener">yolo系列之yolo v3【深度解析】</a></li>
+</ul>
+</li>
+<li>相关博客<ul>
+<li><a href="https://zhuanlan.zhihu.com/c_172507674" target="_blank" rel="noopener">知乎-计算机视觉论文速递</a></li>
+<li><a href="https://zhuanlan.zhihu.com/p/50170492" target="_blank" rel="noopener">YOLO-LITE</a></li>
+</ul>
+</li>
+</ul>
+</blockquote>
+</li>
+</ul>
+<p><a name="de6ceaaf"></a></p>
+<h2 id="网络结构图"><a href="#网络结构图" class="headerlink" title="网络结构图"></a><a href="https://luckmoonlight.github.io/2018/11/28/yoloV1yolov2yoloV3/#%E7%BD%91%E7%BB%9C%E7%BB%93%E6%9E%84%E5%9B%BE" target="_blank" rel="noopener"></a>网络结构图</h2><p><img src="https://cdn.nlark.com/yuque/0/2019/png/220248/1552897865947-5d34005b-bf85-4b0f-93c8-0e25b7dc6def.png#align=left&amp;display=inline&amp;height=335&amp;originHeight=636&amp;originWidth=1415&amp;size=0&amp;status=done&amp;width=746" alt><br><img src="https://cdn.nlark.com/yuque/0/2019/png/220248/1552897863747-76def20c-5942-4129-9e8a-b11229fd4aa0.png#align=left&amp;display=inline&amp;height=680&amp;originHeight=787&amp;originWidth=863&amp;size=0&amp;status=done&amp;width=746" alt><br><img src="https://cdn.nlark.com/yuque/0/2019/png/220248/1552897863568-37f6084f-154c-4e29-a500-6b53310e326f.png#align=left&amp;display=inline&amp;height=4221&amp;originHeight=6297&amp;originWidth=1113&amp;size=0&amp;status=done&amp;width=746" alt><br><img src="https://cdn.nlark.com/yuque/0/2019/png/220248/1552897863908-46a6b4fc-79f5-4505-bf83-8dce6d8bf436.png#align=left&amp;display=inline&amp;height=1469&amp;originHeight=1469&amp;originWidth=713&amp;size=0&amp;status=done&amp;width=713" alt><br><a name="4e9c9a42"></a></p>
+<h2 id="主要改进特性"><a href="#主要改进特性" class="headerlink" title="主要改进特性"></a><a href="https://luckmoonlight.github.io/2018/11/28/yoloV1yolov2yoloV3/#%E4%B8%BB%E8%A6%81%E6%94%B9%E8%BF%9B%E7%89%B9%E6%80%A7" target="_blank" rel="noopener"></a>主要改进特性</h2><ul>
+<li><strong>网络结构改变</strong>：网络的结构由Darknet-19变为Darknet-53，跳层的现象越来越普遍。</li>
+<li><strong>多尺度预测</strong>：输出3层，每层 S × S个网格，分别为 13×13 ，26 ×26 ，52×52<ul>
+<li>小尺度：（13×13的feature map）网络接收一张（416×416）的图，经过5个步长为2的卷积来进行降采样(416 / 2ˆ5 = 13),输出（13×13×512），再经过7个卷积得到第一个特征图谱，在这个特征图谱上做第一次预测。</li>
+<li>中尺度: （26×26的feature map）从小尺度中从后向前获得倒数第3个卷积层的输出，进行一次卷积一次x2上采样，将上采样特征(26×26×256)与第43个卷积特征(26×26×512)连接，输出(26×26×728),经过7个卷积得到第二个特征图谱(26×26×255)，在这个特征图谱上做第二次预测。</li>
+<li>大尺度：（52×52的feature map）操作同中尺度,从后向前获得倒数第3个卷积层的输出，进行一次卷积一次x2上采样，将上采样特征与第26个卷积特征连接，经过7个卷积得到第三个特征图谱，在这个特征图谱上做第三次预测。输出（52×52×255）</li>
+<li>好处：让网络同时学习到深层和浅层的特征，通过叠加浅层特征图特征到相邻通道，类似于FPN中的umsample+concat。这个方法把26x26x512的特征图叠加13x13x256的特征图，使模型有了细粒度特征,增加对小目标的识别能力</li>
+</ul>
+</li>
+<li><strong>anchor box</strong>:yolov3 anchor box一共有9个，由k-means聚类得到。在COCO数据集上，9个聚类是：（10×13）;（16×30）;（33×23）;（30×61）;（62×45）; （59×119）; （116×90）; （156×198）; （373×326）。不同尺寸特征图对应不同大小的先验框。<ul>
+<li>13×13尺度的anchor box【（116×90），（156×198），（373×326）】</li>
+<li>26×26尺度的anchor box【（30×61），（62×45），（59×119）】</li>
+<li>52×52尺度的anchor box【（10×13），（16×30），（33×23）】</li>
+<li>原因：<strong>(越精细的grid cell就可以检测出越精细的物体)</strong>尺度越大，感受野越小，对小物体越敏感，所以选择小的anchor box</li>
+</ul>
+</li>
+<li><strong>边框预测</strong>：预测tx ty tw th，使用sigmoid对Objectness和Classes confidence进行sigmoid得到0~1的概率，之所以用sigmoid取代之前版本的softmax，原因是softmax会扩大最大类别概率值而抑制其他类别概率值</li>
+<li><img src="https://cdn.nlark.com/yuque/0/2019/png/220248/1552897863594-668612d9-7202-47de-8575-561c408c7b1d.png#align=left&amp;display=inline&amp;height=305&amp;originHeight=305&amp;originWidth=458&amp;size=0&amp;status=done&amp;width=458" alt><ul>
+<li>(tx,ty):目标中心点相对于该点所在网格左上角的偏移量，经过sigmoid归一化。即值属于【0,1】。如图约（0.3 , 0.4）</li>
+<li>(cx,cy):该点所在网格的左上角距离最左上角相差的格子数。如图（1,1）</li>
+<li>(pw,ph):anchor box 的边长</li>
+<li>(tw,th):预测边框的宽和高</li>
+<li>PS：最终得到的边框坐标值是bx,by,bw,bh.而网络学习目标是tx,ty,tw,th</li>
+</ul>
+</li>
+<li><p><strong>损失函数LOSS</strong>：YOLO V3把YOLOV2中的Softmax loss变成Logistic loss</p>
+</li>
+<li><p><a href>YOLO</a></p>
+</li>
+<li><p><a href="https://luckmoonlight.github.io/categories/DeepLearning//" target="_blank" rel="noopener">DeepLearning</a></p>
+</li>
+<li><a href="https://luckmoonlight.github.io/categories/DeepLearning/%E7%9B%AE%E6%A0%87%E6%A3%80%E6%B5%8B//" target="_blank" rel="noopener">目标检测</a></li>
+<li><a href="https://luckmoonlight.github.io/categories/DeepLearning/%E7%9B%AE%E6%A0%87%E6%A3%80%E6%B5%8B/YOLO//" target="_blank" rel="noopener">YOLO</a></li>
+</ul>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+    <div>
+    
+    <div>  <div style="text-align:center;color: #ccc;font-size:14px;">-------------本文结束<i class="fa fa-paw"></i>感谢您的阅读-------------</div>  </div>
+
+
+    
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/One-Stage/" rel="tag"><i class="fa fa-tag"></i> One Stage</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/目标检测/SSP Net/" rel="next" title="SSP Net">
+                <i class="fa fa-chevron-left"></i> SSP Net
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/经典网络结构/VGG 实现/" rel="prev" title="AlexNet 实现">
+                AlexNet 实现 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+      <div id="sidebar-dimmer"></div>
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+      
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image" src="/images/cjh_head_yuque.png" alt="Jiahao Chen">
+            
+              <p class="site-author-name" itemprop="name">Jiahao Chen</p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+          
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">20</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">9</span>
+                  <span class="site-state-item-name">分类</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">10</span>
+                  <span class="site-state-item-name">标签</span>
+                </a>
+              </div>
+            
+
+          </nav>
+          <iframe frameborder="no" border="0" marginwidth="0" marginheight="0" width="330" height="86" src="//music.163.com/outchain/player?type=2&id=586299&auto=1&height=66"></iframe>
+          
+            <div class="feed-link motion-element">
+              <a href="/atom.xml" rel="alternate">
+                <i class="fa fa-rss"></i>
+                RSS
+              </a>
+            </div>
+          
+
+          
+            <div class="links-of-author motion-element">
+                
+                  <span class="links-of-author-item">
+                    <a href="https://github.com/Edison0902" target="_blank" title="GitHub">
+                      
+                        <i class="fa fa-fw fa-github"></i>GitHub</a>
+                  </span>
+                
+                  <span class="links-of-author-item">
+                    <a href="mailto:edison.18whu@gmail.com" target="_blank" title="E-Mail">
+                      
+                        <i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+                  </span>
+                
+                  <span class="links-of-author-item">
+                    <a href="https://weibo.com/u/6176093611" target="_blank" title="Weibo">
+                      
+                        <i class="fa fa-fw fa-globe"></i>Weibo</a>
+                  </span>
+                
+                  <span class="links-of-author-item">
+                    <a href="https://plus.google.com/yourname" target="_blank" title="Google">
+                      
+                        <i class="fa fa-fw fa-google"></i>Google</a>
+                  </span>
+                
+                  <span class="links-of-author-item">
+                    <a href="https://twitter.com/yourname" target="_blank" title="Twitter">
+                      
+                        <i class="fa fa-fw fa-twitter"></i>Twitter</a>
+                  </span>
+                
+                  <span class="links-of-author-item">
+                    <a href="https://www.facebook.com/yourname" target="_blank" title="FB Page">
+                      
+                        <i class="fa fa-fw fa-facebook"></i>FB Page</a>
+                  </span>
+                
+            </div>
+          
+
+          
+          
+
+          
+          
+            <div class="links-of-blogroll motion-element links-of-blogroll-inline">
+              <div class="links-of-blogroll-title">
+                <i class="fa  fa-fw fa-link"></i>
+                Links
+              </div>
+              <ul class="links-of-blogroll-list">
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="http://baidu.com/" title="百度" target="_blank">百度</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="http://google.com/" title="谷歌" target="_blank">谷歌</a>
+                  </li>
+                
+              </ul>
+            </div>
+          
+
+          
+
+        </div>
+      </section>
+      
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#YOLO系列深度解读"><span class="nav-text">YOLO系列深度解读</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#YOLO-v1简介"><span class="nav-text">YOLO v1简介</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#YOLO核心思想"><span class="nav-text">YOLO核心思想</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#YOLO网络结构设计"><span class="nav-text">YOLO网络结构设计</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#YOLO实现规则"><span class="nav-text">YOLO实现规则</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#训练过程"><span class="nav-text">训练过程</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#缺点"><span class="nav-text">缺点</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#YOLO-v2简介"><span class="nav-text">YOLO v2简介</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#基本思路"><span class="nav-text">基本思路</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#神经网络设计"><span class="nav-text">神经网络设计</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#检测规则"><span class="nav-text">检测规则</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#模型训练"><span class="nav-text">模型训练</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#YOLO-v3简介"><span class="nav-text">YOLO v3简介</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#网络结构图"><span class="nav-text">网络结构图</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#主要改进特性"><span class="nav-text">主要改进特性</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+      
+        <div class="back-to-top">
+          <i class="fa fa-arrow-up"></i>
+          
+            <span id="scrollpercent"><span>0</span>%</span>
+          
+        </div>
+      
+
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; 2018 &mdash; <span itemprop="copyrightYear">2019</span>
+  <span class="with-love">
+    <i class="fa fa-[object Object]"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">陈家豪</span>
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+
+
+
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.4"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  <script type="text/javascript">
+    // Popup Window;
+    var isfetched = false;
+    var isXml = true;
+    // Search DB path;
+    var search_path = "search.xml";
+    if (search_path.length === 0) {
+      search_path = "search.xml";
+    } else if (/json$/i.test(search_path)) {
+      isXml = false;
+    }
+    var path = "/" + search_path;
+    // monitor main search box;
+
+    var onPopupClose = function (e) {
+      $('.popup').hide();
+      $('#local-search-input').val('');
+      $('.search-result-list').remove();
+      $('#no-result').remove();
+      $(".local-search-pop-overlay").remove();
+      $('body').css('overflow', '');
+    }
+
+    function proceedsearch() {
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay"></div>')
+        .css('overflow', 'hidden');
+      $('.search-popup-overlay').click(onPopupClose);
+      $('.popup').toggle();
+      var $localSearchInput = $('#local-search-input');
+      $localSearchInput.attr("autocapitalize", "none");
+      $localSearchInput.attr("autocorrect", "off");
+      $localSearchInput.focus();
+    }
+
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+      'use strict';
+
+      // start loading animation
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay">' +
+          '<div id="search-loading-icon">' +
+          '<i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>' +
+          '</div>' +
+          '</div>')
+        .css('overflow', 'hidden');
+      $("#search-loading-icon").css('margin', '20% auto 0 auto').css('text-align', 'center');
+
+      $.ajax({
+        url: path,
+        dataType: isXml ? "xml" : "json",
+        async: true,
+        success: function(res) {
+          // get the contents from search data
+          isfetched = true;
+          $('.popup').detach().appendTo('.header-inner');
+          var datas = isXml ? $("entry", res).map(function() {
+            return {
+              title: $("title", this).text(),
+              content: $("content",this).text(),
+              url: $("url" , this).text()
+            };
+          }).get() : res;
+          var input = document.getElementById(search_id);
+          var resultContent = document.getElementById(content_id);
+          var inputEventFunction = function() {
+            var searchText = input.value.trim().toLowerCase();
+            var keywords = searchText.split(/[\s\-]+/);
+            if (keywords.length > 1) {
+              keywords.push(searchText);
+            }
+            var resultItems = [];
+            if (searchText.length > 0) {
+              // perform local searching
+              datas.forEach(function(data) {
+                var isMatch = false;
+                var hitCount = 0;
+                var searchTextCount = 0;
+                var title = data.title.trim();
+                var titleInLowerCase = title.toLowerCase();
+                var content = data.content.trim().replace(/<[^>]+>/g,"");
+                var contentInLowerCase = content.toLowerCase();
+                var articleUrl = decodeURIComponent(data.url);
+                var indexOfTitle = [];
+                var indexOfContent = [];
+                // only match articles with not empty titles
+                if(title != '') {
+                  keywords.forEach(function(keyword) {
+                    function getIndexByWord(word, text, caseSensitive) {
+                      var wordLen = word.length;
+                      if (wordLen === 0) {
+                        return [];
+                      }
+                      var startPosition = 0, position = [], index = [];
+                      if (!caseSensitive) {
+                        text = text.toLowerCase();
+                        word = word.toLowerCase();
+                      }
+                      while ((position = text.indexOf(word, startPosition)) > -1) {
+                        index.push({position: position, word: word});
+                        startPosition = position + wordLen;
+                      }
+                      return index;
+                    }
+
+                    indexOfTitle = indexOfTitle.concat(getIndexByWord(keyword, titleInLowerCase, false));
+                    indexOfContent = indexOfContent.concat(getIndexByWord(keyword, contentInLowerCase, false));
+                  });
+                  if (indexOfTitle.length > 0 || indexOfContent.length > 0) {
+                    isMatch = true;
+                    hitCount = indexOfTitle.length + indexOfContent.length;
+                  }
+                }
+
+                // show search results
+
+                if (isMatch) {
+                  // sort index by position of keyword
+
+                  [indexOfTitle, indexOfContent].forEach(function (index) {
+                    index.sort(function (itemLeft, itemRight) {
+                      if (itemRight.position !== itemLeft.position) {
+                        return itemRight.position - itemLeft.position;
+                      } else {
+                        return itemLeft.word.length - itemRight.word.length;
+                      }
+                    });
+                  });
+
+                  // merge hits into slices
+
+                  function mergeIntoSlice(text, start, end, index) {
+                    var item = index[index.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    var hits = [];
+                    var searchTextCountInSlice = 0;
+                    while (position + word.length <= end && index.length != 0) {
+                      if (word === searchText) {
+                        searchTextCountInSlice++;
+                      }
+                      hits.push({position: position, length: word.length});
+                      var wordEnd = position + word.length;
+
+                      // move to next position of hit
+
+                      index.pop();
+                      while (index.length != 0) {
+                        item = index[index.length - 1];
+                        position = item.position;
+                        word = item.word;
+                        if (wordEnd > position) {
+                          index.pop();
+                        } else {
+                          break;
+                        }
+                      }
+                    }
+                    searchTextCount += searchTextCountInSlice;
+                    return {
+                      hits: hits,
+                      start: start,
+                      end: end,
+                      searchTextCount: searchTextCountInSlice
+                    };
+                  }
+
+                  var slicesOfTitle = [];
+                  if (indexOfTitle.length != 0) {
+                    slicesOfTitle.push(mergeIntoSlice(title, 0, title.length, indexOfTitle));
+                  }
+
+                  var slicesOfContent = [];
+                  while (indexOfContent.length != 0) {
+                    var item = indexOfContent[indexOfContent.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    // cut out 100 characters
+                    var start = position - 20;
+                    var end = position + 80;
+                    if(start < 0){
+                      start = 0;
+                    }
+                    if (end < position + word.length) {
+                      end = position + word.length;
+                    }
+                    if(end > content.length){
+                      end = content.length;
+                    }
+                    slicesOfContent.push(mergeIntoSlice(content, start, end, indexOfContent));
+                  }
+
+                  // sort slices in content by search text's count and hits' count
+
+                  slicesOfContent.sort(function (sliceLeft, sliceRight) {
+                    if (sliceLeft.searchTextCount !== sliceRight.searchTextCount) {
+                      return sliceRight.searchTextCount - sliceLeft.searchTextCount;
+                    } else if (sliceLeft.hits.length !== sliceRight.hits.length) {
+                      return sliceRight.hits.length - sliceLeft.hits.length;
+                    } else {
+                      return sliceLeft.start - sliceRight.start;
+                    }
+                  });
+
+                  // select top N slices in content
+
+                  var upperBound = parseInt('1');
+                  if (upperBound >= 0) {
+                    slicesOfContent = slicesOfContent.slice(0, upperBound);
+                  }
+
+                  // highlight title and content
+
+                  function highlightKeyword(text, slice) {
+                    var result = '';
+                    var prevEnd = slice.start;
+                    slice.hits.forEach(function (hit) {
+                      result += text.substring(prevEnd, hit.position);
+                      var end = hit.position + hit.length;
+                      result += '<b class="search-keyword">' + text.substring(hit.position, end) + '</b>';
+                      prevEnd = end;
+                    });
+                    result += text.substring(prevEnd, slice.end);
+                    return result;
+                  }
+
+                  var resultItem = '';
+
+                  if (slicesOfTitle.length != 0) {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + highlightKeyword(title, slicesOfTitle[0]) + "</a>";
+                  } else {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + title + "</a>";
+                  }
+
+                  slicesOfContent.forEach(function (slice) {
+                    resultItem += "<a href='" + articleUrl + "'>" +
+                      "<p class=\"search-result\">" + highlightKeyword(content, slice) +
+                      "...</p>" + "</a>";
+                  });
+
+                  resultItem += "</li>";
+                  resultItems.push({
+                    item: resultItem,
+                    searchTextCount: searchTextCount,
+                    hitCount: hitCount,
+                    id: resultItems.length
+                  });
+                }
+              })
+            };
+            if (keywords.length === 1 && keywords[0] === "") {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-search fa-5x" /></div>'
+            } else if (resultItems.length === 0) {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-frown-o fa-5x" /></div>'
+            } else {
+              resultItems.sort(function (resultLeft, resultRight) {
+                if (resultLeft.searchTextCount !== resultRight.searchTextCount) {
+                  return resultRight.searchTextCount - resultLeft.searchTextCount;
+                } else if (resultLeft.hitCount !== resultRight.hitCount) {
+                  return resultRight.hitCount - resultLeft.hitCount;
+                } else {
+                  return resultRight.id - resultLeft.id;
+                }
+              });
+              var searchResultList = '<ul class=\"search-result-list\">';
+              resultItems.forEach(function (result) {
+                searchResultList += result.item;
+              })
+              searchResultList += "</ul>";
+              resultContent.innerHTML = searchResultList;
+            }
+          }
+
+          if ('auto' === 'auto') {
+            input.addEventListener('input', inputEventFunction);
+          } else {
+            $('.search-icon').click(inputEventFunction);
+            input.addEventListener('keypress', function (event) {
+              if (event.keyCode === 13) {
+                inputEventFunction();
+              }
+            });
+          }
+
+          // remove loading animation
+          $(".local-search-pop-overlay").remove();
+          $('body').css('overflow', '');
+
+          proceedsearch();
+        }
+      });
+    }
+
+    // handle and trigger popup window;
+    $('.popup-trigger').click(function(e) {
+      e.stopPropagation();
+      if (isfetched === false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+    });
+
+    $('.popup-btn-close').click(onPopupClose);
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+    $(document).on('keyup', function (event) {
+      var shouldDismissSearchPopup = event.which === 27 &&
+        $('.search-popup').is(':visible');
+      if (shouldDismissSearchPopup) {
+        onPopupClose();
+      }
+    });
+  </script>
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+<script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"pluginRootPath":"live2dw/","pluginJsPath":"lib/","pluginModelPath":"assets/","tagMode":false,"model":{"jsonPath":"/live2dw/assets/miku.model.json"},"display":{"position":"right","width":150,"height":300},"mobile":{"show":false},"log":false});</script></body>
+</html>
+
+
+
+<!-- 页面点击小红心 -->
+<script type="text/javascript" src="/js/src/clicklove.js"></script>
