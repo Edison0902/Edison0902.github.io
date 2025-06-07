@@ -7,50 +7,482 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://cdn.jsdelivr.net/npm/font-awesome@4.7.0/css/font-awesome.min.css" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-    <style>@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');</style>
+    
+    <!-- Tailwind配置 -->
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: '#165DFF',
+                        secondary: '#722ED1',
+                        accent: '#FF7D00',
+                        dark: '#1E293B',
+                        light: '#F8FAFC'
+                    },
+                    fontFamily: {
+                        inter: ['Inter', 'sans-serif'],
+                    },
+                }
+            }
+        }
+    </script>
+    
+    <style type="text/tailwindcss">
+        @layer utilities {
+            .content-auto {
+                content-visibility: auto;
+            }
+            .text-shadow {
+                text-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            }
+            .transition-custom {
+                transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            }
+            .bg-gradient-custom {
+                background: linear-gradient(135deg, #165DFF 0%, #722ED1 100%);
+            }
+            .animate-float {
+                animation: float 6s ease-in-out infinite;
+            }
+            @keyframes float {
+                0% { transform: translateY(0px); }
+                50% { transform: translateY(-20px); }
+                100% { transform: translateY(0px); }
+            }
+        }
+    </style>
 </head>
 
 <body class="font-inter bg-light text-dark antialiased">
     <!-- 导航栏 -->
-    <header class="fixed w-full z-50 bg-transparent transition-all duration-300">
-        <div class="container mx-auto px-4 py-4 flex justify-between items-center">
-            <a href="index.html" class="text-2xl font-bold text-primary">Edison Chen</a>
-            <nav class="hidden md:flex space-x-8">
-                <a href="index.html" class="text-dark hover:text-primary">首页</a>
-                <a href="portfolio.html" class="text-dark hover:text-primary">作品集</a>
-                <a href="blog.html" class="text-dark hover:text-primary">博客</a>
-                <a href="about.html" class="text-dark hover:text-primary">关于我</a>
-                <a href="contact.html" class="text-dark hover:text-primary">联系我</a>
-            </nav>
-            <button id="mobile-menu" class="md:hidden text-2xl"><i class="fa fa-bars"></i></button>
+    <header id="navbar" class="fixed w-full z-50 transition-all duration-300 bg-transparent">
+        <div class="container mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center py-4">
+                <a href="index.html" class="text-2xl font-bold text-primary tracking-tight">Edison Chen</a>
+                
+                <!-- 桌面导航 -->
+                <nav class="hidden md:flex space-x-8">
+                    <a href="index.html" class="text-dark hover:text-primary transition-custom font-medium">首页</a>
+                    <a href="portfolio.html" class="text-dark hover:text-primary transition-custom font-medium">作品集</a>
+                    <a href="blog.html" class="text-dark hover:text-primary transition-custom font-medium">博客</a>
+                    <a href="about.html" class="text-dark hover:text-primary transition-custom font-medium">关于我</a>
+                    <a href="contact.html" class="text-dark hover:text-primary transition-custom font-medium">联系我</a>
+                </nav>
+                
+                <!-- 移动端菜单按钮 -->
+                <button id="mobile-menu-button" class="md:hidden text-dark focus:outline-none">
+                    <i class="fa fa-bars text-2xl"></i>
+                </button>
+            </div>
         </div>
-        <div id="mobile-menu-content" class="hidden md:hidden absolute w-full bg-white shadow-lg">
-            <div class="p-4 space-y-3"><a href="index.html" class="block py-2 text-dark hover:text-primary">首页</a></div>
+        
+        <!-- 移动端导航菜单 -->
+        <div id="mobile-menu" class="hidden md:hidden bg-white shadow-lg absolute w-full">
+            <div class="container mx-auto px-4 py-2 space-y-3">
+                <a href="index.html" class="block py-2 text-dark hover:text-primary transition-custom font-medium">首页</a>
+                <a href="portfolio.html" class="block py-2 text-dark hover:text-primary transition-custom font-medium">作品集</a>
+                <a href="blog.html" class="block py-2 text-dark hover:text-primary transition-custom font-medium">博客</a>
+                <a href="about.html" class="block py-2 text-dark hover:text-primary transition-custom font-medium">关于我</a>
+                <a href="contact.html" class="block py-2 text-dark hover:text-primary transition-custom font-medium">联系我</a>
+            </div>
         </div>
     </header>
 
     <!-- 英雄区域 -->
-    <section class="pt-32 pb-16 bg-gradient-to-br from-blue-50 to-purple-50">
-        <div class="container mx-auto px-4 flex flex-col md:flex-row items-center">
-            <div class="md:w-1/2 mb-10 md:mb-0">
-                <h1 class="text-4xl font-bold mb-4">你好，我是 <span class="text-primary">Edison Chen</span></h1>
-                <h2 class="text-2xl text-gray-600 mb-6">AI / 后端开发者</h2>
-                <p class="text-lg text-gray-700 mb-8">专注于打造创新、高效的数字解决方案</p>
-                <div class="flex gap-4"><a href="portfolio.html" class="bg-primary text-white px-6 py-3 rounded-lg">查看作品</a></div>
-                <div class="mt-8 flex space-x-4 text-xl">
-                    <a href="#" class="text-gray-500 hover:text-primary"><i class="fa fa-github"></i></a>
-                    <a href="#" class="text-gray-500 hover:text-[#FF2E4D]">&nbsp;<i class="fa fa-book"></i></a> <!-- 小红书图标 -->
+    <section class="pt-28 pb-20 md:pt-40 md:pb-32 bg-gradient-to-br from-blue-50 to-purple-50">
+        <div class="container mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex flex-col md:flex-row items-center">
+                <div class="md:w-1/2 mb-10 md:mb-0">
+                    <h1 class="text-[clamp(2.5rem,5vw,4rem)] font-bold leading-tight text-dark mb-4">
+                        Hello, I'm <span class="text-primary">Edison Chen</span>
+                    </h1>
+                    <h2 class="text-[clamp(1.5rem,3vw,2.5rem)] font-semibold text-gray-700 mb-6 tracking-tight">
+                        AI / Backend
+                    </h2>
+                    <p class="text-lg text-gray-700 mb-8 max-w-lg leading-relaxed">
+                        我创建美观、功能强大的网站和应用程序，提供出色的用户体验。让我们一起打造伟大的作品！
+                    </p>
+                    <div class="flex flex-wrap gap-4">
+                        <a href="portfolio.html" class="px-8 py-3 bg-primary text-white rounded-lg shadow-lg hover:shadow-xl hover:bg-primary/90 transition-custom font-medium">
+                            查看我的作品
+                        </a>
+                        <a href="contact.html" class="px-8 py-3 bg-white text-primary border border-primary rounded-lg hover:bg-gray-50 transition-custom font-medium">
+                            联系我
+                        </a>
+                    </div>
+                    <div class="flex space-x-4 mt-10">
+                        <a href="#" class="text-gray-500 hover:text-primary transition-custom text-xl">
+                            <i class="fa fa-github"></i>
+                        </a>
+                        <a href="#" class="text-gray-500 hover:text-primary transition-custom text-xl">
+                            <i class="fa fa-linkedin"></i>
+                        </a>
+                        <a href="#" class="text-gray-500 hover:text-primary transition-custom text-xl">
+                            <i class="fa fa-twitter"></i>
+                        </a>
+                        <a href="#" class="text-gray-500 hover:text-primary transition-custom text-xl">
+                            <i class="fa fa-dribbble"></i>
+                        </a>
+                        <a href="#" class="text-gray-500 hover:text-[#FF2E4D] transition-custom text-xl">
+                            <i class="fa fa-book"></i> <!-- 使用书本图标作为小红书的替代 -->
+                        </a>
+                    </div>
+                </div>
+                <div class="md:w-1/2 flex justify-center">
+                    <div class="relative">
+                        <div class="absolute -inset-4 bg-gradient-custom rounded-full blur-xl opacity-70 animate-pulse"></div>
+                        <img src="https://picsum.photos/seed/profile/600/600" alt="个人照片" class="relative z-10 w-64 h-64 md:w-80 md:h-80 rounded-full object-cover border-8 border-white shadow-2xl animate-float">
+                    </div>
                 </div>
             </div>
-            <div class="md:w-1/2 flex justify-center"><img src="https://picsum.photos/600/600" class="w-64 h-64 rounded-full border-8 border-white shadow-2xl"></div>
+        </div>
+    </section>
+
+    <!-- 关于我部分 -->
+    <section class="py-20 bg-white">
+        <div class="container mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-16">
+                <h2 class="text-3xl font-bold text-dark mb-4 tracking-tight">关于我</h2>
+                <div class="w-20 h-1 bg-primary mx-auto rounded-full"></div>
+            </div>
+            
+            <div class="max-w-3xl mx-auto">
+                <p class="text-lg text-gray-700 mb-6 leading-relaxed">
+                    我是一名充满激情的全栈开发者，专注于AI和后端技术。拥有5年以上的Web开发经验，我热衷于创建既美观又实用的数字产品。
+                </p>
+                <p class="text-lg text-gray-700 mb-6 leading-relaxed">
+                    我的专业领域包括人工智能应用开发、后端架构设计和高性能系统优化。我相信技术应该为用户服务，因此我始终将用户体验放在首位。
+                </p>
+                <p class="text-lg text-gray-700 mb-6 leading-relaxed">
+                    当我不编码时，我喜欢阅读技术书籍、参加技术研讨会，以及探索新的编程语言和框架。
+                </p>
+                
+                <div class="flex flex-wrap justify-center gap-6 mt-10">
+                    <a href="portfolio.html" class="px-8 py-3 bg-primary text-white rounded-lg shadow-lg hover:shadow-xl hover:bg-primary/90 transition-custom font-medium">
+                        查看我的作品
+                    </a>
+                    <a href="contact.html" class="px-8 py-3 bg-white text-primary border border-primary rounded-lg hover:bg-gray-50 transition-custom font-medium">
+                        联系我
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 技能部分 -->
+    <section class="py-20 bg-gray-50">
+        <div class="container mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-16">
+                <h2 class="text-3xl font-bold text-dark mb-4 tracking-tight">我的技能</h2>
+                <div class="w-20 h-1 bg-primary mx-auto rounded-full"></div>
+            </div>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-12 max-w-4xl mx-auto">
+                <div>
+                    <h3 class="text-2xl font-semibold mb-6 tracking-tight">技术栈</h3>
+                    
+                    <div class="space-y-6">
+                        <div>
+                            <div class="flex justify-between mb-2">
+                                <span class="font-medium">Python</span>
+                                <span class="text-primary">95%</span>
+                            </div>
+                            <div class="h-2 bg-gray-200 rounded-full overflow-hidden">
+                                <div class="h-full bg-primary rounded-full" style="width: 95%"></div>
+                            </div>
+                        </div>
+                        
+                        <div>
+                            <div class="flex justify-between mb-2">
+                                <span class="font-medium">JavaScript/TypeScript</span>
+                                <span class="text-primary">90%</span>
+                            </div>
+                            <div class="h-2 bg-gray-200 rounded-full overflow-hidden">
+                                <div class="h-full bg-primary rounded-full" style="width: 90%"></div>
+                            </div>
+                        </div>
+                        
+                        <div>
+                            <div class="flex justify-between mb-2">
+                                <span class="font-medium">AI & Machine Learning</span>
+                                <span class="text-primary">85%</span>
+                            </div>
+                            <div class="h-2 bg-gray-200 rounded-full overflow-hidden">
+                                <div class="h-full bg-primary rounded-full" style="width: 85%"></div>
+                            </div>
+                        </div>
+                        
+                        <div>
+                            <div class="flex justify-between mb-2">
+                                <span class="font-medium">数据库设计</span>
+                                <span class="text-primary">80%</span>
+                            </div>
+                            <div class="h-2 bg-gray-200 rounded-full overflow-hidden">
+                                <div class="h-full bg-primary rounded-full" style="width: 80%"></div>
+                            </div>
+                        </div>
+                        
+                        <div>
+                            <div class="flex justify-between mb-2">
+                                <span class="font-medium">云服务 (AWS/GCP)</span>
+                                <span class="text-primary">75%</span>
+                            </div>
+                            <div class="h-2 bg-gray-200 rounded-full overflow-hidden">
+                                <div class="h-full bg-primary rounded-full" style="width: 75%"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div>
+                    <h3 class="text-2xl font-semibold mb-6 tracking-tight">工具与框架</h3>
+                    
+                    <div class="grid grid-cols-2 sm:grid-cols-3 gap-4">
+                        <div class="bg-white p-4 rounded-lg text-center hover:shadow-md transition-custom">
+                            <div class="text-3xl mb-2 text-primary">
+                                <i class="fa fa-code"></i>
+                            </div>
+                            <h4 class="font-medium">Python</h4>
+                        </div>
+                        
+                        <div class="bg-white p-4 rounded-lg text-center hover:shadow-md transition-custom">
+                            <div class="text-3xl mb-2 text-primary">
+                                <i class="fa fa-database"></i>
+                            </div>
+                            <h4 class="font-medium">MongoDB</h4>
+                        </div>
+                        
+                        <div class="bg-white p-4 rounded-lg text-center hover:shadow-md transition-custom">
+                            <div class="text-3xl mb-2 text-primary">
+                                <i class="fa fa-server"></i>
+                            </div>
+                            <h4 class="font-medium">Node.js</h4>
+                        </div>
+                        
+                        <div class="bg-white p-4 rounded-lg text-center hover:shadow-md transition-custom">
+                            <div class="text-3xl mb-2 text-primary">
+                                <i class="fa fa-cloud"></i>
+                            </div>
+                            <h4 class="font-medium">AWS</h4>
+                        </div>
+                        
+                        <div class="bg-white p-4 rounded-lg text-center hover:shadow-md transition-custom">
+                            <div class="text-3xl mb-2 text-primary">
+                                <i class="fa fa-git"></i>
+                            </div>
+                            <h4 class="font-medium">Git</h4>
+                        </div>
+                        
+                        <div class="bg-white p-4 rounded-lg text-center hover:shadow-md transition-custom">
+                            <div class="text-3xl mb-2 text-primary">
+                                <i class="fa fa-terminal"></i>
+                            </div>
+                            <h4 class="font-medium">Docker</h4>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 最新博客文章 -->
+    <section class="py-20 bg-white">
+        <div class="container mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-16">
+                <h2 class="text-3xl font-bold text-dark mb-4 tracking-tight">最新博客文章</h2>
+                <div class="w-20 h-1 bg-primary mx-auto rounded-full"></div>
+                <p class="text-gray-600 mt-6 max-w-2xl mx-auto leading-relaxed">
+                    阅读我关于技术、AI和Web开发的最新思考和见解。
+                </p>
+            </div>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 max-w-5xl mx-auto">
+                <!-- 博客文章1 -->
+                <div class="bg-white rounded-xl overflow-hidden shadow-lg hover:shadow-xl transition-custom group">
+                    <div class="relative overflow-hidden">
+                        <img src="https://picsum.photos/seed/blog1/600/400" alt="AI在前端开发中的应用" class="w-full h-56 object-cover transform group-hover:scale-105 transition-custom duration-500">
+                        <div class="absolute top-4 left-4">
+                            <span class="px-3 py-1 bg-primary/90 text-white text-xs rounded-full">AI</span>
+                        </div>
+                    </div>
+                    <div class="p-6">
+                        <div class="flex items-center mb-3">
+                            <img src="https://picsum.photos/seed/author1/100/100" alt="作者头像" class="w-8 h-8 rounded-full mr-3">
+                            <span class="text-sm text-gray-500">Edison Chen · 2023年6月15日</span>
+                        </div>
+                        <h3 class="text-xl font-semibold mb-2 group-hover:text-primary transition-custom tracking-tight">AI在前端开发中的应用</h3>
+                        <p class="text-gray-600 mb-4 leading-relaxed">
+                            探索AI如何改变前端开发流程，提高效率并提供更好的用户体验。
+                        </p>
+                        <a href="#" class="text-primary hover:text-primary/80 font-medium flex items-center">
+                            阅读更多 <i class="fa fa-arrow-right ml-2"></i>
+                        </a>
+                    </div>
+                </div>
+                
+                <!-- 博客文章2 -->
+                <div class="bg-white rounded-xl overflow-hidden shadow-lg hover:shadow-xl transition-custom group">
+                    <div class="relative overflow-hidden">
+                        <img src="https://picsum.photos/seed/blog2/600/400" alt="后端性能优化技巧" class="w-full h-56 object-cover transform group-hover:scale-105 transition-custom duration-500">
+                        <div class="absolute top-4 left-4">
+                            <span class="px-3 py-1 bg-secondary/90 text-white text-xs rounded-full">后端</span>
+                        </div>
+                    </div>
+                    <div class="p-6">
+                        <div class="flex items-center mb-3">
+                            <img src="https://picsum.photos/seed/author1/100/100" alt="作者头像" class="w-8 h-8 rounded-full mr-3">
+                            <span class="text-sm text-gray-500">Edison Chen · 2023年5月22日</span>
+                        </div>
+                        <h3 class="text-xl font-semibold mb-2 group-hover:text-primary transition-custom tracking-tight">后端性能优化技巧</h3>
+                        <p class="text-gray-600 mb-4 leading-relaxed">
+                            分享一些实用的后端性能优化方法，让你的应用程序运行得更快。
+                        </p>
+                        <a href="#" class="text-primary hover:text-primary/80 font-medium flex items-center">
+                            阅读更多 <i class="fa fa-arrow-right ml-2"></i>
+                        </a>
+                    </div>
+                </div>
+                
+                <!-- 博客文章3 -->
+                <div class="bg-white rounded-xl overflow-hidden shadow-lg hover:shadow-xl transition-custom group">
+                    <div class="relative overflow-hidden">
+                        <img src="https://picsum.photos/seed/blog3/600/400" alt="云原生架构设计" class="w-full h-56 object-cover transform group-hover:scale-105 transition-custom duration-500">
+                        <div class="absolute top-4 left-4">
+                            <span class="px-3 py-1 bg-accent/90 text-white text-xs rounded-full">架构</span>
+                        </div>
+                    </div>
+                    <div class="p-6">
+                        <div class="flex items-center mb-3">
+                            <img src="https://picsum.photos/seed/author1/100/100" alt="作者头像" class="w-8 h-8 rounded-full mr-3">
+                            <span class="text-sm text-gray-500">Edison Chen · 2023年4月18日</span>
+                        </div>
+                        <h3 class="text-xl font-semibold mb-2 group-hover:text-primary transition-custom tracking-tight">云原生架构设计</h3>
+                        <p class="text-gray-600 mb-4 leading-relaxed">
+                            探讨云原生架构的核心原则和设计模式，帮助你构建更具弹性的应用。
+                        </p>
+                        <a href="#" class="text-primary hover:text-primary/80 font-medium flex items-center">
+                            阅读更多 <i class="fa fa-arrow-right ml-2"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="text-center mt-12">
+                <a href="blog.html" class="inline-flex items-center px-6 py-3 bg-white text-primary border border-primary rounded-lg hover:bg-primary hover:text-white transition-custom font-medium">
+                    查看所有文章 <i class="fa fa-long-arrow-right ml-2"></i>
+                </a>
+            </div>
         </div>
     </section>
 
     <!-- 页脚 -->
     <footer class="bg-dark text-white py-12">
-        <div class="container mx-auto px-4">
-            <p class="text-center">© 2023 Edison Chen | 小红书：<a href="#" class="text-[#FF2E4D]">&nbsp;@your_username</a></p>
+        <div class="container mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                <div>
+                    <h3 class="text-2xl font-bold mb-4 tracking-tight">Edison Chen</h3>
+                    <p class="text-gray-400 mb-6 leading-relaxed">
+                        创建美观、功能强大的网站和应用程序，让技术为用户服务。
+                    </p>
+                    <div class="flex space-x-4">
+                        <a href="#" class="text-gray-400 hover:text-white transition-custom">
+                            <i class="fa fa-github"></i>
+                        </a>
+                        <a href="#" class="text-gray-400 hover:text-white transition-custom">
+                            <i class="fa fa-linkedin"></i>
+                        </a>
+                        <a href="#" class="text-gray-400 hover:text-white transition-custom">
+                            <i class="fa fa-twitter"></i>
+                        </a>
+                        <a href="#" class="text-gray-400 hover:text-white transition-custom">
+                            <i class="fa fa-dribbble"></i>
+                        </a>
+                        <a href="#" class="text-gray-400 hover:text-[#FF2E4D] transition-custom">
+                            <i class="fa fa-book"></i> <!-- 使用书本图标作为小红书的替代 -->
+                        </a>
+                    </div>
+                </div>
+                
+                <div>
+                    <h4 class="text-lg font-semibold mb-4 tracking-tight">快速链接</h4>
+                    <ul class="space-y-2">
+                        <li><a href="index.html" class="text-gray-400 hover:text-white transition-custom">首页</a></li>
+                        <li><a href="portfolio.html" class="text-gray-400 hover:text-white transition-custom">作品集</a></li>
+                        <li><a href="blog.html" class="text-gray-400 hover:text-white transition-custom">博客</a></li>
+                        <li><a href="about.html" class="text-gray-400 hover:text-white transition-custom">关于我</a></li>
+                        <li><a href="contact.html" class="text-gray-400 hover:text-white transition-custom">联系我</a></li>
+                    </ul>
+                </div>
+                
+                <div>
+                    <h4 class="text-lg font-semibold mb-4 tracking-tight">订阅更新</h4>
+                    <p class="text-gray-400 mb-4 leading-relaxed">
+                        订阅我的通讯，获取最新项目和文章的更新。
+                    </p>
+                    <form class="flex">
+                        <input type="email" placeholder="你的邮箱" class="px-4 py-2 rounded-l-lg w-full focus:outline-none text-dark" aria-label="邮箱地址">
+                        <button type="submit" class="bg-primary hover:bg-primary/90 text-white px-4 py-2 rounded-r-lg transition-custom">
+                            <i class="fa fa-paper-plane"></i>
+                        </button>
+                    </form>
+                </div>
+            </div>
+            
+            <div class="border-t border-gray-800 mt-12 pt-8 text-center text-gray-400">
+                <p>&copy; 2023 Edison Chen. 保留所有权利。</p>
+            </div>
         </div>
     </footer>
+
+    <!-- 回到顶部按钮 -->
+    <button id="back-to-top" class="fixed bottom-8 right-8 bg-primary text-white w-12 h-12 rounded-full flex items-center justify-center shadow-lg opacity-0 invisible transition-custom z-50">
+        <i class="fa fa-arrow-up"></i>
+    </button>
+
+    <!-- JavaScript -->
+    <script>
+        // 移动端菜单切换
+        const mobileMenuButton = document.getElementById('mobile-menu-button');
+        const mobileMenu = document.getElementById('mobile-menu');
+        
+        mobileMenuButton.addEventListener('click', () => {
+            mobileMenu.classList.toggle('hidden');
+        });
+        
+        // 导航栏滚动效果
+        const navbar = document.getElementById('navbar');
+        
+        window.addEventListener('scroll', () => {
+            if (window.scrollY > 50) {
+                navbar.classList.add('bg-white', 'shadow-md');
+                navbar.classList.remove('bg-transparent');
+            } else {
+                navbar.classList.remove('bg-white', 'shadow-md');
+                navbar.classList.add('bg-transparent');
+            }
+        });
+        
+        // 回到顶部按钮
+        const backToTopButton = document.getElementById('back-to-top');
+        
+        window.addEventListener('scroll', () => {
+            if (window.scrollY > 300) {
+                backToTopButton.classList.remove('opacity-0', 'invisible');
+                backToTopButton.classList.add('opacity-100', 'visible');
+            } else {
+                backToTopButton.classList.add('opacity-0', 'invisible');
+                backToTopButton.classList.remove('opacity-100', 'visible');
+            }
+        });
+        
+        backToTopButton.addEventListener('click', () => {
+            window.scrollTo({
+                top: 0,
+                behavior: 'smooth'
+            });
+        });
+    </script>
 </body>
 </html>
+    
