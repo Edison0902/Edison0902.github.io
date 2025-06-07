@@ -1,0 +1,680 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Edison Chen | Personal Portfolio</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdn.jsdelivr.net/npm/font-awesome@4.7.0/css/font-awesome.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.8/dist/chart.umd.min.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- Tailwind Configuration -->
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: '#165DFF',
+                        secondary: '#722ED1',
+                        accent: '#FF7D00',
+                        dark: '#1E293B',
+                        light: '#F8FAFC'
+                    },
+                    fontFamily: {
+                        inter: ['Inter', 'sans-serif'],
+                    },
+                }
+            }
+        }
+    </script>
+    
+    <style type="text/tailwindcss">
+        @layer utilities {
+            .content-auto {
+                content-visibility: auto;
+            }
+            .text-shadow {
+                text-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            }
+            .transition-custom {
+                transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            }
+            .bg-gradient-custom {
+                background: linear-gradient(135deg, #165DFF 0%, #722ED1 100%);
+            }
+            .animate-float {
+                animation: float 6s ease-in-out infinite;
+            }
+            @keyframes float {
+                0% { transform: translateY(0px); }
+                50% { transform: translateY(-20px); }
+                100% { transform: translateY(0px); }
+            }
+        }
+    </style>
+</head>
+
+<body class="font-inter bg-light text-dark antialiased">
+    <!-- Navbar -->
+    <header id="navbar" class="fixed w-full z-50 transition-all duration-300 bg-transparent">
+        <div class="container mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center py-4">
+                <a href="#" class="text-2xl font-bold text-primary">YourName</a>
+                
+                <!-- Desktop Navigation -->
+                <nav class="hidden md:flex space-x-8">
+                    <a href="#home" class="text-dark hover:text-primary transition-custom font-medium">Home</a>
+                    <a href="#about" class="text-dark hover:text-primary transition-custom font-medium">About</a>
+                    <a href="#projects" class="text-dark hover:text-primary transition-custom font-medium">Projects</a>
+                    <a href="#skills" class="text-dark hover:text-primary transition-custom font-medium">Skills</a>
+                    <a href="#contact" class="text-dark hover:text-primary transition-custom font-medium">Contact</a>
+                </nav>
+                
+                <!-- Mobile Navigation Toggle -->
+                <button id="mobile-menu-button" class="md:hidden text-dark focus:outline-none">
+                    <i class="fa fa-bars text-2xl"></i>
+                </button>
+            </div>
+        </div>
+        
+        <!-- Mobile Navigation Menu -->
+        <div id="mobile-menu" class="hidden md:hidden bg-white shadow-lg absolute w-full">
+            <div class="container mx-auto px-4 py-2 space-y-3">
+                <a href="#home" class="block py-2 text-dark hover:text-primary transition-custom font-medium">Home</a>
+                <a href="#about" class="block py-2 text-dark hover:text-primary transition-custom font-medium">About</a>
+                <a href="#projects" class="block py-2 text-dark hover:text-primary transition-custom font-medium">Projects</a>
+                <a href="#skills" class="block py-2 text-dark hover:text-primary transition-custom font-medium">Skills</a>
+                <a href="#contact" class="block py-2 text-dark hover:text-primary transition-custom font-medium">Contact</a>
+            </div>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section id="home" class="pt-28 pb-20 md:pt-40 md:pb-32 bg-gradient-to-br from-blue-50 to-purple-50">
+        <div class="container mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex flex-col md:flex-row items-center">
+                <div class="md:w-1/2 mb-10 md:mb-0">
+                    <h1 class="text-[clamp(2.5rem,5vw,4rem)] font-bold leading-tight text-dark mb-4">
+                        Hello, I'm <span class="text-primary">Edison Chen</span>
+                    </h1>
+                    <h2 class="text-[clamp(1.5rem,3vw,2.5rem)] font-semibold text-gray-600 mb-6">
+                        Frontend Developer & UI Designer
+                    </h2>
+                    <p class="text-lg text-gray-700 mb-8 max-w-lg">
+                        I create beautiful, functional websites and applications that provide amazing user experiences. Let's build something great together!
+                    </p>
+                    <div class="flex flex-wrap gap-4">
+                        <a href="#projects" class="px-8 py-3 bg-primary text-white rounded-lg shadow-lg hover:shadow-xl hover:bg-primary/90 transition-custom font-medium">
+                            View My Work
+                        </a>
+                        <a href="#contact" class="px-8 py-3 bg-white text-primary border border-primary rounded-lg hover:bg-gray-50 transition-custom font-medium">
+                            Get In Touch
+                        </a>
+                    </div>
+                    <div class="flex space-x-4 mt-10">
+                        <a href="#" class="text-gray-500 hover:text-primary transition-custom text-xl">
+                            <i class="fa fa-github"></i>
+                        </a>
+                        <a href="#" class="text-gray-500 hover:text-primary transition-custom text-xl">
+                            <i class="fa fa-linkedin"></i>
+                        </a>
+                        <a href="#" class="text-gray-500 hover:text-primary transition-custom text-xl">
+                            <i class="fa fa-twitter"></i>
+                        </a>
+                        <a href="#" class="text-gray-500 hover:text-primary transition-custom text-xl">
+                            <i class="fa fa-dribbble"></i>
+                        </a>
+                    </div>
+                </div>
+                <div class="md:w-1/2 flex justify-center">
+                    <div class="relative">
+                        <div class="absolute -inset-4 bg-gradient-custom rounded-full blur-xl opacity-70 animate-pulse"></div>
+                        <img src="https://picsum.photos/seed/profile/600/600" alt="Your Profile" class="relative z-10 w-64 h-64 md:w-80 md:h-80 rounded-full object-cover border-8 border-white shadow-2xl animate-float">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- About Section -->
+    <section id="about" class="py-20 bg-white">
+        <div class="container mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-16">
+                <h2 class="text-[clamp(1.8rem,3vw,2.5rem)] font-bold text-dark mb-4">About Me</h2>
+                <div class="w-20 h-1 bg-primary mx-auto rounded-full"></div>
+            </div>
+            
+            <div class="flex flex-col lg:flex-row gap-12 items-center">
+                <div class="lg:w-2/5">
+                    <img src="https://picsum.photos/seed/about/600/800" alt="About Me" class="w-full h-auto rounded-xl shadow-xl">
+                </div>
+                <div class="lg:w-3/5">
+                    <h3 class="text-2xl font-semibold mb-6">My Journey in Web Development</h3>
+                    <p class="text-gray-700 mb-6 leading-relaxed">
+                        I'm a passionate frontend developer with over 5 years of experience creating responsive, accessible, and visually stunning websites. My journey began with a fascination for how websites work, and I've since developed expertise in modern web technologies.
+                    </p>
+                    <p class="text-gray-700 mb-6 leading-relaxed">
+                        I believe in the power of clean, maintainable code and user-centered design. My approach combines technical excellence with creative problem-solving to deliver products that not only look great but also provide real value to users.
+                    </p>
+                    
+                    <div class="grid grid-cols-2 gap-6 mt-10">
+                        <div class="bg-gray-50 p-6 rounded-lg shadow-sm">
+                            <div class="flex items-center mb-3">
+                                <div class="w-12 h-12 rounded-full bg-primary/10 flex items-center justify-center mr-4">
+                                    <i class="fa fa-code text-primary text-xl"></i>
+                                </div>
+                                <h4 class="text-xl font-semibold">Frontend Development</h4>
+                            </div>
+                            <p class="text-gray-600">Building responsive, interactive web applications with modern frameworks.</p>
+                        </div>
+                        <div class="bg-gray-50 p-6 rounded-lg shadow-sm">
+                            <div class="flex items-center mb-3">
+                                <div class="w-12 h-12 rounded-full bg-primary/10 flex items-center justify-center mr-4">
+                                    <i class="fa fa-paint-brush text-primary text-xl"></i>
+                                </div>
+                                <h4 class="text-xl font-semibold">UI/UX Design</h4>
+                            </div>
+                            <p class="text-gray-600">Creating beautiful, intuitive interfaces that users love.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Projects Section -->
+    <section id="projects" class="py-20 bg-gray-50">
+        <div class="container mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-16">
+                <h2 class="text-[clamp(1.8rem,3vw,2.5rem)] font-bold text-dark mb-4">My Projects</h2>
+                <div class="w-20 h-1 bg-primary mx-auto rounded-full"></div>
+                <p class="text-gray-600 mt-6 max-w-2xl mx-auto">
+                    Explore some of my recent work. Each project represents a unique challenge and an opportunity to create something exceptional.
+                </p>
+            </div>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                <!-- Project 1 -->
+                <div class="bg-white rounded-xl overflow-hidden shadow-lg hover:shadow-xl transition-custom group">
+                    <div class="relative overflow-hidden">
+                        <img src="https://picsum.photos/seed/project1/600/400" alt="E-commerce Website" class="w-full h-64 object-cover transform group-hover:scale-105 transition-custom duration-500">
+                        <div class="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent opacity-0 group-hover:opacity-100 transition-custom flex items-end">
+                            <div class="p-6">
+                                <div class="flex space-x-2 mb-3">
+                                    <span class="px-3 py-1 bg-primary/90 text-white text-xs rounded-full">React</span>
+                                    <span class="px-3 py-1 bg-secondary/90 text-white text-xs rounded-full">Node.js</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="p-6">
+                        <h3 class="text-xl font-semibold mb-2 group-hover:text-primary transition-custom">E-commerce Platform</h3>
+                        <p class="text-gray-600 mb-4">A full-featured online store with payment integration and inventory management.</p>
+                        <div class="flex justify-between items-center">
+                            <a href="#" class="text-primary hover:text-primary/80 font-medium flex items-center">
+                                View Project <i class="fa fa-arrow-right ml-2"></i>
+                            </a>
+                            <span class="text-sm text-gray-500">2023</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Project 2 -->
+                <div class="bg-white rounded-xl overflow-hidden shadow-lg hover:shadow-xl transition-custom group">
+                    <div class="relative overflow-hidden">
+                        <img src="https://picsum.photos/seed/project2/600/400" alt="Portfolio Website" class="w-full h-64 object-cover transform group-hover:scale-105 transition-custom duration-500">
+                        <div class="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent opacity-0 group-hover:opacity-100 transition-custom flex items-end">
+                            <div class="p-6">
+                                <div class="flex space-x-2 mb-3">
+                                    <span class="px-3 py-1 bg-primary/90 text-white text-xs rounded-full">HTML/CSS</span>
+                                    <span class="px-3 py-1 bg-secondary/90 text-white text-xs rounded-full">JavaScript</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="p-6">
+                        <h3 class="text-xl font-semibold mb-2 group-hover:text-primary transition-custom">Creative Portfolio</h3>
+                        <p class="text-gray-600 mb-4">A modern portfolio website showcasing creative works with interactive elements.</p>
+                        <div class="flex justify-between items-center">
+                            <a href="#" class="text-primary hover:text-primary/80 font-medium flex items-center">
+                                View Project <i class="fa fa-arrow-right ml-2"></i>
+                            </a>
+                            <span class="text-sm text-gray-500">2023</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Project 3 -->
+                <div class="bg-white rounded-xl overflow-hidden shadow-lg hover:shadow-xl transition-custom group">
+                    <div class="relative overflow-hidden">
+                        <img src="https://picsum.photos/seed/project3/600/400" alt="Dashboard UI" class="w-full h-64 object-cover transform group-hover:scale-105 transition-custom duration-500">
+                        <div class="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent opacity-0 group-hover:opacity-100 transition-custom flex items-end">
+                            <div class="p-6">
+                                <div class="flex space-x-2 mb-3">
+                                    <span class="px-3 py-1 bg-primary/90 text-white text-xs rounded-full">Vue.js</span>
+                                    <span class="px-3 py-1 bg-secondary/90 text-white text-xs rounded-full">Chart.js</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="p-6">
+                        <h3 class="text-xl font-semibold mb-2 group-hover:text-primary transition-custom">Analytics Dashboard</h3>
+                        <p class="text-gray-600 mb-4">A data visualization dashboard with real-time updates and interactive charts.</p>
+                        <div class="flex justify-between items-center">
+                            <a href="#" class="text-primary hover:text-primary/80 font-medium flex items-center">
+                                View Project <i class="fa fa-arrow-right ml-2"></i>
+                            </a>
+                            <span class="text-sm text-gray-500">2022</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="text-center mt-12">
+                <a href="#" class="inline-flex items-center px-6 py-3 bg-white text-primary border border-primary rounded-lg hover:bg-primary hover:text-white transition-custom font-medium">
+                    View All Projects <i class="fa fa-long-arrow-right ml-2"></i>
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Skills Section -->
+    <section id="skills" class="py-20 bg-white">
+        <div class="container mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-16">
+                <h2 class="text-[clamp(1.8rem,3vw,2.5rem)] font-bold text-dark mb-4">My Skills</h2>
+                <div class="w-20 h-1 bg-primary mx-auto rounded-full"></div>
+                <p class="text-gray-600 mt-6 max-w-2xl mx-auto">
+                    I've developed expertise in a variety of technologies and tools that allow me to create exceptional web experiences.
+                </p>
+            </div>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-12">
+                <div>
+                    <h3 class="text-2xl font-semibold mb-8">Technical Skills</h3>
+                    
+                    <div class="space-y-6">
+                        <div>
+                            <div class="flex justify-between mb-2">
+                                <span class="font-medium">HTML5 & CSS3</span>
+                                <span class="text-primary">95%</span>
+                            </div>
+                            <div class="h-2 bg-gray-200 rounded-full overflow-hidden">
+                                <div class="h-full bg-primary rounded-full" style="width: 95%"></div>
+                            </div>
+                        </div>
+                        
+                        <div>
+                            <div class="flex justify-between mb-2">
+                                <span class="font-medium">JavaScript & TypeScript</span>
+                                <span class="text-primary">90%</span>
+                            </div>
+                            <div class="h-2 bg-gray-200 rounded-full overflow-hidden">
+                                <div class="h-full bg-primary rounded-full" style="width: 90%"></div>
+                            </div>
+                        </div>
+                        
+                        <div>
+                            <div class="flex justify-between mb-2">
+                                <span class="font-medium">React & Next.js</span>
+                                <span class="text-primary">85%</span>
+                            </div>
+                            <div class="h-2 bg-gray-200 rounded-full overflow-hidden">
+                                <div class="h-full bg-primary rounded-full" style="width: 85%"></div>
+                            </div>
+                        </div>
+                        
+                        <div>
+                            <div class="flex justify-between mb-2">
+                                <span class="font-medium">UI/UX Design</span>
+                                <span class="text-primary">80%</span>
+                            </div>
+                            <div class="h-2 bg-gray-200 rounded-full overflow-hidden">
+                                <div class="h-full bg-primary rounded-full" style="width: 80%"></div>
+                            </div>
+                        </div>
+                        
+                        <div>
+                            <div class="flex justify-between mb-2">
+                                <span class="font-medium">Node.js & Express</span>
+                                <span class="text-primary">75%</span>
+                            </div>
+                            <div class="h-2 bg-gray-200 rounded-full overflow-hidden">
+                                <div class="h-full bg-primary rounded-full" style="width: 75%"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div>
+                    <h3 class="text-2xl font-semibold mb-8">Tools & Technologies</h3>
+                    
+                    <div class="grid grid-cols-2 sm:grid-cols-3 gap-4">
+                        <div class="bg-gray-50 p-4 rounded-lg text-center hover:shadow-md transition-custom">
+                            <div class="text-3xl mb-2 text-primary">
+                                <i class="fa fa-html5"></i>
+                            </div>
+                            <h4 class="font-medium">HTML5</h4>
+                        </div>
+                        
+                        <div class="bg-gray-50 p-4 rounded-lg text-center hover:shadow-md transition-custom">
+                            <div class="text-3xl mb-2 text-primary">
+                                <i class="fa fa-css3"></i>
+                            </div>
+                            <h4 class="font-medium">CSS3</h4>
+                        </div>
+                        
+                        <div class="bg-gray-50 p-4 rounded-lg text-center hover:shadow-md transition-custom">
+                            <div class="text-3xl mb-2 text-primary">
+                                <i class="fa fa-code"></i>
+                            </div>
+                            <h4 class="font-medium">JavaScript</h4>
+                        </div>
+                        
+                        <div class="bg-gray-50 p-4 rounded-lg text-center hover:shadow-md transition-custom">
+                            <div class="text-3xl mb-2 text-primary">
+                                <i class="fa fa-git"></i>
+                            </div>
+                            <h4 class="font-medium">Git</h4>
+                        </div>
+                        
+                        <div class="bg-gray-50 p-4 rounded-lg text-center hover:shadow-md transition-custom">
+                            <div class="text-3xl mb-2 text-primary">
+                                <i class="fa fa-paint-brush"></i>
+                            </div>
+                            <h4 class="font-medium">Figma</h4>
+                        </div>
+                        
+                        <div class="bg-gray-50 p-4 rounded-lg text-center hover:shadow-md transition-custom">
+                            <div class="text-3xl mb-2 text-primary">
+                                <i class="fa fa-terminal"></i>
+                            </div>
+                            <h4 class="font-medium">CLI</h4>
+                        </div>
+                    </div>
+                    
+                    <div class="mt-12">
+                        <h3 class="text-2xl font-semibold mb-6">Experience</h3>
+                        <div class="relative pl-8 border-l-2 border-gray-200 space-y-8">
+                            <div class="relative">
+                                <div class="absolute -left-9 top-0 w-6 h-6 rounded-full bg-primary border-4 border-white"></div>
+                                <h4 class="text-lg font-semibold">Senior Frontend Developer</h4>
+                                <p class="text-gray-600 mb-2">Tech Solutions Inc. • 2021 - Present</p>
+                                <p class="text-gray-700">Leading frontend development for enterprise applications using React and TypeScript.</p>
+                            </div>
+                            
+                            <div class="relative">
+                                <div class="absolute -left-9 top-0 w-6 h-6 rounded-full bg-primary border-4 border-white"></div>
+                                <h4 class="text-lg font-semibold">Frontend Developer</h4>
+                                <p class="text-gray-600 mb-2">Digital Creative Agency • 2018 - 2021</p>
+                                <p class="text-gray-700">Developed responsive websites and web applications for clients across various industries.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section id="contact" class="py-20 bg-gray-50">
+        <div class="container mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-16">
+                <h2 class="text-[clamp(1.8rem,3vw,2.5rem)] font-bold text-dark mb-4">Get In Touch</h2>
+                <div class="w-20 h-1 bg-primary mx-auto rounded-full"></div>
+                <p class="text-gray-600 mt-6 max-w-2xl mx-auto">
+                    Have a project in mind or just want to say hello? I'd love to hear from you. Feel free to reach out using the form below.
+                </p>
+            </div>
+            
+            <div class="max-w-5xl mx-auto bg-white rounded-2xl shadow-xl overflow-hidden">
+                <div class="flex flex-col lg:flex-row">
+                    <div class="lg:w-1/2 bg-gradient-custom p-12 text-white">
+                        <h3 class="text-2xl font-semibold mb-6">Contact Information</h3>
+                        <p class="mb-8">
+                            Feel free to contact me for any inquiries or opportunities. I'm always open to discussing new projects, creative ideas or opportunities to be part of your vision.
+                        </p>
+                        
+                        <div class="space-y-6">
+                            <div class="flex items-start">
+                                <div class="w-10 h-10 rounded-full bg-white/20 flex items-center justify-center mr-4 flex-shrink-0">
+                                    <i class="fa fa-map-marker"></i>
+                                </div>
+                                <div>
+                                    <h4 class="font-medium mb-1">Location</h4>
+                                    <p class="text-white/80">San Francisco, California</p>
+                                </div>
+                            </div>
+                            
+                            <div class="flex items-start">
+                                <div class="w-10 h-10 rounded-full bg-white/20 flex items-center justify-center mr-4 flex-shrink-0">
+                                    <i class="fa fa-envelope"></i>
+                                </div>
+                                <div>
+                                    <h4 class="font-medium mb-1">Email</h4>
+                                    <p class="text-white/80">hello@yourdomain.com</p>
+                                </div>
+                            </div>
+                            
+                            <div class="flex items-start">
+                                <div class="w-10 h-10 rounded-full bg-white/20 flex items-center justify-center mr-4 flex-shrink-0">
+                                    <i class="fa fa-phone"></i>
+                                </div>
+                                <div>
+                                    <h4 class="font-medium mb-1">Phone</h4>
+                                    <p class="text-white/80">+1 (555) 123-4567</p>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="mt-12">
+                            <h4 class="font-medium mb-4">Follow Me</h4>
+                            <div class="flex space-x-4">
+                                <a href="#" class="w-10 h-10 rounded-full bg-white/20 flex items-center justify-center hover:bg-white/30 transition-custom">
+                                    <i class="fa fa-github"></i>
+                                </a>
+                                <a href="#" class="w-10 h-10 rounded-full bg-white/20 flex items-center justify-center hover:bg-white/30 transition-custom">
+                                    <i class="fa fa-linkedin"></i>
+                                </a>
+                                <a href="#" class="w-10 h-10 rounded-full bg-white/20 flex items-center justify-center hover:bg-white/30 transition-custom">
+                                    <i class="fa fa-twitter"></i>
+                                </a>
+                                <a href="#" class="w-10 h-10 rounded-full bg-white/20 flex items-center justify-center hover:bg-white/30 transition-custom">
+                                    <i class="fa fa-dribbble"></i>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="lg:w-1/2 p-12">
+                        <h3 class="text-2xl font-semibold mb-6 text-dark">Send Me a Message</h3>
+                        <form>
+                            <div class="mb-6">
+                                <label for="name" class="block text-gray-700 font-medium mb-2">Your Name</label>
+                                <input type="text" id="name" class="w-full px-4 py-3 rounded-lg border border-gray-300 focus:border-primary focus:ring focus:ring-primary/20 outline-none transition-custom" placeholder="John Doe">
+                            </div>
+                            
+                            <div class="mb-6">
+                                <label for="email" class="block text-gray-700 font-medium mb-2">Your Email</label>
+                                <input type="email" id="email" class="w-full px-4 py-3 rounded-lg border border-gray-300 focus:border-primary focus:ring focus:ring-primary/20 outline-none transition-custom" placeholder="john@example.com">
+                            </div>
+                            
+                            <div class="mb-6">
+                                <label for="subject" class="block text-gray-700 font-medium mb-2">Subject</label>
+                                <input type="text" id="subject" class="w-full px-4 py-3 rounded-lg border border-gray-300 focus:border-primary focus:ring focus:ring-primary/20 outline-none transition-custom" placeholder="Project Inquiry">
+                            </div>
+                            
+                            <div class="mb-6">
+                                <label for="message" class="block text-gray-700 font-medium mb-2">Your Message</label>
+                                <textarea id="message" rows="5" class="w-full px-4 py-3 rounded-lg border border-gray-300 focus:border-primary focus:ring focus:ring-primary/20 outline-none transition-custom" placeholder="Tell me about your project..."></textarea>
+                            </div>
+                            
+                            <button type="submit" class="w-full bg-primary hover:bg-primary/90 text-white font-medium py-3 px-6 rounded-lg transition-custom shadow-lg hover:shadow-xl">
+                                Send Message
+                            </button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-dark text-white py-12">
+        <div class="container mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                <div>
+                    <h3 class="text-2xl font-bold mb-4">Your Name</h3>
+                    <p class="text-gray-400 mb-6">
+                        Creating beautiful, functional websites and applications that make a difference.
+                    </p>
+                    <div class="flex space-x-4">
+                        <a href="#" class="text-gray-400 hover:text-white transition-custom">
+                            <i class="fa fa-github"></i>
+                        </a>
+                        <a href="#" class="text-gray-400 hover:text-white transition-custom">
+                            <i class="fa fa-linkedin"></i>
+                        </a>
+                        <a href="#" class="text-gray-400 hover:text-white transition-custom">
+                            <i class="fa fa-twitter"></i>
+                        </a>
+                        <a href="#" class="text-gray-400 hover:text-white transition-custom">
+                            <i class="fa fa-dribbble"></i>
+                        </a>
+                    </div>
+                </div>
+                
+                <div>
+                    <h4 class="text-lg font-semibold mb-4">Quick Links</h4>
+                    <ul class="space-y-2">
+                        <li><a href="#home" class="text-gray-400 hover:text-white transition-custom">Home</a></li>
+                        <li><a href="#about" class="text-gray-400 hover:text-white transition-custom">About</a></li>
+                        <li><a href="#projects" class="text-gray-400 hover:text-white transition-custom">Projects</a></li>
+                        <li><a href="#skills" class="text-gray-400 hover:text-white transition-custom">Skills</a></li>
+                        <li><a href="#contact" class="text-gray-400 hover:text-white transition-custom">Contact</a></li>
+                    </ul>
+                </div>
+                
+                <div>
+                    <h4 class="text-lg font-semibold mb-4">Newsletter</h4>
+                    <p class="text-gray-400 mb-4">
+                        Subscribe to my newsletter to receive updates on new projects and articles.
+                    </p>
+                    <form class="flex">
+                        <input type="email" placeholder="Your email" class="px-4 py-2 rounded-l-lg w-full focus:outline-none text-dark">
+                        <button type="submit" class="bg-primary hover:bg-primary/90 text-white px-4 py-2 rounded-r-lg transition-custom">
+                            <i class="fa fa-paper-plane"></i>
+                        </button>
+                    </form>
+                </div>
+            </div>
+            
+            <div class="border-t border-gray-800 mt-12 pt-8 text-center text-gray-400">
+                <p>&copy; 2023 Your Name. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Back to Top Button -->
+    <button id="back-to-top" class="fixed bottom-8 right-8 bg-primary text-white w-12 h-12 rounded-full flex items-center justify-center shadow-lg opacity-0 invisible transition-custom z-50">
+        <i class="fa fa-arrow-up"></i>
+    </button>
+
+    <!-- JavaScript -->
+    <script>
+        // Mobile menu toggle
+        const mobileMenuButton = document.getElementById('mobile-menu-button');
+        const mobileMenu = document.getElementById('mobile-menu');
+        
+        mobileMenuButton.addEventListener('click', () => {
+            mobileMenu.classList.toggle('hidden');
+        });
+        
+        // Navbar scroll effect
+        const navbar = document.getElementById('navbar');
+        
+        window.addEventListener('scroll', () => {
+            if (window.scrollY > 50) {
+                navbar.classList.add('bg-white', 'shadow-md');
+                navbar.classList.remove('bg-transparent');
+            } else {
+                navbar.classList.remove('bg-white', 'shadow-md');
+                navbar.classList.add('bg-transparent');
+            }
+        });
+        
+        // Smooth scrolling for anchor links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function(e) {
+                e.preventDefault();
+                
+                const targetId = this.getAttribute('href');
+                if (targetId === '#') return;
+                
+                const targetElement = document.querySelector(targetId);
+                if (targetElement) {
+                    window.scrollTo({
+                        top: targetElement.offsetTop - 80,
+                        behavior: 'smooth'
+                    });
+                    
+                    // Close mobile menu if open
+                    if (!mobileMenu.classList.contains('hidden')) {
+                        mobileMenu.classList.add('hidden');
+                    }
+                }
+            });
+        });
+        
+        // Back to top button
+        const backToTopButton = document.getElementById('back-to-top');
+        
+        window.addEventListener('scroll', () => {
+            if (window.scrollY > 300) {
+                backToTopButton.classList.remove('opacity-0', 'invisible');
+                backToTopButton.classList.add('opacity-100', 'visible');
+            } else {
+                backToTopButton.classList.add('opacity-0', 'invisible');
+                backToTopButton.classList.remove('opacity-100', 'visible');
+            }
+        });
+        
+        backToTopButton.addEventListener('click', () => {
+            window.scrollTo({
+                top: 0,
+                behavior: 'smooth'
+            });
+        });
+        
+        // Intersection Observer for animations
+        const observerOptions = {
+            root: null,
+            rootMargin: '0px',
+            threshold: 0.1
+        };
+        
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('animate-in');
+                    observer.unobserve(entry.target);
+                }
+            });
+        }, observerOptions);
+        
+        // Add animation classes to elements
+        document.querySelectorAll('section > div > div, .project-card').forEach(el => {
+            el.classList.add('opacity-0', 'translate-y-8', 'transition-all', 'duration-700');
+            observer.observe(el);
+        });
+        
+        // Custom animation for elements
+        document.addEventListener('DOMContentLoaded', () => {
+            document.querySelectorAll('.animate-in').forEach(el => {
+                el.classList.remove('opacity-0', 'translate-y-8');
+            });
+        });
+    </script>
+</body>
+</html>
