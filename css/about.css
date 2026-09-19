@@ -1,0 +1,59 @@
+/* ============================================================
+ * 「关于」页自定义样式
+ * 由 about/index.md 的 front-matter 中 custom_css 引用
+ * 注意：自定义页正文容器为 .page-content（无 .markdown-body 类）
+ * ============================================================ */
+
+/* 页面整体宽度 */
+.page-content {
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+/* 主标题 */
+.page-content h1 {
+  font-size: 1.8rem;
+  padding-bottom: 0.5rem;
+  border-bottom: 2px solid #e0e7ff;
+}
+
+/* 二级标题 */
+.page-content h2 {
+  color: #165dff !important;
+  font-size: 1.3rem;
+  margin: 2rem 0 1rem;
+  padding-bottom: 0.5rem;
+  border-bottom: 2px solid #e0e7ff;
+}
+
+/* 列表 */
+.page-content ul {
+  list-style: disc;
+  padding-left: 2rem;
+  margin: 1rem 0;
+}
+
+/* 段落 */
+.page-content p {
+  line-height: 1.7;
+}
+
+/* 链接 */
+.page-content a {
+  color: #165dff;
+  text-decoration: none;
+}
+
+.page-content a:hover {
+  text-decoration: underline;
+}
+
+/* 暗色模式适配 */
+html[data-user-color-scheme="dark"] .page-content h1,
+html[data-user-color-scheme="dark"] .page-content h2 {
+  border-bottom-color: #435266;
+}
+
+html[data-user-color-scheme="dark"] .page-content h2 {
+  color: #5c9fff !important;
+}

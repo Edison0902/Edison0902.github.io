@@ -1,0 +1,5 @@
+# /robots.txt for https://edison0902.github.io
+User-agent: *
+Allow: /
+
+Sitemap: https://edison0902.github.io/sitemap.xml

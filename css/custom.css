@@ -1,43 +1,27 @@
-/* 页面整体宽度 */
-.about-content {
-  max-width: 800px !important;
-  margin: 0 auto !important;
-  padding: 2rem !important;
+/* ============================================================
+ * 全站自定义样式
+ * 由 _config.fluid.yml 中 custom_css 引入
+ * ============================================================ */
+
+/* 页脚运行时间 */
+#site-runtime {
+  font-size: 0.85rem;
+  opacity: 0.75;
+  margin-top: 4px;
 }
 
-/* 标题样式 */
-.about-content h2 {
-  color: #165DFF !important;
-  margin: 2rem 0 1rem !important;
-  padding-bottom: 0.5rem !important;
-  border-bottom: 2px solid #e0e7ff !important;
-  font-size: 1.3rem !important;
+/* 文章正文图片圆角 */
+.markdown-body img {
+  border-radius: 8px;
 }
 
-/* 列表样式 */
-.about-content ul {
-  list-style: disc !important;
-  padding-left: 2rem !important;
-  margin: 1rem 0 !important;
+/* 引用块强调样式 */
+.markdown-body blockquote {
+  border-left: 4px solid #165dff;
+  background: rgba(22, 93, 255, 0.04);
 }
 
-/* 段落样式 */
-.about-content p {
-  line-height: 1.6 !important;
-  color: #333 !important;
-}
-
-/* 加粗文本 */
-.about-content strong {
-  color: #2c3e50 !important;
-}
-
-/* 链接样式 */
-.about-content a {
-  color: #165DFF !important;
-  text-decoration: none !important;
-}
-
-.about-content a:hover {
-  text-decoration: underline !important;
+/* 自定义页（关于/工具/友链等）图片圆角 */
+.page-content img {
+  border-radius: 8px;
 }
