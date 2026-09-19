@@ -4,7 +4,7 @@
  * 访客下次访问即自动刷新缓存。
  * 策略：页面 HTML 优先走网络（保证内容最新），静态资源缓存优先。
  * ============================================================ */
-const CACHE_VERSION = 'zhi-blog-v1';
+const CACHE_VERSION = 'zhi-blog-v2';
 
 const CORE_ASSETS = [
   '/',

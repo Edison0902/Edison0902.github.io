@@ -1,15 +1,36 @@
 /* ============================================================
- * 全站自定义样式（视觉重构版）
- * 由 _config.fluid.yml 中 custom_css 引入，包含：
- *   - 全站卡片视觉（圆角/阴影/hover 浮起）
- *   - 导航站（工具页）、相册瀑布流、书单、动态时间轴样式
- *   - 阅读进度条 / TOP 百分比 / 问候语 / 分享与点赞按钮
- *   - 暗色模式适配
+ * 全站自定义样式 · 设计系统版
+ * 由 _config.fluid.yml 中 custom_css 引入
+ *
+ * 设计原则（一次定死，全站遵守）：
+ *   - 主色只有一个：靛蓝 var(--zhi-primary)，所有强调元素共用
+ *   - 圆角/阴影/动效节奏统一
+ *   - 暗色模式全部适配（html[data-user-color-scheme="dark"]）
  * ============================================================ */
 
-/* ---------------- 全站视觉重构 ---------------- */
+:root {
+  --zhi-primary: #5b5fe9;
+  --zhi-primary-soft: rgba(91, 95, 233, 0.08);
+  --zhi-primary-ring: rgba(91, 95, 233, 0.18);
+  --zhi-radius: 12px;
+  --zhi-shadow: 0 8px 24px rgba(91, 95, 233, 0.14);
+}
 
-/* 主内容板：大圆角 + 柔和阴影 */
+html[data-user-color-scheme="dark"] {
+  --zhi-primary: #8a8dff;
+  --zhi-primary-soft: rgba(138, 141, 255, 0.1);
+  --zhi-primary-ring: rgba(138, 141, 255, 0.22);
+  --zhi-shadow: 0 8px 24px rgba(0, 0, 0, 0.45);
+}
+
+/* 文字选中色 */
+::selection {
+  background: var(--zhi-primary-ring);
+}
+
+/* ---------------- 全站视觉 ---------------- */
+
+/* 主内容板 */
 #board {
   border-radius: 16px;
   box-shadow: 0 6px 24px rgba(0, 0, 0, 0.08);
@@ -19,74 +40,56 @@ html[data-user-color-scheme="dark"] #board {
   box-shadow: 0 6px 24px rgba(0, 0, 0, 0.45);
 }
 
-/* 首页文章卡片：hover 浮起 */
+/* 首页文章卡片 */
 #board article {
   transition: transform 0.25s ease, box-shadow 0.25s ease;
-  border-radius: 12px;
+  border-radius: var(--zhi-radius);
 }
 
 #board article:hover {
   transform: translateY(-4px);
-  box-shadow: 0 10px 28px rgba(22, 93, 255, 0.12);
+  box-shadow: var(--zhi-shadow);
 }
 
-html[data-user-color-scheme="dark"] #board article:hover {
-  box-shadow: 0 10px 28px rgba(0, 0, 0, 0.5);
-}
-
-/* 首页文章封面图圆角 */
 .index-img img {
   border-radius: 10px;
+  transition: transform 0.35s ease;
 }
 
-/* 文章正文图片圆角 */
+#board article:hover .index-img img {
+  transform: scale(1.03);
+}
+
 .markdown-body img {
   border-radius: 8px;
 }
 
-/* 引用块强调样式 */
-.markdown-body blockquote {
-  border-left: 4px solid #165dff;
-  background: rgba(22, 93, 255, 0.04);
-}
-
-/* 自定义页（关于/工具/友链等）图片圆角 */
 .page-content img {
   border-radius: 8px;
 }
 
-/* ---------------- 页脚 ---------------- */
-
-/* 页脚运行时间 */
-#site-runtime {
-  font-size: 0.85rem;
-  opacity: 0.75;
-  margin-top: 4px;
-}
-
-/* 页脚个人打卡 */
-#visit-footprint {
-  font-size: 0.85rem;
-  opacity: 0.75;
-  margin-top: 2px;
+/* 引用块 */
+.markdown-body blockquote {
+  border-left: 4px solid var(--zhi-primary);
+  background: var(--zhi-primary-soft);
 }
 
 /* ---------------- 阅读体验 ---------------- */
 
-/* 文章阅读进度条 */
+/* 阅读进度条 */
 #reading-progress {
   position: fixed;
   top: 0;
   left: 0;
   height: 3px;
   width: 0;
-  background: linear-gradient(90deg, #165dff, #30a9de);
+  background: linear-gradient(90deg, var(--zhi-primary), #30a9de);
   z-index: 9999;
   transition: width 0.1s linear;
   pointer-events: none;
 }
 
-/* TOP 按钮百分比徽章 */
+/* TOP 百分比 */
 #scroll-top-button {
   position: relative;
 }
@@ -101,7 +104,7 @@ html[data-user-color-scheme="dark"] #board article:hover {
   opacity: 0.85;
 }
 
-/* 首页时间问候语 */
+/* 首页问候语 */
 #time-greeting {
   color: rgba(255, 255, 255, 0.88);
   font-size: 1.1rem;
@@ -109,32 +112,161 @@ html[data-user-color-scheme="dark"] #board article:hover {
   text-shadow: 0 1px 4px rgba(0, 0, 0, 0.35);
 }
 
-/* 分享按钮 */
+/* TOC 目录：当前章节高亮跟随 */
+#toc-body a {
+  transition: color 0.15s, border-color 0.15s;
+}
+
+#toc-body .tocbot-active-link {
+  color: var(--zhi-primary) !important;
+  font-weight: 600;
+  border-left: 2px solid var(--zhi-primary);
+}
+
+/* ---------------- 代码块：mac 风格 ---------------- */
+
+/* hexo 输出为 figure.highlight（含行号 table），顶条直接挂在 figure 上 */
+figure.highlight {
+  border-radius: 10px;
+  overflow: hidden;
+  padding-top: 36px;
+  margin-top: 2.2rem;
+  background: var(--highlight-bg-color, #f6f8fa);
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.08);
+}
+
+html[data-user-color-scheme="dark"] figure.highlight {
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.4);
+}
+
+/* mac 三圆点 */
+figure.highlight::before {
+  content: "";
+  position: absolute;
+  top: 13px;
+  left: 14px;
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background: #ff5f56;
+  box-shadow: 19px 0 0 #ffbd2e, 38px 0 0 #27c93f;
+  z-index: 3;
+}
+
+/* 裸 pre（无行号）也套 wrapper 样式，由主题 JS 生成的 .code-wrapper 承担 */
+.code-wrapper {
+  border-radius: 10px;
+  overflow: hidden;
+  padding-top: 36px !important;
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.08);
+}
+
+.code-wrapper::before {
+  content: "";
+  position: absolute;
+  top: 13px;
+  left: 14px;
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background: #ff5f56;
+  box-shadow: 19px 0 0 #ffbd2e, 38px 0 0 #27c93f;
+  z-index: 3;
+}
+
+/* ---------------- 归档页时间轴 ---------------- */
+
+.list-group {
+  position: relative;
+  padding-left: 1.6rem !important;
+  border-left: 3px solid var(--zhi-primary-ring) !important;
+}
+
+.list-group .h5 {
+  margin: 1.6rem 0 0.9rem !important;
+  font-size: 1.5rem !important;
+  font-weight: 700;
+  color: var(--zhi-primary);
+}
+
+.list-group .list-group-item {
+  position: relative;
+  border: none !important;
+  background: transparent !important;
+  border-radius: var(--zhi-radius) !important;
+  padding: 0.75rem 1rem !important;
+  margin-bottom: 0.35rem;
+  transition: background 0.2s, transform 0.2s;
+}
+
+.list-group .list-group-item::before {
+  content: "";
+  position: absolute;
+  left: calc(-1.6rem - 7px);
+  top: 50%;
+  transform: translateY(-50%);
+  width: 11px;
+  height: 11px;
+  border-radius: 50%;
+  background: var(--zhi-primary);
+  box-shadow: 0 0 0 4px var(--zhi-primary-ring);
+}
+
+.list-group .list-group-item:hover {
+  background: var(--zhi-primary-soft) !important;
+  transform: translateX(4px);
+}
+
+.list-group .list-group-item time {
+  color: var(--zhi-primary);
+  font-weight: 600;
+  margin-right: 0.75rem;
+}
+
+/* ---------------- 页脚 ---------------- */
+
+#site-runtime {
+  font-size: 0.85rem;
+  opacity: 0.75;
+  margin-top: 4px;
+}
+
+#visit-footprint {
+  font-size: 0.85rem;
+  opacity: 0.75;
+  margin-top: 2px;
+}
+
+#footer a {
+  color: inherit;
+  text-decoration: none;
+  border-bottom: 1px dashed currentColor;
+}
+
+#footer a:hover {
+  color: var(--zhi-primary);
+}
+
+/* ---------------- 分享 / 点赞 ---------------- */
+
 #share-btn {
   display: inline-block;
   margin: 0.5rem 1rem 1.5rem 0;
   padding: 0.35rem 1rem;
   font-size: 0.9rem;
-  color: #165dff;
-  background: rgba(22, 93, 255, 0.08);
-  border: 1px solid rgba(22, 93, 255, 0.4);
+  color: var(--zhi-primary);
+  background: var(--zhi-primary-soft);
+  border: 1px solid var(--zhi-primary-ring);
   border-radius: 20px;
   cursor: pointer;
   transition: all 0.2s;
 }
 
 #share-btn:hover {
-  background: #165dff;
+  background: var(--zhi-primary);
   color: #fff;
 }
 
-html[data-user-color-scheme="dark"] #share-btn {
-  color: #5c9fff;
-  background: rgba(92, 159, 255, 0.12);
-  border-color: rgba(92, 159, 255, 0.45);
-}
-
-/* 点赞按钮 */
 #like-btn {
   display: inline-block;
   margin: 0.5rem 0 1.5rem;
@@ -168,7 +300,6 @@ html[data-user-color-scheme="dark"] #share-btn {
   transform: scale(1.25);
 }
 
-/* 复制链接提示 */
 #share-toast {
   position: fixed;
   bottom: 60px;
@@ -197,18 +328,17 @@ html[data-user-color-scheme="dark"] #share-btn {
   margin: 0.5rem 0 1.5rem;
   font-size: 1rem;
   border: 2px solid transparent;
-  border-radius: 12px;
-  background: rgba(22, 93, 255, 0.05);
+  border-radius: var(--zhi-radius);
+  background: var(--zhi-primary-soft);
   outline: none;
   transition: border 0.2s;
 }
 
 #nav-search:focus {
-  border-color: #165dff;
+  border-color: var(--zhi-primary);
 }
 
 html[data-user-color-scheme="dark"] #nav-search {
-  background: rgba(255, 255, 255, 0.06);
   color: #d0d0d0;
 }
 
@@ -228,8 +358,8 @@ html[data-user-color-scheme="dark"] #nav-search {
   align-items: center;
   gap: 0.8rem;
   padding: 0.9rem;
-  border-radius: 12px;
-  border: 1px solid rgba(22, 93, 255, 0.1);
+  border-radius: var(--zhi-radius);
+  border: 1px solid var(--zhi-primary-ring);
   background: rgba(255, 255, 255, 0.6);
   text-decoration: none !important;
   transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s;
@@ -237,17 +367,13 @@ html[data-user-color-scheme="dark"] #nav-search {
 
 .nav-card:hover {
   transform: translateY(-3px);
-  border-color: rgba(22, 93, 255, 0.5);
-  box-shadow: 0 8px 20px rgba(22, 93, 255, 0.15);
+  border-color: var(--zhi-primary);
+  box-shadow: var(--zhi-shadow);
 }
 
 html[data-user-color-scheme="dark"] .nav-card {
   background: rgba(255, 255, 255, 0.04);
   border-color: rgba(255, 255, 255, 0.08);
-}
-
-html[data-user-color-scheme="dark"] .nav-card:hover {
-  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.45);
 }
 
 .nav-card .nav-icon {
@@ -287,15 +413,10 @@ html[data-user-color-scheme="dark"] .nav-card:hover {
 .moments-hint {
   padding: 0.8rem 1rem;
   margin-bottom: 1.4rem;
-  border-radius: 10px;
-  background: rgba(22, 93, 255, 0.06);
+  border-radius: var(--zhi-radius);
+  background: var(--zhi-primary-soft);
   font-size: 0.92rem;
   line-height: 1.7;
-}
-
-html[data-user-color-scheme="dark"] .gallery-hint,
-html[data-user-color-scheme="dark"] .moments-hint {
-  background: rgba(92, 159, 255, 0.1);
 }
 
 .gallery-wall {
@@ -306,7 +427,7 @@ html[data-user-color-scheme="dark"] .moments-hint {
 .gallery-item {
   break-inside: avoid;
   margin: 0 0 1rem;
-  border-radius: 12px;
+  border-radius: var(--zhi-radius);
   background: var(--g, #ccc);
   position: relative;
   overflow: hidden;
@@ -317,7 +438,7 @@ html[data-user-color-scheme="dark"] .moments-hint {
 
 .gallery-item:hover {
   transform: translateY(-4px) scale(1.01);
-  box-shadow: 0 10px 24px rgba(0, 0, 0, 0.25);
+  box-shadow: var(--zhi-shadow);
 }
 
 .gallery-item figcaption {
@@ -345,23 +466,18 @@ html[data-user-color-scheme="dark"] .moments-hint {
   gap: 1rem;
   padding: 1rem;
   border-radius: 14px;
-  border: 1px solid rgba(0, 0, 0, 0.06);
+  border: 1px solid var(--zhi-primary-ring);
   background: rgba(255, 255, 255, 0.7);
   transition: transform 0.2s ease, box-shadow 0.2s ease;
 }
 
 .book-card:hover {
   transform: translateY(-3px);
-  box-shadow: 0 8px 22px rgba(0, 0, 0, 0.12);
+  box-shadow: var(--zhi-shadow);
 }
 
 html[data-user-color-scheme="dark"] .book-card {
   background: rgba(255, 255, 255, 0.04);
-  border-color: rgba(255, 255, 255, 0.08);
-}
-
-html[data-user-color-scheme="dark"] .book-card:hover {
-  box-shadow: 0 8px 22px rgba(0, 0, 0, 0.5);
 }
 
 .book-cover {
@@ -415,7 +531,7 @@ html[data-user-color-scheme="dark"] .book-card:hover {
   margin: 0 auto;
   padding: 0.5rem 0 0.5rem 1.4rem;
   max-width: 720px;
-  border-left: 3px solid rgba(22, 93, 255, 0.25);
+  border-left: 3px solid var(--zhi-primary-ring);
 }
 
 .moments-timeline li {
@@ -431,8 +547,8 @@ html[data-user-color-scheme="dark"] .book-card:hover {
   width: 12px;
   height: 12px;
   border-radius: 50%;
-  background: #165dff;
-  box-shadow: 0 0 0 4px rgba(22, 93, 255, 0.15);
+  background: var(--zhi-primary);
+  box-shadow: 0 0 0 4px var(--zhi-primary-ring);
 }
 
 .moment-date {
@@ -443,28 +559,18 @@ html[data-user-color-scheme="dark"] .book-card:hover {
 .moment-card {
   margin-top: 0.4rem;
   padding: 0.9rem 1.1rem;
-  border-radius: 12px;
+  border-radius: var(--zhi-radius);
   background: rgba(255, 255, 255, 0.75);
-  border: 1px solid rgba(0, 0, 0, 0.05);
+  border: 1px solid var(--zhi-primary-ring);
   line-height: 1.7;
   transition: transform 0.2s ease, box-shadow 0.2s ease;
 }
 
 .moment-card:hover {
   transform: translateY(-2px);
-  box-shadow: 0 6px 18px rgba(22, 93, 255, 0.1);
+  box-shadow: var(--zhi-shadow);
 }
 
 html[data-user-color-scheme="dark"] .moment-card {
   background: rgba(255, 255, 255, 0.05);
-  border-color: rgba(255, 255, 255, 0.08);
-}
-
-html[data-user-color-scheme="dark"] .moments-timeline {
-  border-left-color: rgba(92, 159, 255, 0.35);
-}
-
-html[data-user-color-scheme="dark"] .moments-timeline li::before {
-  background: #5c9fff;
-  box-shadow: 0 0 0 4px rgba(92, 159, 255, 0.18);
 }

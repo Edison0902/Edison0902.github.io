@@ -4,6 +4,33 @@
   
   
   <entry>
+    <title>【示例】博客写作功能演示</title>
+    <link href="/2026/09/20/%E5%8D%9A%E5%AE%A2%E5%8A%9F%E8%83%BD%E6%BC%94%E7%A4%BA/"/>
+    <url>/2026/09/20/%E5%8D%9A%E5%AE%A2%E5%8A%9F%E8%83%BD%E6%BC%94%E7%A4%BA/</url>
+    
+    <content type="html"><![CDATA[<blockquote><p>这篇文章用来演示本博客支持的所有写作能力，也是一份写作模板：写新文章时复制本文件，替换内容即可。觉得多余可以直接删掉。</p></blockquote><span id="more"></span><h2 id="代码块"><a href="#代码块" class="headerlink" title="代码块"></a>代码块</h2><p>支持语言高亮、右上角语言徽标、一键复制：</p><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">def</span> <span class="hljs-title function_">quick_sort</span>(<span class="hljs-params">arr: <span class="hljs-built_in">list</span>[<span class="hljs-built_in">int</span>]</span>) -&gt; <span class="hljs-built_in">list</span>[<span class="hljs-built_in">int</span>]:<br>    <span class="hljs-keyword">if</span> <span class="hljs-built_in">len</span>(arr) &lt;= <span class="hljs-number">1</span>:<br>        <span class="hljs-keyword">return</span> arr<br>    pivot = arr[<span class="hljs-built_in">len</span>(arr) // <span class="hljs-number">2</span>]<br>    left = [x <span class="hljs-keyword">for</span> x <span class="hljs-keyword">in</span> arr <span class="hljs-keyword">if</span> x &lt; pivot]<br>    mid = [x <span class="hljs-keyword">for</span> x <span class="hljs-keyword">in</span> arr <span class="hljs-keyword">if</span> x == pivot]<br>    right = [x <span class="hljs-keyword">for</span> x <span class="hljs-keyword">in</span> arr <span class="hljs-keyword">if</span> x &gt; pivot]<br>    <span class="hljs-keyword">return</span> quick_sort(left) + mid + quick_sort(right)<br><br><span class="hljs-built_in">print</span>(quick_sort([<span class="hljs-number">3</span>, <span class="hljs-number">6</span>, <span class="hljs-number">1</span>, <span class="hljs-number">8</span>, <span class="hljs-number">2</span>, <span class="hljs-number">9</span>]))<br></code></pre></td></tr></table></figure><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs bash"><span class="hljs-comment"># 常用命令</span><br>hexo new post <span class="hljs-string">&quot;文章标题&quot;</span>   <span class="hljs-comment"># 新建文章</span><br>hexo server                <span class="hljs-comment"># 本地预览</span><br>hexo clean &amp;&amp; hexo generate &amp;&amp; hexo deploy   <span class="hljs-comment"># 发布</span><br></code></pre></td></tr></table></figure><h2 id="数学公式"><a href="#数学公式" class="headerlink" title="数学公式"></a>数学公式</h2><p>AI 算法工程师写论文笔记会用到，行内公式 $E &#x3D; mc^2$，独立公式：</p><p>$$<br>\mathcal{L}(\theta) &#x3D; \frac{1}{N}\sum_{i&#x3D;1}^{N}\left(y_i - f(x_i;\theta)\right)^2 + \lambda |\theta|^2<br>$$</p><h2 id="流程图"><a href="#流程图" class="headerlink" title="流程图"></a>流程图</h2><p>Mermaid 语法直接画：</p><pre><code class=" mermaid">graph LR    A[写 Markdown] --&gt; B[hexo server 本地预览]    B --&gt; C&#123;满意?&#125;    C -- 否 --&gt; A    C -- 是 --&gt; D[hexo deploy]    D --&gt; E[GitHub Pages 上线]</code></pre><h2 id="表格与列表"><a href="#表格与列表" class="headerlink" title="表格与列表"></a>表格与列表</h2><table><thead><tr><th>快捷键</th><th>作用</th></tr></thead><tbody><tr><td><code>←</code> &#x2F; <code>→</code></td><td>上一篇 &#x2F; 下一篇</td></tr><tr><td><code>S</code> 或 <code>/</code></td><td>打开搜索</td></tr><tr><td>点击页面任意处</td><td>彩虹爱心特效</td></tr></tbody></table><ol><li>文章 front-matter 里加 <code>index_img: /img/xxx.png</code> 显示封面</li><li>加 <code>sticky: 1</code> 可以置顶</li><li>目录在右侧自动生成，随滚动高亮</li></ol>]]></content>
+    
+    
+    <categories>
+      
+      <category>博客</category>
+      
+      <category>示例</category>
+      
+    </categories>
+    
+    
+    <tags>
+      
+      <tag>博客</tag>
+      
+    </tags>
+    
+  </entry>
+  
+  
+  
+  <entry>
     <title>【计算机基础知识】操作系统</title>
     <link href="/2025/06/01/%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/README/"/>
     <url>/2025/06/01/%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/README/</url>

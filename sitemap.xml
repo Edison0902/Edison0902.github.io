@@ -2,6 +2,15 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
+    <loc>https://edison0902.github.io/2026/09/20/%E5%8D%9A%E5%AE%A2%E5%8A%9F%E8%83%BD%E6%BC%94%E7%A4%BA/</loc>
+    
+    <lastmod>2026-09-19</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
     <loc>https://edison0902.github.io/moments/index.html</loc>
     
     <lastmod>2026-09-19</lastmod>
@@ -119,6 +128,13 @@
     <priority>0.2</priority>
   </url>
   
+  <url>
+    <loc>https://edison0902.github.io/tags/%E5%8D%9A%E5%AE%A2/</loc>
+    <lastmod>2026-09-19</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
 
   
   <url>
@@ -130,6 +146,20 @@
   
   <url>
     <loc>https://edison0902.github.io/categories/%E6%8A%80%E6%9C%AF/%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%9F%BA%E7%A1%80/</loc>
+    <lastmod>2026-09-19</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
+    <loc>https://edison0902.github.io/categories/%E5%8D%9A%E5%AE%A2/</loc>
+    <lastmod>2026-09-19</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
+    <loc>https://edison0902.github.io/categories/%E5%8D%9A%E5%AE%A2/%E7%A4%BA%E4%BE%8B/</loc>
     <lastmod>2026-09-19</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
