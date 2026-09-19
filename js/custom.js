@@ -194,6 +194,62 @@
     setTimeout(function () { t.remove(); }, 2000);
   }
 
+  /* ---------- 9.5 文章点赞按钮（localStorage 计数） ---------- */
+  function initLikeButton() {
+    if (!IS_POST || document.getElementById('like-btn')) return;
+    var anchor = document.querySelector('.license-box');
+    if (!anchor) return;
+
+    var key = 'zhi_like_' + location.pathname;
+    var likes = parseInt(localStorage.getItem(key) || '0', 10);
+    var liked = localStorage.getItem(key + '_liked') === '1';
+
+    var btn = document.createElement('button');
+    btn.id = 'like-btn';
+    btn.type = 'button';
+    var render = function () {
+      btn.innerHTML = '<span class="heart">' + (liked ? '\u2764' : '\u2661') + '</span> 点赞 ' + likes;
+      btn.className = liked ? 'liked' : '';
+    };
+    render();
+
+    btn.addEventListener('click', function () {
+      if (liked) {
+        likes = Math.max(0, likes - 1);
+        liked = false;
+        localStorage.setItem(key + '_liked', '0');
+      } else {
+        likes += 1;
+        liked = true;
+        localStorage.setItem(key + '_liked', '1');
+        toast('\u8C22\u8C22\u4F60\u7684\u70B9\u8D5E\uFF01\uD83D\uDC96');
+      }
+      localStorage.setItem(key, String(likes));
+      render();
+    });
+
+    anchor.parentNode.insertBefore(btn, anchor);
+  }
+
+  /* ---------- 9.6 导航站实时过滤（工具页） ---------- */
+  function initNavFilter() {
+    var input = document.getElementById('nav-search');
+    if (!input) return;
+    var cards = Array.prototype.slice.call(document.querySelectorAll('.nav-card'));
+    input.addEventListener('input', function () {
+      var kw = input.value.trim().toLowerCase();
+      cards.forEach(function (card) {
+        var hit = !kw || card.textContent.toLowerCase().indexOf(kw) !== -1;
+        card.style.display = hit ? '' : 'none';
+      });
+      // 隐藏整组为空的分类标题
+      document.querySelectorAll('.nav-group').forEach(function (group) {
+        var any = group.querySelectorAll('.nav-card:not([style*="none"])').length > 0;
+        group.style.display = any ? '' : 'none';
+      });
+    });
+  }
+
   function initShareButton() {
     if (!IS_POST || document.getElementById('share-btn')) return;
     var anchor = document.querySelector('.license-box');
@@ -269,7 +325,9 @@
     initShortcuts();
     initVisitTracker();
     initGreeting();
+    initLikeButton();
     initShareButton();
+    initNavFilter();
     initPWA();
     initConsoleEgg();
   }
